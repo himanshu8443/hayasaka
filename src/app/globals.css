@@ -4,6 +4,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+html{
+    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
+    background-color: #000000;
+}
  body{
     background: rgb(100,201,215);
 background: linear-gradient(180deg, rgba(100,201,215,0.8996848739495799) 0%, rgba(0,8,20,1) 32%);
@@ -12,4 +17,8 @@ background: linear-gradient(180deg, rgba(100,201,215,0.8996848739495799) 0%, rgb
     background-size: cover;
     background-position: center;
     font-family: 'Poppins', sans-serif;
+}
+
+.navbar{
+    background-color: #000000;
 }

@@ -1,6 +1,9 @@
+'use client'
 import Navbar from '@/components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import MusicPlayer from '@/components/MusicPlayer'
+import Providers from '@/redux/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,8 +16,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+      <Providers>
       <Navbar />
-        {children}</body>
+        {children}
+        <div className='h-24'></div>
+        <div className="fixed h-20 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#0b0b16] backdrop-blur-lg rounded-t-3 z-10">
+          <MusicPlayer />
+        </div>
+      </Providers>
+        </body>
+        
     </html>
   )
 }

@@ -1,13 +1,13 @@
 'use client'
 import React from 'react';
 import Link from 'next/link';
+import { FaPlayCircle } from 'react-icons/fa';
 // import { useDispatch } from 'react-redux';
 
 // import PlayPause from './PlayPause';
 // import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
 const AlbumCard = ({album}) => {
-  console.log("album",album);
   // const dispatch = useDispatch();
 
   // const handlePauseClick = () => {
@@ -20,21 +20,17 @@ const AlbumCard = ({album}) => {
   // };
 
   return (
-    <div key={album?.id} className="flex flex-col w-[205px] p-3 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
+    <div key={album?.id} className="flex flex-col w-[205px] p-3 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg">
+      <Link href={`/album/${album?.id}`} >
       <div className="relative w-full h-44 group">
-        {/* <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong?.name === album.name ? 'flex bg-black bg-opacity-70' : 'hidden'}`}>
-          <PlayPause
-            isPlaying={isPlaying}
-            activeSong={activeSong}
-            song={song}
-            handlePause={handlePauseClick}
-            handlePlay={handlePlayClick}
-          />
-        </div> */}
+        <div className={`absolute inset-0 justify-center items-center group-hover:flex hidden `}>
+        <FaPlayCircle
+    size={35}
+    className="text-gray-300"/>
+        </div>
         <img alt="song_img" src={album.image?.[2]?.link} className="w-full h-full rounded-lg" />
       </div>
-
-      <div className="mt-4 flex flex-col">
+      <div className="mt-4 flex flex-col cursor-pointer">
         <p className="font-semibold text-base text-white truncate">
             {album?.name}
         </p>
@@ -42,6 +38,7 @@ const AlbumCard = ({album}) => {
             {album?.artists.map((artist) => artist.name).join(', ')}
         </p>
       </div>
+      </Link>
     </div>
   );
 };

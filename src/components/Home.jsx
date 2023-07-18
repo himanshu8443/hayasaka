@@ -18,6 +18,7 @@ import {
 import { MdNavigateNext } from "react-icons/md";
 import { MdNavigateBefore } from "react-icons/md";
 import SongCard from "./SongCard";
+import { useSelector } from "react-redux";
 
 
 
@@ -27,9 +28,8 @@ const Home = () => {
 
   const albumNext = useRef(null);
   const ablumPrv = useRef(null);
-  const songNext = useRef(null);
-  const songPrv = useRef(null);
 
+  const { activeSong, isPlaying,  } = useSelector((state) => state.player);
 
 
 
@@ -37,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await homePageData(["english", "hindi"]);
+      const res = await homePageData(["english,punjabi"]);
       setData(res);
       console.log("home res", res);
       setLoading(false);
@@ -166,10 +166,10 @@ const Home = () => {
           className="mySwiper"
         >            
           {data?.albums?.map(
-            (song) =>
+            (song,index) =>
             song?.type === "song" && (
                 <SwiperSlide key={song?.id}>
-                  <SongCard song={song} />
+                  <SongCard song={song} activeSong={activeSong} isPlaying={isPlaying} i={index} data={data?.albums} />
                 </SwiperSlide>
               )
           )}
@@ -229,10 +229,10 @@ const Home = () => {
           className="mySwiper"
         >
             {data?.trending?.songs?.map(
-            (song) =>
+            (song,index) =>
             song?.type === "song" && (
                 <SwiperSlide key={song?.id}>
-                  <SongCard song={song} />
+                  <SongCard activeSong={activeSong} isPlaying={isPlaying} i={index} data={data?.trending?.songs} song={song} />
                 </SwiperSlide>
               )
           )}
