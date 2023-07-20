@@ -13,18 +13,18 @@ const Navbar = () => {
   return (
     <div className='navbar h-[70px] text-white flex justify-between relative'>
       <div className=' flex'>
-      <GiHamburgerMenu size={30} className=' m-4' />
-      <div>
+      <GiHamburgerMenu className=' mx-4 text-xl lg:text-3xl my-auto' />
+      <div className=' flex justify-center items-center'>
         <Link href='/'>
       <Image onClick={
         ()=>{
           dispatch(setProgress(100))
         }
-      } src={logo} alt="logo" width={180} height={170} className=' py-2' />
+      } src={logo} alt="logo"  className=' lg:py-2  aspect-video w-[130px] h-[40px] lg:h-[70px] lg:w-[192px]'/>
       </Link>
       </div>
       </div>
-      <Searchbar />
+      <Searchbar/>
     </div>
   )
 }
