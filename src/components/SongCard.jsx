@@ -30,7 +30,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
   };
 
   return (
-    <div key={song?.id} className="flex flex-col lg:w-[185px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
+    <div key={song?.id} className="flex flex-col lg:w-[185px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer select-none">
       <Link href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >
         <div className="relative w-full lg:h-[160px] group">
           <div className={`absolute inset-0 p-2 justify-center items-center bg-black bg-opacity-0 group-hover:flex ${activeSong?.id === song?.id ? 'hover:flex hover:bg-black hover:bg-opacity-70' : 'hidden'}`}>

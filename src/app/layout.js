@@ -20,8 +20,8 @@ export default function RootLayout({ children }) {
         <TopProgressBar />
       <Navbar />
         {children}
-        <div className='h-24'></div>
-        <div className="fixed h-20 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#0b0b16] backdrop-blur-lg rounded-t-3 z-10">
+        <div className='h-20'></div>
+        <div className="fixed  bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#0b0b16] backdrop-blur-lg rounded-t-3 z-10">
           <MusicPlayer />
         </div>
       </Providers>

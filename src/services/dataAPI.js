@@ -43,3 +43,13 @@ export async function getplaylistData(id){
         console.log(error);
     }
 }
+
+export async function getlyricsData(id){
+    try {
+    const response = await fetch(`https://saavn.me/lyrics?id=${id}`);
+    const data = await response.json();
+    return data;
+    } catch (error) {
+        console.log(error);
+    }
+}

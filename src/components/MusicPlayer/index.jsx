@@ -2,15 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
+import { nextSong, prevSong, playPause, setFullScreen } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
 import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
+import FullscreenTrack from './FullscreenTrack';
+import Lyrics from './Lyrics';
+import Downloader from './Downloader';
 
 const MusicPlayer = () => {
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+  const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -23,7 +26,12 @@ const MusicPlayer = () => {
     if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);
 
-  const handlePlayPause = () => {
+  useEffect(() => {
+    document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
+  }, [fullScreen]);
+
+  const handlePlayPause = (e) => {
+    e?.stopPropagation();
     if (!isActive) return;
 
     if (isPlaying) {
@@ -33,7 +41,8 @@ const MusicPlayer = () => {
     }
   };
 
-  const handleNextSong = () => {
+  const handleNextSong = (e) => {
+    e?.stopPropagation();
     dispatch(playPause(false));
 
     if (!shuffle) {
@@ -43,7 +52,8 @@ const MusicPlayer = () => {
     }
   };
 
-  const handlePrevSong = () => {
+  const handlePrevSong = (e) => {
+    e?.stopPropagation();
     if (currentIndex === 0) {
       dispatch(prevSong(currentSongs.length - 1));
     } else if (shuffle) {
@@ -54,10 +64,22 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
-      <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
+    <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 '}`}
+    onClick={(event) => {
+      dispatch(setFullScreen(!fullScreen));
+        event.stopPropagation();
+        event.preventDefault();
+        event.nativeEvent.stopImmediatePropagation();
+    }}
+    >
+      <FullscreenTrack appTime={appTime} setSeekTime={setSeekTime} duration={duration}  activeSong={activeSong} fullScreen={fullScreen} />
+      <div className=' flex items-center justify-between pt-2'>
+      <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
       <div className="flex-1 flex flex-col items-center justify-center">
-        <Controls
+        <div className={`${fullScreen ? '':' hidden'} mb-3 sm:hidden flex items-center justify-center`}>
+          <Downloader activeSong={activeSong} fullScreen={fullScreen} />
+        </div>
+        <Controls 
           isPlaying={isPlaying}
           isActive={isActive}
           repeat={repeat}
@@ -66,6 +88,7 @@ const MusicPlayer = () => {
           setShuffle={setShuffle}
           currentSongs={currentSongs}
           activeSong={activeSong}
+          fullScreen={fullScreen}
           handlePlayPause={handlePlayPause}
           handlePrevSong={handlePrevSong}
           handleNextSong={handleNextSong}
@@ -74,6 +97,7 @@ const MusicPlayer = () => {
           value={appTime}
           min="0"
           max={duration}
+          fullScreen={fullScreen}
           onInput={(event) => setSeekTime(event.target.value)}
           setSeekTime={setSeekTime}
           appTime={appTime}
@@ -94,6 +118,13 @@ const MusicPlayer = () => {
         />
       </div>
       <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+    </div>
+    {
+      fullScreen &&
+      <div className=' sm:hidden'>
+       <Lyrics activeSong={activeSong}/>
+      </div>
+    }
     </div>
   );
 };
