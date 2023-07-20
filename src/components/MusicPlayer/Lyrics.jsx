@@ -12,7 +12,6 @@ const Lyrics = ({activeSong}) => {
         const fetchData = async () => {
             setLoading(true);
             const res = await getlyricsData(activeSong?.id);
-            console.log('lyrics', res);
             setLyrics(res);
             setLoading(false);
         };
@@ -27,7 +26,7 @@ const Lyrics = ({activeSong}) => {
         )
     }
   return (
-    <div>
+    <div onClick={(e)=>{e.stopPropagation();}} >
          <h3 className=' text-white text-4xl m-3 mt-20 sm:mt-0 '>Lyrics</h3>
                     {
                         lyrics?.status==='SUCCESS' ? (  

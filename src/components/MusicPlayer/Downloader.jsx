@@ -1,26 +1,26 @@
 'use client';
 import React from 'react'
 import { MdOutlineFileDownload } from 'react-icons/md';
-import DownloadLink from 'react-download-link';
+import useDownloader from 'react-use-downloader';
 
 const Downloader = ({activeSong}) => {
-    const [loading, setLoading] = React.useState(false);
+    const { size, elapsed, percentage, download, error, isInProgress } =useDownloader();
+
+    const songUrl = activeSong?.downloadUrl?.[4]?.link;
+    const filename = `${activeSong?.name?.replace("&#039;","'")?.replace("&amp;","&")}.mp3`;
 
   return (
-    <div onClick={(e)=>{e.stopPropagation();}} className={`flex  mb-1 cursor-pointer`}>
-    <DownloadLink  label={
-      <div title={loading ?'Downloading' : 'Download'} className={loading ? 'download-button':''}>
-      <MdOutlineFileDownload  size={25} color={'#ffff'}/>
+    <div onClick={(e)=>{e.stopPropagation();
+        download(songUrl, filename);
+    }} className={`flex  mb-1 cursor-pointer`}>
+    <div title={isInProgress ?'Downloading' : 'Download'} className={isInProgress ? 'download-button flex justify-center items-center':''}>
+        {
+            isInProgress ? 
+            <div className=' text-white font-extrabold text-xs m-'>{percentage}</div>
+            :
+            <MdOutlineFileDownload  size={25} color={'#ffff'}/>
+        }
       </div>
-    } filename={`${activeSong?.name?.replace("&#039;", "'")?.replace("&amp;", "&")  }.mp3`} exportFile={
-      async () => {
-        setLoading(true);
-        const res = await fetch(activeSong?.downloadUrl?.[4]?.link);
-        const blob = await res.blob();
-        setLoading(false);
-        return blob;
-      }
-    }/>
     </div>
   )
 }
