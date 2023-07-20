@@ -1,20 +1,23 @@
 "use client";
+import { setProgress } from "@/redux/features/loadingBarSlice";
 import { playPause, setActiveSong } from "@/redux/features/playerSlice";
-import { getAlbumData } from "@/services/dataAPI";
+import { getplaylistData } from "@/services/dataAPI";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
 const page = ({ params }) => {
-  const [albumData, setAlbumData] = useState(null);
+  const [playlistData, setPlaylistData] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getAlbumData(params.albumId);
+        dispatch(setProgress(50));
+      const response = await getplaylistData(params.playlistId);
+      dispatch(setProgress(100));
       console.log(response);
-      setAlbumData(response);
+    setPlaylistData(response);
     };
     fetchData();
   }, []);
@@ -32,28 +35,26 @@ function formatDuration(durationInSeconds) {
   }
 
     const handlePlayClick = (song,index) => {
-        dispatch(setActiveSong({ song, data: albumData?.songs, i: index }));
+        dispatch(setActiveSong({ song, data: playlistData?.songs, i: index }));
         dispatch(playPause(true));
         };
   
 
   return (
     <div className="w-11/12 m-auto mt-16">
-      <div className=" flex">
-        <img
-          src={albumData?.image?.[2].link}
-          alt={albumData?.title}
+      <div className=" flex flex-col lg:flex-row items-center">
+        <img className=" rounded-full"
+          src={playlistData?.image?.[2]?.link}
+          alt={playlistData?.title}
           width={300}
           height={300}
         />
-        <div className="ml-10 text-gray-100 mt-12">
-          <h1 className="text-4xl font-bold">{albumData?.name}</h1>
-          <h2 className="text-xl font-semibold">{albumData?.subtitle}</h2>
-          <h3 className="text-xl font-semibold">{albumData?.primaryArtists}</h3>
+        <div className="lg:ml-10 text-gray-100 mt-12">
+          <h1 className=" text-xl lg:text-4xl font-bold">{playlistData?.name}</h1>
           <ul className="flex items-center gap-3 text-gray-300">
-            <li className="text-lg font-semibold">• {albumData?.year}</li>
+            <li className="text-lg font-semibold">• {playlistData?.followerCount} followers</li>
             <li className="text-lg font-semibold">
-              • {albumData?.songCount} songs
+              • {playlistData?.songCount} songs
             </li>
           </ul>
         </div>
@@ -61,7 +62,7 @@ function formatDuration(durationInSeconds) {
       <div className="mt-10 text-gray-200">
         <h1 className="text-3xl font-bold">Songs</h1>
         <div className="mt-5">
-          {albumData?.songs?.map((song,index) => (
+          {playlistData?.songs?.map((song,index) => (
             <div
             onClick={() => {
                 handlePlayClick(song,index);
@@ -70,21 +71,23 @@ function formatDuration(durationInSeconds) {
              className="flex items-center  mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
                 <div className="flex items-center gap-5">
               <div className=" relative">
-                <div className=" w-10 h-10"
+                <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className="rounded- mb-3"
                 />
-                <p className=" group-hover:hidden font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200">
+                {/* <p className=" group-hover:hidden font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200">
                     {index+1}.
-                </p>
+                </p> */}
                 <BsPlayFill
                   size={25}
                   className=" group-hover:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200"
                 />
               </div>
-              <div className=" w-80">
-                <h1 className="text-lg font-semibold truncate">{song?.name}</h1>
+              <div className=" w-32 lg:w-80">
+                <h1 className=" text-sm lg:text-lg font-semibold truncate">{
+                    song?.name.replace("&#039;", "'").replace("&amp;", "&")
+                }</h1>
               </div>
               </div>
-              <div className=" w-28">
+              <div className=" hidden lg:block w-40">
                 {song?.playCount && (
                     <p className="text-gray-400">{song?.playCount} plays</p>
                 )}

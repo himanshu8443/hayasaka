@@ -32,5 +32,14 @@ export async function getAlbumData(id){
     } catch (error) {
         console.log(error);
     }
+}
 
+export async function getplaylistData(id){
+    try {
+    const response = await fetch(`https://saavn.me/playlists?id=${id}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
+    }
 }

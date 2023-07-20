@@ -1,7 +1,8 @@
+'use client';
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect } from 'react';
 
-const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate, onLoadedData, repeat }) => {
+const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate, onLoadedData, repeat,handlePlayPause,handlePrevSong,handleNextSong }) => {
   const ref = useRef(null);
   // eslint-disable-next-line no-unused-expressions
   if (ref.current) {
@@ -12,6 +13,51 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
     }
   }
 
+  // media session metadata:
+  const mediaMetaData = activeSong.name
+    ? {
+        title: activeSong.name,
+        artist: activeSong.primaryArtists,
+        album: activeSong.album.name,
+        artwork: [
+          {
+            src: activeSong.image[2].link,
+            sizes: '500x500',
+            type: 'image/jpg',
+          },
+        ],
+      }
+    : {};
+    useEffect(() => {
+      // Check if the Media Session API is available in the browser environment
+      if ('mediaSession' in navigator) {
+        // Set media metadata
+        navigator.mediaSession.metadata = new window.MediaMetadata(mediaMetaData);
+  
+        // Define media session event handlers
+        navigator.mediaSession.setActionHandler('play', onPlay);
+        navigator.mediaSession.setActionHandler('pause', onPause);
+        navigator.mediaSession.setActionHandler('previoustrack', onPreviousTrack);
+        navigator.mediaSession.setActionHandler('nexttrack', onNextTrack);
+      }
+    }, [mediaMetaData]);
+    // media session handlers:
+    const onPlay = () => {
+      handlePlayPause();
+    };
+  
+    const onPause = () => {
+      handlePlayPause();
+    };
+
+    const onPreviousTrack = () => {
+      handlePrevSong();
+    };
+
+    const onNextTrack = () => {
+      handleNextSong();
+    };
+
   useEffect(() => {
     ref.current.volume = volume;
   }, [volume]);
@@ -21,6 +67,7 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
   }, [seekTime]);
 
   return (
+    <>
     <audio
       src={activeSong?.downloadUrl?.[4]?.link}
       ref={ref}
@@ -29,6 +76,7 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
       onTimeUpdate={onTimeUpdate}
       onLoadedData={onLoadedData}
     />
+    </>
   );
 };
 

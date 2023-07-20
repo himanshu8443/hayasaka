@@ -1,9 +1,9 @@
-'use client'
 import Navbar from '@/components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import MusicPlayer from '@/components/MusicPlayer'
 import Providers from '@/redux/Providers'
+import TopProgressBar from '@/components/topProgressBar/TopProgressBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
       <Providers>
+        <TopProgressBar />
       <Navbar />
         {children}
         <div className='h-24'></div>

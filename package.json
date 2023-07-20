@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mebtte/react-media-session": "^1.1.2",
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
@@ -16,8 +17,10 @@
     "postcss": "8.4.26",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-download-link": "^2.3.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.1",
+    "react-top-loading-bar": "^2.3.1",
     "redux": "^4.2.1",
     "swiper": "^10.0.4",
     "tailwindcss": "3.3.3"

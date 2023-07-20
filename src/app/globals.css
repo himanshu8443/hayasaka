@@ -5,7 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 html{
-    scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
     background-color: #000000;
 }
@@ -21,4 +20,48 @@ background: linear-gradient(180deg, rgba(100,201,215,0.8996848739495799) 0%, rgb
 
 .navbar{
     background-color: #000000;
+}
+
+.download-button {
+    /* Your existing styles for the download button */
+    position: relative; /* Add position relative to the download button */
+  }
+  
+  /* Pseudo-element for the rotating border */
+  .download-button::before {
+    content: ""; /* Required for pseudo-elements */
+    position: absolute;
+    top: px; /* Adjust the position to center the rotating border */
+    left: px; /* Adjust the position to center the rotating border */
+    border: 2px dotted white; /* Set border with a transparent color to reserve space */
+    border-radius: 50%; /* Make it a circle */
+    border-right-color: transparent;
+    border-left-color: transparent;
+    width: 25px; /* Set the width and height to the desired size of the rotating border */
+    height: 25px;
+    animation: rotating-border 1s linear infinite; /* Rotate the border */
+    scale: 1.20;
+  }
+  
+  @keyframes rotating-border {
+    0% {
+      transform: rotate(0deg); /* Start with no rotation */
+    }
+    100% {
+      transform: rotate(360deg); /* Rotate 360 degrees for a full circle */
+    }
+}
+
+.custom-loader {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:conic-gradient(#0000 10%,#F4F4F4);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation:s3 1s infinite linear;
+  }
+  @keyframes s3 {to{transform: rotate(1turn)}}
+
+.hideScrollBar::-webkit-scrollbar {
+    display: none;
 }
