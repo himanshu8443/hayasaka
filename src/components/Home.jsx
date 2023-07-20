@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await homePageData(["english,punjabi,haryanvi"]);
+      const res = await homePageData(["english"]);
       setData(res);
       console.log("home res", res);
       setLoading(false);
