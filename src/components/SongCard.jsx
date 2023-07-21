@@ -30,9 +30,9 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
   };
 
   return (
-    <div key={song?.id} className="flex flex-col lg:w-[185px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer select-none">
+    <div key={song?.id} className="flex flex-col lg:w-[205px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer select-none">
       <Link href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >
-        <div className="relative w-full lg:h-[160px] group">
+        <div className="relative w-full lg:h-[170px] group">
           <div className={`absolute inset-0 p-2 justify-center items-center bg-black bg-opacity-0 group-hover:flex ${activeSong?.id === song?.id ? 'hover:flex hover:bg-black hover:bg-opacity-70' : 'hidden'}`}>
             <PlayPause
               isPlaying={isPlaying}
@@ -43,7 +43,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
               handlePlay={handlePlayClick}
             />
           </div>
-          <Image width={200} height={200} loading='lazy' placeholder='blur' blurDataURL={song.image?.[0]?.link} alt="song_img" src={song.image?.[2]?.link} className={`${song.type === 'playlist' && song?.subtitle === 'JioSaavn' ? 'rounded-full' :'rounded-lg'} w-full h-full `} />
+          <Image width={200} height={200} loading='lazy' alt="song_img" src={song.image?.[2]?.link} className={`${song.type === 'playlist' && song?.subtitle === 'JioSaavn' ? 'rounded-full' :'rounded-lg'} w-full h-full `} />
         </div>
 
         <div className=" mt-2 lg:mt-4 flex flex-col">

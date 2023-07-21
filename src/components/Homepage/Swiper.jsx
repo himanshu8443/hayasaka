@@ -38,9 +38,9 @@ const SwiperLayout = ({children,title}) => {
           "--swiper-navigation-color": "white",
         }}
         breakpoints={{
-          300:{slidesPerView:3.1,spaceBetween:5,},
-          640:{slidesPerView:4.2,spaceBetween:5,},
-          1024:{slidesPerView:6.8,spaceBetween:5,},
+          300:{slidesPerView:3.1,},
+          640:{slidesPerView:4.2,},
+          1024:{slidesPerView:6,},
       }}
         mousewheel={{
           enabled: true,
