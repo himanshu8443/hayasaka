@@ -53,3 +53,33 @@ export async function getlyricsData(id){
         console.log(error);
     }
 }
+
+export async function getArtistData(id){
+    try {
+    const response = await fetch(`https://saavn.me/artists?id=${id}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getArtistSongs(id,page){
+    try {
+    const response = await fetch(`https://saavn.me/artists/${id}/songs?page=${page}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getArtistAlbums(id,page){
+    try {
+    const response = await fetch(`https://saavn.me/artists/${id}/albums?page=${page}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

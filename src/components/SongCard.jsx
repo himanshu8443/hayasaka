@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import PlayPause from './PlayPause';
@@ -31,8 +31,10 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
 
   return (
     <div key={song?.id} className="flex flex-col lg:w-[205px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer select-none">
-      <Link href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >
-        <div className="relative w-full lg:h-[170px] group">
+      <Link onClick={(e)=>{if(song?.type == 'song'){
+        e.preventDefault()
+      }}} href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >
+        <div className="relative w-full lg:h-[178px] group">
           <div className={`absolute inset-0 p-2 justify-center items-center bg-black bg-opacity-0 group-hover:flex ${activeSong?.id === song?.id ? 'hover:flex hover:bg-black hover:bg-opacity-70' : 'hidden'}`}>
             <PlayPause
               isPlaying={isPlaying}
@@ -59,4 +61,6 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
   );
 };
 
-export default SongCard;
+export default memo(SongCard, (prev, next) =>(
+  prev.song === next.song && prev.activeSong === next.activeSong && prev.isPlaying === next.isPlaying
+));

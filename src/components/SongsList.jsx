@@ -1,32 +1,28 @@
 import React from 'react'
+import { playPause, setActiveSong } from "@/redux/features/playerSlice";
+import { BsPlayFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 
-const songList = ({playlistData}) => {
+const SongsList = ({SongData}) => {
+    const dispatch = useDispatch();
+  const handlePlayClick = (song,index) => {
+    dispatch(setActiveSong({ song, data: SongData, i: index }));
+    dispatch(playPause(true));
+    };
+
+    function formatDuration(durationInSeconds) {
+      const minutes = Math.floor(durationInSeconds / 60);
+      const seconds = Math.round(durationInSeconds % 60);
+      
+      if (minutes > 0) {
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      } else {
+        return `${seconds}`;
+      }
+    }
   return (
-    <div className="w-11/12 m-auto mt-16">
-      <div className=" flex">
-        <img className=" rounded-full"
-          src={playlistData?.image?.[2]?.link}
-          alt={playlistData?.title}
-          width={300}
-          height={300}
-        />
-        <div className="ml-10 text-gray-100 mt-12">
-          <h1 className="text-4xl font-bold">{playlistData?.name}</h1>
-          <h2 className="text-xl font-semibold">{playlistData?.subtitle}</h2>
-          <h3 className="text-xl font-semibold">{playlistData?.primaryArtists}</h3>
-          <ul className="flex items-center gap-3 text-gray-300">
-          <li className="text-lg font-semibold">• {playlistData?.year}</li>
-            <li className="text-lg font-semibold">• {playlistData?.followerCount} followers</li>
-            <li className="text-lg font-semibold">
-              • {playlistData?.songCount} songs
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="mt-10 text-gray-200">
-        <h1 className="text-3xl font-bold">Songs</h1>
         <div className="mt-5">
-          {playlistData?.songs?.map((song,index) => (
+          {SongData?.map((song,index) => (
             <div
             onClick={() => {
                 handlePlayClick(song,index);
@@ -45,13 +41,13 @@ const songList = ({playlistData}) => {
                   className=" group-hover:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200"
                 />
               </div>
-              <div className=" w-80">
-                <h1 className="text-lg font-semibold truncate">{
+              <div className="w-32 lg:w-80">
+                <p className="text-sm lg:text-lg font-semibold truncate">{
                     song?.name.replace("&#039;", "'").replace("&amp;", "&")
-                }</h1>
+                }</p>
               </div>
               </div>
-              <div className=" w-40">
+              <div className="hidden lg:block w-28">
                 {song?.playCount && (
                     <p className="text-gray-400">{song?.playCount} plays</p>
                 )}
@@ -62,9 +58,7 @@ const songList = ({playlistData}) => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
   )
 }
 
-export default songList
+export default SongsList;
