@@ -57,7 +57,7 @@ const page = ({ params }) => {
             {albumData?.primaryArtists?.split(",")?.map((artist, index) => (
               <React.Fragment key={index}>
                 <Link className=" hover:underline" href={`/artist/${albumData?.primaryArtistsId?.split(",")[index]?.trim()}`}>
-                {artist?.trim()}
+                  {artist?.trim()}
                 </Link>
                 {index < albumData.primaryArtists.split(",").length - 1 && ", "}
               </React.Fragment>

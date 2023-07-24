@@ -12,18 +12,18 @@ const page = ({ params }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-        dispatch(setProgress(50));
+      dispatch(setProgress(50));
       const response = await getplaylistData(params.playlistId);
       dispatch(setProgress(100));
       console.log(response);
-    setPlaylistData(response);
+      setPlaylistData(response);
     };
     fetchData();
   }, []);
 
-// Utility function to format the duration in seconds to "m:ss" format (without leading zero for minutes)
+  // Utility function to format the duration in seconds to "m:ss" format (without leading zero for minutes)
 
-  
+
 
   return (
     <div className="w-11/12 m-auto mt-16">
@@ -46,7 +46,7 @@ const page = ({ params }) => {
       </div>
       <div className="mt-10 text-gray-200">
         <h1 className="text-3xl font-bold">Songs</h1>
-        <SongList SongData={playlistData?.songs}/>
+        <SongList SongData={playlistData?.songs} />
       </div>
     </div>
   );

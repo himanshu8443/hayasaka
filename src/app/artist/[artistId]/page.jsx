@@ -50,10 +50,10 @@ const page = ({ params }) => {
                         <h2 className="lg:text-xl font-semibold">{artistDetails?.dominantType}</h2>
                         <p className="lg:text-xl font-semibold">|</p>
                         <h4 className="lg:text-xl font-semibold">{artistDetails?.dominantLanguage}</h4>
-                        </div>
-                        <ul className="flex items-center gap-3 text-gray-300">
-                            <li className=" text-sm lg:text-lg font-semibold">• {artistDetails?.fanCount} listners</li>
-                        </ul>
+                    </div>
+                    <ul className="flex items-center gap-3 text-gray-300">
+                        <li className=" text-sm lg:text-lg font-semibold">• {artistDetails?.fanCount} listners</li>
+                    </ul>
                 </div>
             </div>
 
@@ -77,8 +77,8 @@ const page = ({ params }) => {
                 </SwiperLayout>
 
 
-        </div>
-                    
+            </div>
+
         </div>
     )
 }
