@@ -22,8 +22,10 @@ const SongsList = ({SongData}) => {
     }
   return (
         <div className="mt-5">
-          {SongData?.map((song,index) => (
-            <div
+          {
+            SongData?.length > 0 && (
+          SongData?.map((song,index) => (
+            <div key={index}
             onClick={() => {
                 handlePlayClick(song,index);
             }
@@ -33,9 +35,6 @@ const SongsList = ({SongData}) => {
               <div className=" relative">
                 <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className="rounded- mb-3"
                 />
-                {/* <p className=" group-hover:hidden font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200">
-                    {index+1}.
-                </p> */}
                 <BsPlayFill
                   size={25}
                   className=" group-hover:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200"
@@ -43,7 +42,7 @@ const SongsList = ({SongData}) => {
               </div>
               <div className="w-32 lg:w-80">
                 <p className="text-sm lg:text-lg font-semibold truncate">{
-                    song?.name.replace("&#039;", "'").replace("&amp;", "&")
+                    song?.name?.replace("&#039;", "'")?.replace("&amp;", "&")
                 }</p>
               </div>
               </div>
@@ -56,6 +55,7 @@ const SongsList = ({SongData}) => {
                 <p>{formatDuration(song?.duration)}</p>
                 </div>
             </div>
+          )
           ))}
         </div>
   )

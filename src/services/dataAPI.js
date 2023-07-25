@@ -83,3 +83,13 @@ export async function getArtistAlbums(id,page){
         console.log(error);
     }
 }
+
+export async function getSearchedData(query){
+    try {
+    const response = await fetch(`https://saavn.me/search/all?query=${query}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
