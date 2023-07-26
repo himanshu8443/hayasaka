@@ -123,3 +123,58 @@ background: linear-gradient(180deg, rgba(100,201,215,0.8996848739495799) 0%, rgb
   background: rgb(0,0,0);
 background: linear-gradient(270deg, rgba(0,0,0,0) 0%, rgba(0,8,20,1) 37%);
 }
+
+/* hide details summary */
+details summary::-webkit-details-marker {
+  display:none !important;
+}
+details > summary {
+  list-style: none !important;
+}
+details > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+
+details[open] summary ~ * {
+  animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+  0%    {opacity: 0; margin-left: -18px}
+  100%  {opacity: 1; margin-left: 0px}
+}
+
+/* detalil tag opening animation */
+details.detailanimatation{
+
+  transition: all 0.5s linear;
+  max-height: 100px;
+  overflow: hidden;
+
+}
+details.detailanimatation[open]{
+  max-height: 1000px;
+}
+
+/* rotate className arrow on detail open */
+details[open] summary .arrow {
+  transform: rotatex(180deg);
+  transition: all 0.1s linear;
+}
+
+
+/* scrollBar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #535353;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #292929;
+}

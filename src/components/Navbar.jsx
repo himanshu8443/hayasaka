@@ -46,7 +46,7 @@ const Navbar = () => {
       </Link>
       </div>
       </div>
-      <div className=' m-10 border-b border-gray-400 w-[50%]'>
+      <div className=' mt-10 border-b border-gray-400 w-[50%]'>
         <Languages/>
       </div>
     </div>
