@@ -10,6 +10,7 @@ import { setProgress } from '@/redux/features/loadingBarSlice'
 import {MdOutlineMenu} from 'react-icons/md'
 import Languages from './Sidebar/Languages'
 import { IoClose } from 'react-icons/io5'
+import { AiFillHeart } from 'react-icons/ai'
 
 
 const Navbar = () => {
@@ -43,12 +44,16 @@ const Navbar = () => {
         ()=>{
           dispatch(setProgress(100))
         }
-      } src={logoWhite} alt="logo"  className=' lg:py-2  aspect-video w-[135px] h-[38px] lg:h-[65px] lg:w-[190px]'/>
+      } src={logoWhite} alt="logo"  className=' lg:py-2  aspect-video w-[139px] h-[38px] lg:h-[65px] lg:w-[190px]'/>
       </Link>
       </div>
       </div>
       <div className=' mt-10 border-b border-gray-400 w-[50%]'>
         <Languages/>
+      </div>
+      <div className=' mt-10 border-b border-gray-400 w-[50%] flex cursor-pointer items-center'>
+      <p className=' font-semibold text-lg text-white mx-3 mb-4'>Favourites</p>
+      <AiFillHeart title='Favourites' size={25} color={'white'} className={` mb-3 `} />
       </div>
     </div>
     {/* overlay */}

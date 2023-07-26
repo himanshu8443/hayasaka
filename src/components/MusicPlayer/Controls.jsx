@@ -4,11 +4,15 @@ import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { BsFillPauseFill, BsFillPlayFill, BsShuffle } from 'react-icons/bs';
 import { TbRepeat,TbRepeatOnce,TbArrowsShuffle } from 'react-icons/tb';
 import Downloader from './Downloader';
+import {AiOutlineHeart} from 'react-icons/ai';
 
 
 const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen }) => {
   return (
-  <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-3 sm:gap-0">
+  <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-2 sm:gap-0">
+    {
+      <AiOutlineHeart title='Favourite' size={25} color={'white'} className={` sm:block hidden cursor-pointer`} />
+    }
     {
       !repeat ? (
         <TbRepeat title='Repeat' size={25} color={'white'} onClick={(e) =>{e.stopPropagation(); setRepeat((prev) => !prev)}}className={`${!fullScreen ? 'hidden sm:block':' m-3'} cursor-pointer`} />) : (
@@ -26,7 +30,7 @@ const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSo
     { <MdSkipNext title='Next' size={30} color={currentSongs?.length ? '#ffff' : '#b3b3b3'} className="cursor-pointer" onClick={handleNextSong} />}
     <TbArrowsShuffle title='Shuffle' size={25} color={shuffle ? '#00e6e6' : 'white'} onClick={(e) =>{e.stopPropagation(); setShuffle((prev) => !prev)}} className={`${!fullScreen ? 'hidden sm:block':'m-3'} cursor-pointer`} />
     { activeSong?.downloadUrl?.[4]?.link &&
-    <div className=' hidden sm:block'>
+    <div className=' hidden sm:block '>
     <Downloader  activeSong={activeSong} fullScreen={fullScreen} />
     </div>
     }

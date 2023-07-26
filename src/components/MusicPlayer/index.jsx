@@ -12,6 +12,7 @@ import FullscreenTrack from './FullscreenTrack';
 import Lyrics from './Lyrics';
 import Downloader from './Downloader';
 import { HiOutlineChevronDown } from 'react-icons/hi';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
@@ -83,8 +84,11 @@ const MusicPlayer = () => {
       <div className=' flex items-center justify-between pt-2'>
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className={`${fullScreen ? '':' hidden'} mb-3 sm:hidden flex items-center justify-center`}>
+        <div className=' flex items-center justify-center gap-4'>
+        <AiOutlineHeart title='Favourite' size={25} color={'white'} className={`${fullScreen ? '':'hidden'} sm:hidden cursor-pointer mb-4`} />
+        <div className={`${fullScreen ? '':'hidden'} mb-3 sm:hidden flex items-center justify-center`}>
           <Downloader activeSong={activeSong} fullScreen={fullScreen} />
+        </div>
         </div>
         <Controls 
           isPlaying={isPlaying}
