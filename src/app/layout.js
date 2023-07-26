@@ -10,6 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Hayasaka',
   description: 'Music streaming app',
+  image: 'https://res.cloudinary.com/dbr73rpz9/image/upload/v1690380865/images/logo-color_noktgr.png',
+  url: 'https://hayasaka.vercel.app',
+  type: 'website',
+  site_name: 'Hayasaka',
 }
 
 export default function RootLayout({ children }) {
