@@ -11,6 +11,7 @@ import VolumeBar from './VolumeBar';
 import FullscreenTrack from './FullscreenTrack';
 import Lyrics from './Lyrics';
 import Downloader from './Downloader';
+import { HiOutlineChevronDown } from 'react-icons/hi';
 
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
@@ -72,6 +73,12 @@ const MusicPlayer = () => {
         event.nativeEvent.stopImmediatePropagation();
     }}
     >
+      <HiOutlineChevronDown onClick={
+        (e)=>{
+          e.stopPropagation();
+          dispatch(setFullScreen(!fullScreen));
+        }
+      } className={` absolute top-10 right-7 text-white text-3xl cursor-pointer ${fullScreen ? '':'hidden'}`}/>
       <FullscreenTrack appTime={appTime} setSeekTime={setSeekTime} duration={duration}  activeSong={activeSong} fullScreen={fullScreen} />
       <div className=' flex items-center justify-between pt-2'>
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />

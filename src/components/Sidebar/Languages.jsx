@@ -11,7 +11,6 @@ const Languages = () => {
     const dispatch = useDispatch();
     const {languages} = useSelector((state) => state.languages);
     const [selectedLanguages, setSelectedLanguages] = useState([...languages]);
-    console.log('Languages',selectedLanguages);
 
     useEffect(() => {
         const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : [...languages];
