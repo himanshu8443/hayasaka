@@ -46,7 +46,7 @@ const SongsList = ({SongData}) => {
                 }</p>
               </div>
               </div>
-              <div className="hidden lg:block w-28">
+              <div className="hidden lg:block w-36">
                 {song?.playCount && (
                     <p className="text-gray-400">{song?.playCount} plays</p>
                 )}

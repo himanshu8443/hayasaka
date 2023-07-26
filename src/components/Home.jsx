@@ -1,11 +1,12 @@
 "use client";
 import { homePageData } from "@/services/dataAPI";
-import React, { useRef } from "react";
+import React, { use, useRef } from "react";
 import { useEffect, useState } from "react";
 import {SwiperSlide } from "swiper/react";
 import SongCard from "./SongCard";
 import { useDispatch, useSelector } from "react-redux";
 import SwiperLayout from "./Homepage/Swiper";
+import { setLanguages } from "@/redux/features/languagesSlice";
 
 
 const Home = () => {
@@ -13,17 +14,23 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { activeSong, isPlaying,  } = useSelector((state) => state.player);
+  const {languages} = useSelector((state) => state.languages);
+
+  useEffect(() => {
+    const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : ['english'];
+    dispatch(setLanguages(lang));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await homePageData(["english,punjabi"]);
+      const res = await homePageData(languages);
       setData(res);
       console.log("home res", res);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [languages]);
 
   return (
     <div>
