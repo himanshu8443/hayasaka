@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import MusicPlayer from '@/components/MusicPlayer'
 import Providers from '@/redux/Providers'
 import TopProgressBar from '@/components/topProgressBar/TopProgressBar'
+import Favicon from './favicon.ico'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,6 +14,7 @@ export const metadata = {
   image: 'https://res.cloudinary.com/dbr73rpz9/image/upload/v1690380865/images/logo-color_noktgr.png',
   url: 'https://hayasaka.vercel.app',
   type: 'website',
+  icons: [{ rel: 'icon', url: Favicon.src }],
   site_name: 'Hayasaka',
 }
 
