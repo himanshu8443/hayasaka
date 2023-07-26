@@ -18,7 +18,9 @@ const Home = () => {
 
   useEffect(() => {
     const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : ['english'];
-    dispatch(setLanguages(lang));
+    setInterval(() => {
+      dispatch(setLanguages(lang));
+    }, 1000);
   }, []);
 
   useEffect(() => {
