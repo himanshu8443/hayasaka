@@ -3,6 +3,7 @@
 This is a free music streaming web application built with Next.js and powered by the [savan API](https://github.com/sumitkolhe/jiosaavn-api). The app allows users to search and stream music from a vast collection of songs available on the Saavn platform.
 ***
 ![image](https://github.com/himanshu8443/hayasaka/assets/99420590/3605678a-07b9-417f-9adb-980e4c953c2e)
+<hr style="height: 2px; background-color: #000000;">
 ![image](https://github.com/himanshu8443/hayasaka/assets/99420590/d4ab0352-bd66-4290-bf9c-148f85749161)
 
 
