@@ -15,10 +15,9 @@ const page = ({ params }) => {
     const fetchData = async () => {
       dispatch(setProgress(50));
       const response = await getplaylistData(params.playlistId);
-      setLoading(false);
       dispatch(setProgress(100));
-      console.log(response);
       setPlaylistData(response);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -57,7 +56,7 @@ const page = ({ params }) => {
       </div>
       <div className="mt-10 text-gray-200">
         <h1 className="text-3xl font-bold">Songs</h1>
-        <SongList SongData={playlistData?.songs} />
+        <SongList SongData={playlistData?.songs} loading={loading} />
       </div>
     </div>
   );

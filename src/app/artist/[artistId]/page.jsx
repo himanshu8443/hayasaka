@@ -1,6 +1,7 @@
 'use client'
 import SwiperLayout from '@/components/Homepage/Swiper';
 import SongCard from '@/components/SongCard';
+import SongListSkeleton from '@/components/SongListSkeleton';
 import SongList from '@/components/SongsList';
 import { setProgress } from '@/redux/features/loadingBarSlice';
 import { getArtistAlbums, getArtistData, getArtistSongs } from '@/services/dataAPI';
@@ -72,9 +73,15 @@ const page = ({ params }) => {
 
             <div className="mt-10 text-gray-200">
                 <h1 className="text-3xl font-bold">Songs</h1>
-                <div>
-                    <SongList SongData={artistSongs?.results} />
-                </div>
+                {
+                    loading ? (
+                        <SongListSkeleton />
+                    ) : (
+                        <div>
+                        <SongList SongData={artistSongs?.results} />
+                    </div>
+                    )  }
+                
             </div>
 
             <div className="mt-10 text-gray-200">

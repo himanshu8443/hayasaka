@@ -11,17 +11,20 @@ import { useDispatch } from 'react-redux';
 import { playPause, setActiveSong } from '@/redux/features/playerSlice';
 import Image from 'next/image';
 import Link from 'next/link';
+import SongListSkeleton from '@/components/SongListSkeleton';
 
 
 const page = ({params}) => {
     const dispatch = useDispatch();
     const [query, setQuery] = useState(params.query);
     const [searchedData, setSearchedData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await getSearchedData(query);
             setSearchedData(response);
+            setLoading(false);
         }
         fetchData();
     }, [query]);
@@ -50,12 +53,11 @@ const page = ({params}) => {
                             <div key={index}
             onClick={() => {
                 handlePlayClick(song);
-            }
-            }
+            }}
              className="flex items-center  mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
                 <div className="flex items-center gap-5">
               <div className=" relative">
-                <img src={song?.image?.[2]?.link} alt={song?.title} width={50} height={50} className="rounded- mb-3"
+                <img src={song?.image?.[2]?.link} alt={song?.title} width={50} height={50} className="mb-3"
                 />
                 <BsPlayFill
                   size={25}
@@ -78,9 +80,7 @@ const page = ({params}) => {
                     }
                     </div>
             ): (
-                <div className="mt-5">
-                    <h3 className="lg:text-xl text-sm font-bold">Searching...</h3>
-                </div>
+               <SongListSkeleton />
             )
         }
       </div>

@@ -2,8 +2,9 @@ import React from 'react'
 import { playPause, setActiveSong } from "@/redux/features/playerSlice";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
+import SongListSkeleton from './SongListSkeleton';
 
-const SongsList = ({SongData}) => {
+const SongsList = ({SongData, loading}) => {
     const dispatch = useDispatch();
   const handlePlayClick = (song,index) => {
     dispatch(setActiveSong({ song, data: SongData, i: index }));
@@ -23,14 +24,13 @@ const SongsList = ({SongData}) => {
   return (
         <div className="mt-5">
           {
-            SongData?.length > 0 && (
+            !loading && SongData?.length > 0 ? (
           SongData?.map((song,index) => (
             <div key={index}
             onClick={() => {
                 handlePlayClick(song,index);
-            }
-            }
-             className="flex items-center  mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
+            }}
+             className="flex items-center mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
                 <div className="flex items-center gap-5">
               <div className=" relative">
                 <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className="rounded- mb-3"
@@ -56,7 +56,11 @@ const SongsList = ({SongData}) => {
                 </div>
             </div>
           )
-          ))}
+          ))
+          : (
+           <SongListSkeleton />
+          )
+          }
         </div>
   )
 }
