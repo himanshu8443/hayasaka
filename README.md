@@ -1,6 +1,13 @@
 [![Project Banner](https://github-production-user-asset-6210df.s3.amazonaws.com/99420590/256470702-de779111-e63e-4ecc-93d1-e79edadf19ed.png)](https://hayasaka.live/)
 
 This is a free music streaming web application built with Next.js and powered by the [savan API](https://github.com/sumitkolhe/jiosaavn-api). The app allows users to search and stream music from a vast collection of songs available on the Saavn platform.
+
+##Features
+* Search and stream music from vast collection.
+* Play, pause, skip, and control the playback of songs.
+* Display song details such as title, artist, album, and album artwork.
+* Responsive and mobile-friendly design for a great user experience on all devices.
+* Minimalistic and intuitive user interface.
 ***
 ![image](https://github.com/himanshu8443/hayasaka/assets/99420590/3605678a-07b9-417f-9adb-980e4c953c2e)
 ___
