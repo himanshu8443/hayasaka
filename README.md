@@ -1,3 +1,7 @@
+## Hayasaka
+![logo-no-background](https://github.com/himanshu8443/hayasaka/assets/99420590/de779111-e63e-4ecc-93d1-e79edadf19ed)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
