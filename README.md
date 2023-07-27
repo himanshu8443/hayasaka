@@ -1,6 +1,6 @@
 ![logo-no-background](https://github.com/himanshu8443/hayasaka/assets/99420590/de779111-e63e-4ecc-93d1-e79edadf19ed)
 
-This is a free music streaming web application built with Next.js and powered by the [savan API](https://github.com/sumitkolhe/jiosaavn-api) The app allows users to search and stream music from a vast collection of songs available on the Saavn platform.
+This is a free music streaming web application built with Next.js and powered by the [savan API](https://github.com/sumitkolhe/jiosaavn-api). The app allows users to search and stream music from a vast collection of songs available on the Saavn platform.
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
@@ -26,5 +26,3 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
