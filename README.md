@@ -9,7 +9,7 @@ This is a free music streaming web application built with Next.js and powered by
 * Responsive and mobile-friendly design for a great user experience on all devices.
 * Minimalistic and intuitive user interface.
 ***
-![image](https://github.com/himanshu8443/hayasaka/assets/99420590/3605678a-07b9-417f-9adb-980e4c953c2e)
+![image](https://github.com/himanshu8443/hayasaka/assets/99420590/158bc035-463e-403b-a23a-db17b83ab7b0)
 ___
 ![image](https://github.com/himanshu8443/hayasaka/assets/99420590/d4ab0352-bd66-4290-bf9c-148f85749161)
 
