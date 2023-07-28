@@ -21,7 +21,7 @@ const SwiperLayout = ({children,title}) => {
   return (
     <div className=" my-4 lg:mt-14">
     <div className=" flex justify-between">
-      <h2 className=" text-white mt-4 text-lg lg:text-4xl font-semibold mb-4 ">{title}</h2>
+      <h2 className=" text-white mt-4 text-lg lg:text-3xl font-semibold mb-4 ">{title}</h2>
         <div className=" hidden md:flex gap-1">
         <div ref={ablumPrv} className=" m-4 mb-5 border border-white rounded-full cursor-pointer">
       <MdNavigateBefore size={35}  className="text-white text-xl" />
