@@ -34,7 +34,7 @@ const Lyrics = ({activeSong}) => {
                                 {lyrics?.data?.lyrics}
                                 </div>
                         ) : (
-                            <div className="text-white text-lg mt-10">
+                            <div className="text-white text-lg mt-10 mx-4">
                                 No Lyrics Found
                                 </div>
                         )

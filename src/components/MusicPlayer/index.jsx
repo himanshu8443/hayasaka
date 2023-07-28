@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { nextSong, prevSong, playPause, setFullScreen } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
@@ -31,6 +30,23 @@ const MusicPlayer = () => {
   useEffect(() => {
     document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
   }, [fullScreen]);
+
+// Hotkey for play pause
+  const handleKeyPress = (event) => {
+    // Check if the pressed key is the spacebar (keyCode 32 or key " ")
+    if (event.keyCode === 32 || event.key === " ") {
+      event.preventDefault();
+      handlePlayPause();
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   const handlePlayPause = (e) => {
     e?.stopPropagation();
@@ -65,13 +81,14 @@ const MusicPlayer = () => {
     }
   };
 
+ // add hotkey for play pause
+
   return (
     <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 '}`}
-    onClick={(event) => {
+    onClick={() => {
+      if(activeSong?.id){
       dispatch(setFullScreen(!fullScreen));
-        event.stopPropagation();
-        event.preventDefault();
-        event.nativeEvent.stopImmediatePropagation();
+      }
     }}
     >
       <HiOutlineChevronDown onClick={

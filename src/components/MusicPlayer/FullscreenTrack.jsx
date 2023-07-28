@@ -23,7 +23,7 @@ const FullscreenTrack = ({ fullScreen, activeSong }) => {
             {activeSong?.primaryArtists ? (
               activeSong?.primaryArtists?.split(",")?.map((artist, index) => (
                 <React.Fragment key={index}>
-                  <Link className=" hover:underline" href={`/artist/${activeSong?.primaryArtistsId?.split(",")[index]?.trim()}`} onClick={
+                  <Link className=" hover:underline mx-1" href={`/artist/${activeSong?.primaryArtistsId?.split(",")[index]?.trim()}`} onClick={
                     () => {
                       dispatch(setFullScreen(false))
                     }
