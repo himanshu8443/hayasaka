@@ -5,6 +5,7 @@ import MusicPlayer from '@/components/MusicPlayer'
 import Providers from '@/redux/Providers'
 import TopProgressBar from '@/components/topProgressBar/TopProgressBar'
 import Favicon from './favicon.ico'
+import SongsHistory from '@/components/SongsHistory'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
       <Providers>
         <TopProgressBar />
+        <SongsHistory />
       <Navbar />
         {children}
         <div className='h-20'></div>

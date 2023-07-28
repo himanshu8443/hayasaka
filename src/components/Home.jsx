@@ -9,6 +9,7 @@ import SwiperLayout from "./Homepage/Swiper";
 import { setLanguages } from "@/redux/features/languagesSlice";
 import { setProgress } from "@/redux/features/loadingBarSlice";
 import SongCardSkeleton from "./Homepage/SongCardSkeleton";
+import ListenAgainCard from "./ListenAgainCard";
 
 
 const Home = () => {
@@ -17,8 +18,10 @@ const Home = () => {
   const dispatch = useDispatch();
   const { activeSong, isPlaying, } = useSelector((state) => state.player);
   const { languages } = useSelector((state) => state.languages);
+  const [songHistory, setSongHistory] = useState([]);
 
   useEffect(() => {
+    setSongHistory(localStorage?.getItem("songHistory") ? JSON.parse(localStorage.getItem("songHistory")) : []);
     const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : ['english'];
     setInterval(() => {
       dispatch(setLanguages(lang));
@@ -36,8 +39,24 @@ const Home = () => {
     fetchData();
   }, [languages]);
 
+
   return (
     <div>
+      {/* Listen Again */}
+      {
+        songHistory?.length > 0 && (
+          <div>
+          <h2 className=" text-white mt-4 text-lg lg:text-4xl font-semibold mb-4 ">Listen Again</h2>
+          <div className=" grid grid-cols-2 lg:grid-cols-3 grid-rows-3 gap-x-10">
+          {
+          songHistory?.map((song,index) => (
+            <ListenAgainCard key={song?.id} song={song} SongData={songHistory} index={index} />
+          ))
+          }
+          </div>
+          </div>
+        )
+      }
       {/* New Releases */}
       <SwiperLayout title={"New Releases"}>
         {

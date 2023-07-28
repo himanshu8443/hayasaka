@@ -32,8 +32,8 @@ const SongsList = ({SongData, loading}) => {
             }}
              className="flex items-center mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
                 <div className="flex items-center gap-5">
-              <div className=" relative">
-                <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className="rounded- mb-3"
+              <div className=" relative mb-3">
+                <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className=""
                 />
                 <BsPlayFill
                   size={25}
