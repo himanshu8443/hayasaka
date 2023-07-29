@@ -1,15 +1,12 @@
 import React from 'react'
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide} from "swiper/react";
 import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import {
   FreeMode,
   Navigation,
-  Pagination,
   Mousewheel,
   Keyboard,
+  Virtual,
 } from "swiper/modules";
 import { MdNavigateNext } from "react-icons/md";
 import { MdNavigateBefore } from "react-icons/md";
@@ -18,6 +15,17 @@ import { useRef } from 'react';
 const SwiperLayout = ({children,title}) => {
     const albumNext = useRef(null);
     const ablumPrv = useRef(null);
+
+    const renderSlide = (slideData) => {
+      // Extract the content of each SwiperSlide and return it
+      return React.Children.map(slideData, (child) => {
+        if (React.isValidElement(child) && child.type === SwiperSlide) {
+          return child.props.children;
+        }
+        return null;
+      });
+    };
+
   return (
     <div className=" my-4 lg:mt-14">
     <div className=" flex justify-between">
@@ -32,7 +40,7 @@ const SwiperLayout = ({children,title}) => {
       </div>
       </div>
       <Swiper
-        modules={[Pagination, Navigation, FreeMode, Mousewheel, Keyboard]}
+        modules={[Navigation, FreeMode, Mousewheel, Keyboard, Virtual]}
         style={{
           "--swiper-navigation-size": "20px",
           "--swiper-navigation-color": "white",
@@ -53,6 +61,14 @@ const SwiperLayout = ({children,title}) => {
             prevEl: ablumPrv.current,
         }
         }
+        virtual={
+          {
+            enabled: true,
+            slides: renderSlide(children),
+            cache: true,
+          }
+        }
+
         onInit={(swiper) => {
           swiper.params.navigation.prevEl = ablumPrv.current;
           swiper.params.navigation.nextEl = albumNext.current;

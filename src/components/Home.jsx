@@ -73,7 +73,6 @@ const Home = () => {
         )
            )
         }
-        {}
       </SwiperLayout>
 
       {/* trending */}
