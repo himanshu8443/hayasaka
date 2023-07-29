@@ -14,8 +14,10 @@ const page = () => {
     <div className='mx-auto relative flex flex-col w-11/12 text-white '>
         <h1 className='text-6xl font-semibold mt-10'>Favourites</h1>
         <h2 className='text-3xl font-semibold mt-10'>Songs</h2>
-        {
+        { favouriteSongs?.length > 0 ?
             <SongsList SongData={favouriteSongs} />
+            :
+            <h1 className='text-3xl font-semibold mt-10'>No Favourite Songs</h1>
         }
     </div>
   )
