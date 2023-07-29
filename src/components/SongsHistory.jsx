@@ -1,11 +1,8 @@
 'use client';
-import { playPause } from '@/redux/features/playerSlice';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 const SongsHistory = () => {
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
-    const dispatch = useDispatch();
+  const { activeSong } = useSelector((state) => state.player);
 
     useEffect(() => {
         if (activeSong?.name) {
@@ -21,24 +18,7 @@ const SongsHistory = () => {
           localStorage.setItem("songHistory", JSON.stringify(songHistory));
         }
       }
-      }, [activeSong]); 
-
-
-
-
-
-  const handlePlayPause = (e) => {
-    e?.stopPropagation();
-    if (!isActive) return;
-
-    // if (isPlaying) {
-    //   dispatch(playPause(false));
-    // } else {
-    //   dispatch(playPause(true));
-    // }
-  };
-
-  
+      }, [activeSong]);
 
   return
 }

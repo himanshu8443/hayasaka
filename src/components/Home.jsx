@@ -1,6 +1,6 @@
 "use client";
 import { homePageData } from "@/services/dataAPI";
-import React, { use, useRef } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import SongCard from "./SongCard";

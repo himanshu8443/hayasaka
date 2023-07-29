@@ -21,11 +21,16 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(0.5);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
+  const [favouriteSongs, setFavouriteSongs] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);
+
+  useEffect(() => {
+    setFavouriteSongs(localStorage?.getItem("favouriteSongs") ? JSON.parse(localStorage.getItem("favouriteSongs")) : []);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
@@ -81,7 +86,24 @@ const MusicPlayer = () => {
     }
   };
 
- // add hotkey for play pause
+  const handleAddToFavourite = (favsong) => {
+    if(favsong?.id){
+     const StoredSong = localStorage?.getItem("favouriteSongs");
+      const parsedSong = StoredSong ? JSON.parse(StoredSong) : [];
+      if(!parsedSong?.find((song) => song?.id === favsong?.id)){
+        const updatedFavs = [favsong,...parsedSong];
+        setFavouriteSongs(updatedFavs);
+        localStorage.setItem("favouriteSongs", JSON.stringify(updatedFavs));
+        }else{
+          const filteredSongs = parsedSong.filter((song) => song?.id !== favsong?.id);
+          const updatedFavs = [...filteredSongs];
+          setFavouriteSongs(updatedFavs);
+          localStorage.setItem("favouriteSongs", JSON.stringify(updatedFavs));
+        }
+      }
+  };
+ 
+
 
   return (
     <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 '}`}
@@ -120,6 +142,8 @@ const MusicPlayer = () => {
           handlePlayPause={handlePlayPause}
           handlePrevSong={handlePrevSong}
           handleNextSong={handleNextSong}
+          handleAddToFavourite={handleAddToFavourite}
+          favouriteSongs={favouriteSongs}
         />
         <Seekbar
           value={appTime}

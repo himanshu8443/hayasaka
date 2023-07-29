@@ -1,17 +1,23 @@
 'use client';
 import React from 'react';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
-import { BsFillPauseFill, BsFillPlayFill, BsShuffle } from 'react-icons/bs';
+import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { TbRepeat,TbRepeatOnce,TbArrowsShuffle } from 'react-icons/tb';
 import Downloader from './Downloader';
-import {AiOutlineHeart} from 'react-icons/ai';
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 
 
-const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen }) => {
+const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs }) => {
   return (
   <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-2 sm:gap-0">
-    {
-      <AiOutlineHeart title='Favourite' size={25} color={'white'} className={` sm:block hidden cursor-pointer`} />
+    { favouriteSongs?.find((song) => song?.id === activeSong?.id) ?
+       <AiFillHeart onClick={(e)=>{
+          e.stopPropagation();
+         handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'#00e6e6'} className={` sm:block hidden cursor-pointer`} />
+      :
+      <AiOutlineHeart onClick={(e)=>{
+        e.stopPropagation();
+        handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'white'} className={` sm:block hidden cursor-pointer`} />
     }
     {
       !repeat ? (
