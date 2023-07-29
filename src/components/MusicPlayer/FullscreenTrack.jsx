@@ -12,11 +12,11 @@ const FullscreenTrack = ({ fullScreen, activeSong }) => {
   return (
     <div className={`${fullScreen ? 'block' : 'hidden'} w-[100vw] flex lg:flex-row lg:w-[900px] mx-auto flex-col  lg:justify-between mt-10`}>
       <div className="flex flex-col items-center lg:w-96">
-        <div className=" h-72 w-72 lg:h-96 lg:w-96 sm:mt-28 mt-20 ">
+        <div className=" h-80 w-80 lg:h-96 lg:w-96 sm:mt-28 mt-28 ">
           <img src={activeSong?.image?.[2].link} alt="cover art" />
         </div>
         <div onClick={(e) => e.stopPropagation()} className=" w-full select-none cursor-pointer text-center my-5">
-          <p className="truncate text-white font-bold text-lg">
+          <p className="truncate text-white font-bold text-2xl mx-3 mb-1">
             {activeSong?.name ? activeSong?.name.replace("&#039;", "'").replace("&amp;", "&") : 'Song'}
           </p>
           <p className="truncate text-gray-300">

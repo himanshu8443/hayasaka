@@ -27,13 +27,13 @@ const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSo
 
     }
     
-    {<MdSkipPrevious title='Previous' size={30}  color={currentSongs?.length ? '#ffff' : '#b3b3b3'} className="cursor-pointer" onClick={handlePrevSong} />}
+    {<MdSkipPrevious title='Previous' size={35}  color={currentSongs?.length ? '#ffff' : '#b3b3b3'} className="cursor-pointer" onClick={handlePrevSong} />}
     {isPlaying ? (
       <BsFillPauseFill size={45} color="#00e6e6" onClick={handlePlayPause} className="cursor-pointer" />
     ) : (
       <BsFillPlayFill size={45} color="#00e6e6" onClick={handlePlayPause} className="cursor-pointer" />
     )}
-    { <MdSkipNext title='Next' size={30} color={currentSongs?.length ? '#ffff' : '#b3b3b3'} className="cursor-pointer" onClick={handleNextSong} />}
+    { <MdSkipNext title='Next' size={35} color={currentSongs?.length ? '#ffff' : '#b3b3b3'} className="cursor-pointer" onClick={handleNextSong} />}
     <TbArrowsShuffle title='Shuffle' size={25} color={shuffle ? '#00e6e6' : 'white'} onClick={(e) =>{e.stopPropagation(); setShuffle((prev) => !prev)}} className={`${!fullScreen ? 'hidden sm:block':'m-3'} cursor-pointer`} />
     { activeSong?.downloadUrl?.[4]?.link &&
     <div className=' hidden sm:block mt-1 '>
