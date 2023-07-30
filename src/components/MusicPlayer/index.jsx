@@ -119,7 +119,7 @@ const MusicPlayer = () => {
           dispatch(setFullScreen(!fullScreen));
         }
       } className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${fullScreen ? '':'hidden'}`}/>
-      <FullscreenTrack appTime={appTime} setSeekTime={setSeekTime} duration={duration}  activeSong={activeSong} fullScreen={fullScreen} />
+      <FullscreenTrack handleNextSong={handleNextSong} handlePrevSong={handlePrevSong} activeSong={activeSong} fullScreen={fullScreen} />
       <div className=' flex items-center justify-between pt-2'>
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
       <div className="flex-1 flex flex-col items-center justify-center">
