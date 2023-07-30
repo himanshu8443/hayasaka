@@ -13,6 +13,7 @@ const FullscreenTrack = ({ fullScreen, activeSong, handlePrevSong, handleNextSon
     onSwipedRight: () => handlePrevSong(),
     onSwipedDown: () => dispatch(setFullScreen(false)),
     preventDefaultTouchmoveEvent: true,
+    preventScrollOnSwipe: true,
     trackMouse: true
   })
 

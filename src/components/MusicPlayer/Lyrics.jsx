@@ -20,9 +20,12 @@ const Lyrics = ({activeSong}) => {
 
     if (loading) {
         return (
+            <>
+            <h3 className=' text-white text-4xl m-3 mt-20 sm:mt-0 '>Lyrics</h3>
             <div className='w-full h-full flex justify-center items-center'>
             <div className="custom-loader"></div>
             </div>
+            </>
         )
     }
   return (
