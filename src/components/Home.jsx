@@ -10,6 +10,8 @@ import { setLanguages } from "@/redux/features/languagesSlice";
 import { setProgress } from "@/redux/features/loadingBarSlice";
 import SongCardSkeleton from "./Homepage/SongCardSkeleton";
 import ListenAgainCard from "./ListenAgainCard";
+import { GiMusicalNotes } from 'react-icons/gi'
+
 
 
 const Home = () => {
@@ -19,6 +21,19 @@ const Home = () => {
   const { activeSong, isPlaying, } = useSelector((state) => state.player);
   const { languages } = useSelector((state) => state.languages);
   const [songHistory, setSongHistory] = useState([]);
+
+  // salutation
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+
+  let salutation = '';
+  if (currentHour >= 5 && currentHour < 12) {
+    salutation = 'Good morning';
+  } else if (currentHour >= 12 && currentHour < 18) {
+    salutation = 'Good afternoon';
+  } else {
+    salutation = 'Good evening';
+  }
 
   useEffect(() => {
     setSongHistory(localStorage?.getItem("songHistory") ? JSON.parse(localStorage.getItem("songHistory")) : []);
@@ -42,6 +57,7 @@ const Home = () => {
 
   return (
     <div>
+    <h1 className='text-4xl font-bold mx-2 m-9 text-white flex gap-2'>"{salutation}  <GiMusicalNotes/>"</h1>
       {/* Listen Again */}
       {
         songHistory?.length > 0 && (
