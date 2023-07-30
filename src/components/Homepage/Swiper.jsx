@@ -66,6 +66,8 @@ const SwiperLayout = ({children,title}) => {
             enabled: true,
             slides: renderSlide(children),
             cache: true,
+            addSlidesAfter: 4,
+            addSlidesBefore: 4,
           }
         }
 

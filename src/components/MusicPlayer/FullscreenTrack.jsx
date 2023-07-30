@@ -4,15 +4,25 @@ import React from 'react'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { setFullScreen } from '@/redux/features/playerSlice'
+import { useSwipeable } from 'react-swipeable'
 
-const FullscreenTrack = ({ fullScreen, activeSong }) => {
+const FullscreenTrack = ({ fullScreen, activeSong, handlePrevSong, handleNextSong }) => {
   const dispatch = useDispatch();
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleNextSong(),
+    onSwipedRight: () => handlePrevSong(),
+    onSwipedDown: () => dispatch(setFullScreen(false)),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  })
 
 
   return (
     <div className={`${fullScreen ? 'block' : 'hidden'} w-[100vw] flex lg:flex-row lg:w-[900px] mx-auto flex-col  lg:justify-between mt-10`}>
       <div className="flex flex-col items-center lg:w-96">
-        <div className=" h-80 w-80 lg:h-96 lg:w-96 sm:mt-28 mt-28 ">
+        <div
+          {...handlers}
+         className=" h-80 w-80 lg:h-[500px] lg:w-[500px] sm:mt-5 mt-28 ">
           <img src={activeSong?.image?.[2].link} alt="cover art" />
         </div>
         <div onClick={(e) => e.stopPropagation()} className=" w-full select-none cursor-pointer text-center my-5">

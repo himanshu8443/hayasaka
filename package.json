@@ -18,6 +18,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.1",
+    "react-swipeable": "^7.0.1",
     "react-top-loading-bar": "^2.3.1",
     "react-use-downloader": "^1.2.4",
     "redux": "^4.2.1",
