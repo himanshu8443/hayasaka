@@ -17,6 +17,7 @@ export const metadata = {
   type: 'website',
   icons: [{ rel: 'icon', url: Favicon.src }],
   site_name: 'Hayasaka',
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({ children }) {

@@ -11,6 +11,7 @@ import { setProgress } from "@/redux/features/loadingBarSlice";
 import SongCardSkeleton from "./Homepage/SongCardSkeleton";
 import ListenAgainCard from "./ListenAgainCard";
 import { GiMusicalNotes } from 'react-icons/gi'
+import { RiWifiOffLine } from 'react-icons/ri'
 
 
 
@@ -21,6 +22,7 @@ const Home = () => {
   const { activeSong, isPlaying, } = useSelector((state) => state.player);
   const { languages } = useSelector((state) => state.languages);
   const [songHistory, setSongHistory] = useState([]);
+  const [onLineStatus, setOnLineStatus] = useState(true);
 
   // salutation
   const currentTime = new Date();
@@ -41,6 +43,16 @@ const Home = () => {
     setInterval(() => {
       dispatch(setLanguages(lang));
     }, 1000);
+
+    const checkOnline = () => {
+      if (!navigator.onLine) {
+        setOnLineStatus(false);
+      }
+      else {
+        setOnLineStatus(true);
+      }
+    }
+    checkOnline();
   }, []);
 
   useEffect(() => {
@@ -57,6 +69,16 @@ const Home = () => {
 
   return (
     <div>
+         {
+        !onLineStatus && (
+          <div className="bg-red-500 flex text-white text-center p-2 bg-richblack-300 justify-center gap-2 items-center">
+          <RiWifiOffLine size={22}/>Please check your internet connection.
+          <button className="ml-2 bg-richblack-500 rounded-md p-1 px-2 bg-black bg-opacity-20 hover:bg-opacity-40 font-medium text-white" onClick={() => window.location.reload()}>
+            Retry
+          </button>
+        </div>
+        )
+      }
     <h1 className='text-4xl font-bold mx-2 m-9 text-white flex gap-2'>"{salutation}  <GiMusicalNotes/>"</h1>
       {/* Listen Again */}
       {
