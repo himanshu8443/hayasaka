@@ -11,7 +11,7 @@ const page = () => {
         setFavouriteSongs(parsedSong);
     }, []);
   return (
-    <div className='mx-auto relative flex flex-col w-11/12 text-white '>
+    <div className='mx-auto relative flex flex-col w-11/12 text-white min-h-screen '>
         <h1 className='text-6xl font-semibold mt-10'>Favourites</h1>
         <h2 className='text-3xl font-semibold mt-10'>Songs</h2>
         { favouriteSongs?.length > 0 ?
