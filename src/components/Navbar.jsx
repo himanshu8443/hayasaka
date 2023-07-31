@@ -22,11 +22,11 @@ const Navbar = () => {
       <div className=' flex'>
       <MdOutlineMenu onClick={
         ()=>setShowNav(true)
-      } className=' mx-4 text-xl lg:text-3xl my-auto cursor-pointer' />
+      } className=' mx-4 text-2xl lg:text-3xl my-auto cursor-pointer' />
       <div className=' flex justify-center items-center'>
         <Link href='/'>
       <Image onClick={()=>{dispatch(setProgress(100))}} 
-      src={logo} alt="logo"  className=' lg:py-2  aspect-video w-[135px] h-[38px] lg:h-[65px] lg:w-[190px]'/>
+      src={logo} alt="logo"  className=' lg:py-2  aspect-video w-[135px] h-[30.741px] lg:h-[58px] lg:w-[190px]'/>
       </Link>
       </div>
       </div>
@@ -37,14 +37,14 @@ const Navbar = () => {
     <div className=' flex mt-3'>
       <MdOutlineMenu onClick={
         ()=>setShowNav(false)
-      } className=' mx-4 text-xl lg:text-3xl my-auto text-white' />
+      } className=' mx-4 text-2xl lg:text-3xl my-auto text-white' />
       <div className=' flex justify-center items-center'>
         <Link href='/'>
       <Image onClick={
         ()=>{
           dispatch(setProgress(100))
         }
-      } src={logoWhite} alt="logo"  className=' lg:py-2  aspect-video w-[139px] h-[38px] lg:h-[65px] lg:w-[190px]'/>
+      } src={logoWhite} alt="logo"  className=' lg:py-2  aspect-video w-[139px] h-[31px] lg:h-[62px] lg:w-[190px]'/>
       </Link>
       </div>
       </div>

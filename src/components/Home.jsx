@@ -40,9 +40,7 @@ const Home = () => {
   useEffect(() => {
     setSongHistory(localStorage?.getItem("songHistory") ? JSON.parse(localStorage.getItem("songHistory")) : []);
     const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : ['english'];
-    setInterval(() => {
-      dispatch(setLanguages(lang));
-    }, 1000);
+    dispatch(setLanguages(lang));
 
     const checkOnline = () => {
       if (!navigator.onLine) {
@@ -65,6 +63,24 @@ const Home = () => {
     };
     fetchData();
   }, [languages]);
+
+  // add passive event listener to improve scrolling performance
+  useEffect(() => {
+    const passiveHandler = (e) => {
+      console.log("Touchmove or Wheel Event Occurred!");
+    };
+    document.body.addEventListener("touchmove", passiveHandler, {
+      passive: true,
+    });
+    document.body.addEventListener("wheel", passiveHandler, {
+      passive: true,
+    });
+    return () => {
+      document.body.removeEventListener("touchmove", passiveHandler);
+      document.body.removeEventListener("wheel", passiveHandler);
+    };
+  }, []);
+
 
 
   return (
