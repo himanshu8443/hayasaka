@@ -45,7 +45,11 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
               handlePlay={handlePlayClick}
             />
           </div>
-          <Image width={200} height={200} loading='lazy' alt="song_img" src={song.image?.[2]?.link} className={`${song.type === 'playlist' && song?.subtitle === 'JioSaavn' ? 'rounded-full' :'rounded-lg'} w-full h-full `} />
+          <img width={200} height={200} loading='lazy' alt="song_img"
+          srcset={`${song.image?.[0]?.link} 320w, ${song.image?.[1]?.link} 480w, ${song.image?.[2]?.link} 800w`}
+          sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
+          src={song.image?.[1]?.link}
+           className={`${song.type === 'playlist' && song?.subtitle === 'JioSaavn' ? 'rounded-full' :'rounded-lg'} w-full h-full `} />
         </div>
 
         <div className=" mt-2 lg:mt-4 flex flex-col">
