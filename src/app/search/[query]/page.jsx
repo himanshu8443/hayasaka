@@ -12,6 +12,7 @@ import { playPause, setActiveSong } from '@/redux/features/playerSlice';
 import Image from 'next/image';
 import Link from 'next/link';
 import SongListSkeleton from '@/components/SongListSkeleton';
+import { setProgress } from '@/redux/features/loadingBarSlice';
 
 
 const page = ({params}) => {
@@ -22,9 +23,11 @@ const page = ({params}) => {
 
     useEffect(() => {
         const fetchData = async () => {
+           dispatch(setProgress(70))
             const response = await getSearchedData(query);
             setSearchedData(response);
             setLoading(false);
+            dispatch(setProgress(100))
         }
         fetchData();
     }, [query]);

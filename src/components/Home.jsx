@@ -55,10 +55,10 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // dispatch(setProgress(50))
+      dispatch(setProgress(70))
       const res = await homePageData(languages);
       setData(res);
-      // dispatch(setProgress(100))
+      dispatch(setProgress(100))
       setLoading(false);
     };
     fetchData();
