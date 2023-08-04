@@ -178,3 +178,45 @@ details[open] summary .arrow {
 ::-webkit-scrollbar-thumb:hover {
   background: #292929;
 }
+
+
+
+
+/* register */
+
+
+.container {
+  background-color: #000000;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.06), 0 8px 16px rgba(255, 255, 255, 0.06);
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from {
+      transform: translateY(50px);
+      opacity: 0;
+  }
+
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+
+/* autofill css */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: rgb(255, 255, 255);
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
