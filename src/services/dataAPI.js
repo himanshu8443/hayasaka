@@ -1,5 +1,3 @@
-'use client'
-
 
 
 export async function homePageData(language){
@@ -15,7 +13,7 @@ export async function homePageData(language){
 
 export async function getSongData(id){
     try {
-    const response = await fetch(`https://saavn.me/songs?id=${id}`);
+    const response = await fetch(`https://saavn.me/songs?id=${id.toString()}`);
     const data = await response.json();
     return data?.data;
     } catch (error) {
@@ -91,5 +89,44 @@ export async function getSearchedData(query){
     return data?.data;
     } catch (error) {
         console.log(error);
+    }
+}
+
+// add and remove from favourite
+export async function addFavourite(id){
+    try {
+        const response = await fetch("/api/favourite", {
+            method: "POST",
+            body: JSON.stringify(id),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Add favourite API error",error);
+    }
+}
+
+// get favourite
+export async function getFavourite(){
+    try {
+        const response = await fetch("/api/favourite");
+        const data = await response.json();
+        return data?.data?.favourites;
+    } catch (error) {
+        console.log("Get favourite API error",error);
+    }
+}
+
+// user info
+export async function getUserInfo(){
+    try {
+        const response = await fetch("/api/userInfo");
+        const data = await response.json();
+        return data?.data;
+    } catch (error) {
+        console.log("Get user info API error",error);
     }
 }

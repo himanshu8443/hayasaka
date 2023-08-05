@@ -12,6 +12,10 @@ import Lyrics from './Lyrics';
 import Downloader from './Downloader';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { addFavourite, getFavourite } from '@/services/dataAPI';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
@@ -22,14 +26,30 @@ const MusicPlayer = () => {
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [favouriteSongs, setFavouriteSongs] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const {status} = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);
 
   useEffect(() => {
-    setFavouriteSongs(localStorage?.getItem("favouriteSongs") ? JSON.parse(localStorage.getItem("favouriteSongs")) : []);
+    const fetchFavourites = async () => {
+      try {
+        setLoading(true);
+        const res = await getFavourite();
+        // console.log("favourites",res);
+        if(res){
+          setFavouriteSongs(res);
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+    fetchFavourites();
   }, []);
 
   useEffect(() => {
@@ -86,20 +106,27 @@ const MusicPlayer = () => {
     }
   };
 
-  const handleAddToFavourite = (favsong) => {
-    if(favsong?.id){
-     const StoredSong = localStorage?.getItem("favouriteSongs");
-      const parsedSong = StoredSong ? JSON.parse(StoredSong) : [];
-      if(!parsedSong?.find((song) => song?.id === favsong?.id)){
-        const updatedFavs = [favsong,...parsedSong];
-        setFavouriteSongs(updatedFavs);
-        localStorage.setItem("favouriteSongs", JSON.stringify(updatedFavs));
-        }else{
-          const filteredSongs = parsedSong.filter((song) => song?.id !== favsong?.id);
-          const updatedFavs = [...filteredSongs];
-          setFavouriteSongs(updatedFavs);
-          localStorage.setItem("favouriteSongs", JSON.stringify(updatedFavs));
+  const handleAddToFavourite = async (favsong) => {
+    if(status === 'unauthenticated'){
+      dispatch(setFullScreen(false));
+      router.push('/login');
+    }
+
+    if(favsong?.id && status === 'authenticated'){
+      try {
+        setLoading(true);
+        const res = await addFavourite(favsong);
+        if(res?.success === true){
+          setFavouriteSongs(res?.data?.favourites);
         }
+        console.log("add to fav",favouriteSongs);
+        setLoading(false);
+        
+      } catch (error) {
+        setLoading(false);
+        console.log("add to fav error",error);
+      }
+
       }
   };
  
@@ -124,7 +151,7 @@ const MusicPlayer = () => {
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className={`${fullScreen ? '':'hidden'}  sm:hidden flex items-center justify-center gap-4`}>
-        { favouriteSongs?.find((song) => song?.id === activeSong?.id) ?
+        { favouriteSongs?.length>0 && favouriteSongs?.includes(activeSong) ?
        <AiFillHeart onClick={(e)=>{
           e.stopPropagation();
          handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'#00e6e6'} className={` mb-3 cursor-pointer`} />
@@ -152,6 +179,7 @@ const MusicPlayer = () => {
           handleNextSong={handleNextSong}
           handleAddToFavourite={handleAddToFavourite}
           favouriteSongs={favouriteSongs}
+          loading={loading}
         />
         <Seekbar
           value={appTime}
