@@ -4,21 +4,13 @@ import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { TbRepeat,TbRepeatOnce,TbArrowsShuffle } from 'react-icons/tb';
 import Downloader from './Downloader';
-import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
+import FavouriteButton from './FavouriteButton';
 
 
-const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs }) => {
+const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs, loading }) => {
   return (
   <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-2 sm:gap-0">
-    { favouriteSongs?.find((song) => song?.id === activeSong?.id) ?
-       <AiFillHeart onClick={(e)=>{
-          e.stopPropagation();
-         handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'#00e6e6'} className={` sm:block hidden cursor-pointer`} />
-      :
-      <AiOutlineHeart onClick={(e)=>{
-        e.stopPropagation();
-        handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'white'} className={` sm:block hidden cursor-pointer`} />
-    }
+    <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} />
     {
       !repeat ? (
         <TbRepeat title='Repeat' size={25} color={'white'} onClick={(e) =>{e.stopPropagation(); setRepeat((prev) => !prev)}}className={`${!fullScreen ? 'hidden sm:block':' m-3'} cursor-pointer`} />) : (
