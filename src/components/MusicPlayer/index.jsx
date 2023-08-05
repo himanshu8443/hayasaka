@@ -15,6 +15,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { addFavourite, getFavourite } from '@/services/dataAPI';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import FavouriteButton from './FavouriteButton';
 
 
 const MusicPlayer = () => {
@@ -50,7 +51,7 @@ const MusicPlayer = () => {
       }
     }
     fetchFavourites();
-  }, []);
+  }, [activeSong]);
 
   useEffect(() => {
     document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
@@ -151,15 +152,7 @@ const MusicPlayer = () => {
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className={`${fullScreen ? '':'hidden'}  sm:hidden flex items-center justify-center gap-4`}>
-        { favouriteSongs?.length>0 && favouriteSongs?.includes(activeSong) ?
-       <AiFillHeart onClick={(e)=>{
-          e.stopPropagation();
-         handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'#00e6e6'} className={` mb-3 cursor-pointer`} />
-      :
-      <AiOutlineHeart onClick={(e)=>{
-        e.stopPropagation();
-        handleAddToFavourite(activeSong)}} title='Favourite' size={25} color={'white'} className={` mb-3 cursor-pointer`} />
-        }
+        <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={"mb-4"} />
         <div className={`mb-3 sm:hidden flex items-center justify-center`}>
           <Downloader activeSong={activeSong} fullScreen={fullScreen} />
         </div>
