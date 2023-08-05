@@ -120,7 +120,7 @@ const MusicPlayer = () => {
         if(res?.success === true){
           setFavouriteSongs(res?.data?.favourites);
         }
-        console.log("add to fav",favouriteSongs);
+        // console.log("add to fav",favouriteSongs);
         setLoading(false);
         
       } catch (error) {

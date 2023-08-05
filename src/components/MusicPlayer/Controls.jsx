@@ -10,7 +10,7 @@ import FavouriteButton from './FavouriteButton';
 const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs, loading }) => {
   return (
   <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-2 sm:gap-0">
-    <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={" sm-block hidden"} />
+    <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={" sm:block hidden"} />
     {
       !repeat ? (
         <TbRepeat title='Repeat' size={25} color={'white'} onClick={(e) =>{e.stopPropagation(); setRepeat((prev) => !prev)}}className={`${!fullScreen ? 'hidden sm:block':' m-3'} cursor-pointer`} />) : (
