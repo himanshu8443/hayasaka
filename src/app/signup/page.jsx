@@ -6,8 +6,12 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+
 
 const page = () => {
+    const {status} = useSession();
     const router = useRouter();
     const [formData, setFormData] = useState({
         userName: '',
@@ -32,7 +36,7 @@ const page = () => {
                     userName: formData.userName,
                     email: formData.email,
                     password: formData.password,
-                    imageUrl: `https://api.dicebear.com/6.x/thumbs/svg?seed=${formData.userName}&mouthColor=ffffff,transparent&shapeColor=0a5b83,1c799f,69d2e7,f1f4dc,f88c49,transparent`
+                    imageUrl: `https://api.dicebear.com/6.x/thumbs/svg?seed=${formData.userName}`,
                 })
             });
             const data = await res.json();
@@ -50,25 +54,34 @@ const page = () => {
         }finally{
             dispatch(setProgress(100));
         }
-
     };
+
+    // redirect if user is authenticated
+    if(status === 'loading'){
+        return   <div className=' w-screen h-screen flex justify-center items-center'>
+                      <span class="loader"></span>
+                  </div>
+    }
+    if(status === 'authenticated'){
+        redirect('/');
+    }
     return (
         <div className=' w-11/12 mx-auto min-h-screen my-32'>
             <div className=" flex justify-center items-center">
-                <div className="container flex justify-center flex-col items-center w-1/2">
+                <div className="container flex justify-center flex-col items-center w-[90vw] lg:w-1/2">
                     <h1 className=" text-4xl text-cyan-400 font-medium mb-8">Sign up</h1>
-                    <form onSubmit={handelSubmit} className="text-white flex flex-col text-xl gap-5 font-medium">
+                    <form onSubmit={handelSubmit} className="text-white flex flex-col text-base lg:text-xl gap-5 font-medium">
                         <div className=" flex gap-4 items-end">
                             <label className="" htmlFor='userName'>Username</label>
-                            <input onChange={onchange} value={formData.userName} type="text" placeholder="Name" required id='userName' name='userName' className=' appearance-none bg-black border-b border-white focus:outline-none' />
+                            <input onChange={onchange} value={formData.userName} type="text" placeholder="Name" required id='userName' name='userName' className=' appearance-none bg-black border-b border-white focus:outline-none text-base lg:text-lg' />
                         </div>
                         <div className=" flex gap-4 items-end">
-                            <label  className=" mr-11" htmlFor='email'>Email</label>
-                            <input onChange={onchange} value={formData.email} name='email' type="email" placeholder="Email" required className=' appearance-none bg-black border-b border-white focus:outline-none' />
+                            <label  className=" mr-9 lg:mr-11" htmlFor='email'>Email</label>
+                            <input onChange={onchange} value={formData.email} name='email' type="email" placeholder="Email" required className=' appearance-none bg-black border-b border-white focus:outline-none text-base lg:text-lg' />
                         </div>
                         <div className=" flex gap-4 items-end">
                             <label className="" htmlFor='password'>Password</label>
-                            <input onChange={onchange} value={formData.password} name='password' type="password" placeholder="Password" required className=' appearance-none bg-black border-b border-white focus:outline-none' />
+                            <input onChange={onchange} value={formData.password} name='password' type="password" placeholder="Password" required className=' appearance-none bg-black border-b border-white focus:outline-none text-base lg:text-lg' />
                         </div>
                         <div className=" w-full flex justify-center">
                             <button type='submit' className="relative inline-block px-4 py-2 font-medium group">
