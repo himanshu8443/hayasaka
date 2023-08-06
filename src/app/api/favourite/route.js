@@ -21,7 +21,7 @@ export async function GET(req){
     }
     try {
         await dbConnect();
-        const user = await User.findById(token.sub);
+        const user = await User.findOne({ email: token.email });
         if (!user) {
             return NextResponse.json(
                 {
@@ -52,7 +52,7 @@ export async function GET(req){
         );
 
     } catch (e) {
-        console.error(e);
+        console.error('get user data error', e);
         return NextResponse.json(
             {
                 success: false,
@@ -83,7 +83,7 @@ export async function POST(request) {
     const { id } = await request.json();
     try {
         await dbConnect();
-        const user = await User.findById(token.sub);
+        const user = await User.findOne({ email: token.email });
         if (!user) {
             return NextResponse.json(
                 {
@@ -125,7 +125,7 @@ export async function POST(request) {
         );
 
     } catch (e) {
-        console.error(e);
+        console.log('add to favourites error', e);  
         return NextResponse.json(
             {
                 success: false,

@@ -27,7 +27,7 @@ const page = () => {
   // redirect if user is authenticated
   if (status === 'loading') {
     return <div className=' w-screen h-screen flex justify-center items-center'>
-      <span class="loader"></span>
+      <span className="loader"></span>
     </div>
   }
   if (status === 'unauthenticated') {

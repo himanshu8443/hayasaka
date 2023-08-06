@@ -8,6 +8,9 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { FaGoogle } from 'react-icons/fa';
+
 
 
 const page = () => {
@@ -59,7 +62,7 @@ const page = () => {
     // redirect if user is authenticated
     if(status === 'loading'){
         return   <div className=' w-screen h-screen flex justify-center items-center'>
-                      <span class="loader"></span>
+                      <span className="loader"></span>
                   </div>
     }
     if(status === 'authenticated'){
@@ -88,6 +91,14 @@ const page = () => {
                                 <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-cyan-500 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
                                 <span className="absolute inset-0 w-full h-full bg-black border-2 border-white group-hover:bg-"></span>
                                 <span className="relative text-white group-hover:text-cyan-400">Sign Up</span>
+                            </button>
+                        </div>
+                        <div className=' flex justify-center items-center'>
+                        <hr className=' w-1/2 mx-2 border-white' /><p className=' text-xs text-white'>or</p><hr className=' w-1/2 mx-2 border-white' />
+                        </div>
+                        <div className=" w-full flex justify-center">
+                            <button onClick={() => signIn('google')} type='button' className="flex items-center gap-[.7px] hover:border-[#00e6e6] justify-center px-4 py-2 group font-medium border-2 border-white rounded-sm">
+                                <FaGoogle className=" group-hover:text-[#00e6e6]"/>oogle
                             </button>
                         </div>
                         <p className=" w-full flex justify-center gap-2">

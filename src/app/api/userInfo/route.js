@@ -19,7 +19,8 @@ export async function GET(req){
     }
     try {
         await dbConnect();
-        const user = await User.findById(token.sub);
+        // console.log('token', token);
+        const user = await User.findOne({ email: token.email });
         if (!user) {
             return NextResponse.json(
                 {
