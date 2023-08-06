@@ -7,9 +7,11 @@ import {MdOutlineMenu} from 'react-icons/md'
 import Image from 'next/image'
 import Link from 'next/link'
 import Profile from './Profile'
+import { useDispatch } from 'react-redux'
 
 
 const Sidebar = ({showNav, setShowNav}) => {
+  const dispatch = useDispatch()
   return (
     <div className={`${showNav ? '':'translate-x-[-100%]' } transition-all duration-200  h-screen lg:w-[450px] w-96 fixed top-0 left-0 z-40 navGradient flex flex-col justify-between`}>
     <div>
