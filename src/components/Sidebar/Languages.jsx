@@ -46,7 +46,7 @@ const Languages = () => {
       };
       
   return (
-    <div className=' text-white'>
+    <div className=' text-white max-w-[220px]'>
         <details className='text-white detailanimatation'>
             <summary className=' flex cursor-pointer gap-3 items-baseline mx-2'>
             <FaChevronDown className='arrow '/>
@@ -57,7 +57,7 @@ const Languages = () => {
                 </summary>
             <form className=' grid grid-cols-2 mb-1 h-28 overflow-y-scroll overflow-x-hidden hideScrollBar'>
             {languageList.map((language) => (
-        <div key={language.id} className="flex items-center mb-3 mx-2">
+        <div key={language.id} className="flex items-center mb-3 mx-2 ml-5">
           <input
             type="checkbox"
             id={language.id}
