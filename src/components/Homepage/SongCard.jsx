@@ -6,9 +6,12 @@ import PlayPause from '../PlayPause';
 import { playPause, setActiveSong } from '../../redux/features/playerSlice';
 import { getSongData } from '@/services/dataAPI';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 
 const SongCard = ({ song, isPlaying, activeSong }) => {
   const [loading, setLoading] = useState(false);
+  const {currentSongs} = useSelector(state => state.player);
+
 
   const dispatch = useDispatch();
 
@@ -23,7 +26,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
       setLoading(true);
       const Data = await getSongData(song?.id);
       const songData = await Data?.[0]
-      dispatch(setActiveSong({ song: songData }));
+      dispatch(setActiveSong({ song: songData,data:[...currentSongs,songData], i:currentSongs?.length}));
       dispatch(playPause(true));
       setLoading(false);
     }

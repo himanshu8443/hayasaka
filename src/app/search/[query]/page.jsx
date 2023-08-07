@@ -20,6 +20,8 @@ const page = ({params}) => {
     const [query, setQuery] = useState(params.query);
     const [searchedData, setSearchedData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const {currentSongs} = useSelector(state => state.player);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,7 +38,7 @@ const page = ({params}) => {
         if (song?.type === "song") {
           const Data = await getSongData(song?.id);
           const songData = await Data?.[0]
-          dispatch(setActiveSong({ song: songData }));
+          dispatch(setActiveSong({ song: songData, data:[...currentSongs,songData],i:currentSongs?.length }));
           dispatch(playPause(true));
         }
       };

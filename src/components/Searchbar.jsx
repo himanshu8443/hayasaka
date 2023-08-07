@@ -1,15 +1,26 @@
 'use client'
-import Link from 'next/link';
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setIsTyping } from '@/redux/features/loadingBarSlice';
+
+
 const Searchbar = () => {
+  const ref = React.useRef(null);
+  const dispatch = useDispatch();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     router.push(`/search/${searchTerm}`);
+  };
+  const handleFocus = () => {
+    dispatch(setIsTyping(true));
+  };
+  const handleBlur = () => {
+    dispatch(setIsTyping(false));
   };
 
   return (
@@ -20,6 +31,8 @@ const Searchbar = () => {
       <div className="flex flex-row justify-start items-center">
         <FiSearch aria-hidden="true" className="w-5 h-5 ml-4 text-gray-300" />
         <input
+        onFocus={handleFocus}
+        onBlur={handleBlur}
           name="search-field"
           autoComplete="off"
           id="search-field"

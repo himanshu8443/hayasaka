@@ -10,7 +10,7 @@ const Lyrics = ({activeSong}) => {
     const {currentSongs} = useSelector(state => state.player);
     const [lyrics, setLyrics] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState('lyrics');
+    const [activeTab, setActiveTab] = useState('queue');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,13 +45,19 @@ const Lyrics = ({activeSong}) => {
                                 {lyrics?.data?.lyrics}
                                 </div>
                         ) : (
-                            <div className="text-white text-lg mt-10 mx-4">
+                            <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[500px] overflow-y-scroll hideScrollBar text-center">
                                 No Lyrics Found
                                 </div>
                         )) : (
-                            <div className=" text-white p-4 mt-5 md:w-[450px] h-[70vh] overflow-y-scroll hideScrollBar ">
-                                <SongsList SongData={currentSongs} loading={false} hidePlays={true} activeSong={activeSong} />
-                            </div>
+                                currentSongs?.length > 0 ? (
+                                    <div className=" text-white p-4 mt- md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar ">
+                                    <SongsList SongData={currentSongs} loading={false} hidePlays={true} activeSong={activeSong} />
+                                </div>
+                                ) : (
+                                    <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[500px] overflow-y-scroll hideScrollBar text-center">
+                                    No Songs
+                                    </div>
+                                )
                         )
                     }
         </div>
