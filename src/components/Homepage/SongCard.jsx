@@ -2,8 +2,8 @@
 import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import PlayPause from './PlayPause';
-import { playPause, setActiveSong } from '../redux/features/playerSlice';
+import PlayPause from '../PlayPause';
+import { playPause, setActiveSong } from '../../redux/features/playerSlice';
 import { getSongData } from '@/services/dataAPI';
 import Image from 'next/image';
 
@@ -30,7 +30,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
   };
 
   return (
-    <div key={song?.id} className="flex flex-col lg:w-[205px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
+    <div key={song?.id} className="flex flex-col lg:w-[205px] lg:[220px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
       <Link onClick={(e)=>{if(song?.type == 'song'){
         e.preventDefault()
       }}} href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >

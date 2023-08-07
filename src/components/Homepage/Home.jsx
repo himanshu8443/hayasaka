@@ -5,14 +5,13 @@ import { useEffect, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import SongCard from "./SongCard";
 import { useDispatch, useSelector } from "react-redux";
-import SwiperLayout from "./Homepage/Swiper";
+import SwiperLayout from "./Swiper";
 import { setLanguages } from "@/redux/features/languagesSlice";
 import { setProgress } from "@/redux/features/loadingBarSlice";
-import SongCardSkeleton from "./Homepage/SongCardSkeleton";
-import ListenAgainCard from "./ListenAgainCard";
+import SongCardSkeleton from "./SongCardSkeleton";
+import ListenAgainCard from "../ListenAgainCard";
 import { GiMusicalNotes } from 'react-icons/gi'
 import { RiWifiOffLine } from 'react-icons/ri'
-
 
 
 const Home = () => {
@@ -94,6 +93,7 @@ const Home = () => {
           </div>
         )
       }
+
       {/* New Releases */}
       <SwiperLayout title={"New Releases"}>
         {
@@ -141,7 +141,6 @@ const Home = () => {
       }
       </SwiperLayout>
 
-
       {/* top charts */}
       <SwiperLayout title={"Top Charts"}>
         {
@@ -158,8 +157,6 @@ const Home = () => {
           )
         }
       </SwiperLayout>
-
-
 
       {/* featured playlists */}
       <SwiperLayout title={"Featured Playlists"}>
@@ -178,6 +175,10 @@ const Home = () => {
          )
         }
       </SwiperLayout>
+
+      
+
+
     </div>
   );
 };

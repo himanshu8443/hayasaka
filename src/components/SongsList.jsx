@@ -1,10 +1,15 @@
+'use client'
 import React from 'react'
 import { playPause, setActiveSong } from "@/redux/features/playerSlice";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import SongListSkeleton from './SongListSkeleton';
+import { BiHeadphone } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
-const SongsList = ({SongData, loading}) => {
+
+const SongsList = ({SongData, loading, hidePlays}) => {
+  const { activeSong } = useSelector((state) => state.player);
     const dispatch = useDispatch();
   const handlePlayClick = (song,index) => {
     dispatch(setActiveSong({ song, data: SongData, i: index }));
@@ -30,23 +35,31 @@ const SongsList = ({SongData, loading}) => {
             onClick={() => {
                 handlePlayClick(song,index);
             }}
-             className="flex items-center mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
+             className={`flex items-center mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between ${activeSong?.id === song?.id && " text-[#00e6e6]"}`}>
                 <div className="flex items-center gap-5">
               <div className=" relative mb-3">
                 <img src={song?.image?.[2]?.link} alt={song?.name} width={50} height={50} className=""
                 />
-                <BsPlayFill
-                  size={25}
-                  className=" group-hover:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200"
-                />
+                {
+                  activeSong?.id === song?.id ? (
+                    <BiHeadphone size={27} className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#00e6e6]" />
+                  ) : (
+                    <BsPlayFill
+                    size={25}
+                    className=" group-hover:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200"
+                  />
+                  )
+                }
+              
               </div>
-              <div className="w-32 lg:w-80">
+              <div className=" w-24 md:w-64">
                 <p className="text-sm lg:text-lg font-semibold truncate">{
                     song?.name?.replace("&#039;", "'")?.replace("&amp;", "&")
                 }</p>
+                <p className="text-gray-400 truncate text-xs">{song?.primaryArtists}</p>
               </div>
               </div>
-              <div className="hidden lg:block w-36">
+              <div className={`hidden w-36 ${hidePlays ? 'lg:hidden':'lg:block'}`}>
                 {song?.playCount && (
                     <p className="text-gray-400">{song?.playCount} plays</p>
                 )}

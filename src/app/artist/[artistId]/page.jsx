@@ -1,6 +1,6 @@
 'use client'
 import SwiperLayout from '@/components/Homepage/Swiper';
-import SongCard from '@/components/SongCard';
+import SongCard from '@/components/Homepage/SongCard';
 import SongListSkeleton from '@/components/SongListSkeleton';
 import SongList from '@/components/SongsList';
 import { setProgress } from '@/redux/features/loadingBarSlice';

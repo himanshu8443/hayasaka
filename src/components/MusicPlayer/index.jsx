@@ -11,7 +11,6 @@ import FullscreenTrack from './FullscreenTrack';
 import Lyrics from './Lyrics';
 import Downloader from './Downloader';
 import { HiOutlineChevronDown } from 'react-icons/hi';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { addFavourite, getFavourite } from '@/services/dataAPI';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -53,6 +52,7 @@ const MusicPlayer = () => {
     fetchFavourites();
   }, [activeSong]);
 
+  // off scroll when full screen
   useEffect(() => {
     document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
   }, [fullScreen]);
@@ -205,7 +205,7 @@ const MusicPlayer = () => {
     {
       fullScreen &&
       <div className=' sm:hidden'>
-       <Lyrics activeSong={activeSong}/>
+       <Lyrics activeSong={activeSong} currentSongs={currentSongs}/>
       </div>
     }
     </div>
