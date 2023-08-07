@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import { BsPlayFill } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
-import { playPause, setActiveSong } from '@/redux/features/playerSlice';
+import { playPause, setActiveSong, setFullScreen } from '@/redux/features/playerSlice';
 import Image from 'next/image';
 import Link from 'next/link';
 import SongListSkeleton from '@/components/SongListSkeleton';
@@ -38,7 +38,11 @@ const page = ({params}) => {
         if (song?.type === "song") {
           const Data = await getSongData(song?.id);
           const songData = await Data?.[0]
-          dispatch(setActiveSong({ song: songData, data:[...currentSongs,songData],i:currentSongs?.length }));
+          dispatch(setActiveSong({ song: songData,
+             data: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs : [...currentSongs, songData],
+             i: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs?.findIndex((s) => s?.id === songData?.id) : currentSongs?.length
+             }));
+          dispatch(setFullScreen(true));
           dispatch(playPause(true));
         }
       };

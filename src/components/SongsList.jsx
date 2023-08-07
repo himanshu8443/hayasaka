@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { playPause, setActiveSong } from "@/redux/features/playerSlice";
+import { playPause, setActiveSong, setFullScreen } from "@/redux/features/playerSlice";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import SongListSkeleton from './SongListSkeleton';
@@ -13,6 +13,7 @@ const SongsList = ({SongData, loading, hidePlays}) => {
     const dispatch = useDispatch();
   const handlePlayClick = (song,index) => {
     dispatch(setActiveSong({ song, data: SongData, i: index }));
+    dispatch(setFullScreen(true));
     dispatch(playPause(true));
     };
 

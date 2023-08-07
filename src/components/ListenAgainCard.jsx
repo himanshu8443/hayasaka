@@ -1,7 +1,7 @@
 import React from 'react'
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { playPause, setActiveSong } from "@/redux/features/playerSlice";
+import { playPause, setActiveSong, setFullScreen } from "@/redux/features/playerSlice";
 import { BiHeadphone } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
@@ -12,6 +12,7 @@ const ListenAgainCard = ({song, index, SongData}) => {
     const dispatch = useDispatch();
     const handlePlayClick = (song,index) => {
       dispatch(setActiveSong({ song, data: SongData, i: index }));
+      dispatch(setFullScreen(true));
       dispatch(playPause(true));
       };
   return (

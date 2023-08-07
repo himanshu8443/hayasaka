@@ -3,7 +3,7 @@ import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import PlayPause from '../PlayPause';
-import { playPause, setActiveSong } from '../../redux/features/playerSlice';
+import { playPause, setActiveSong, setFullScreen } from '../../redux/features/playerSlice';
 import { getSongData } from '@/services/dataAPI';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
@@ -26,7 +26,12 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
       setLoading(true);
       const Data = await getSongData(song?.id);
       const songData = await Data?.[0]
-      dispatch(setActiveSong({ song: songData,data:[...currentSongs,songData], i:currentSongs?.length}));
+      console.log('songData',songData.id);
+      dispatch(setActiveSong({ song: songData,
+        data: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs : [...currentSongs, songData],
+         i: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs?.findIndex((s) => s?.id === songData?.id) : currentSongs?.length
+        }));
+      dispatch(setFullScreen(true));
       dispatch(playPause(true));
       setLoading(false);
     }
