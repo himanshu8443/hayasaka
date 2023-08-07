@@ -130,3 +130,38 @@ export async function getUserInfo(){
         console.log("Get user info API error",error);
     }
 }
+
+
+// reset password
+export async function resetPassword(password,confirmPassword, token){
+    try {
+        const response = await fetch("/api/forgotPassword", {
+            method: "PUT",
+            body: JSON.stringify({password,confirmPassword, token}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Reset password API error",error);
+    }
+}
+
+// send reset password link
+export async function sendResetPasswordLink(email){
+    try {
+        const response = await fetch("/api/forgotPassword", {
+            method: "POST",
+            body: JSON.stringify({email}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Send reset password link API error",error);
+    }
+}
