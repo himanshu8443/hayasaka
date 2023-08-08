@@ -9,7 +9,23 @@ const fileSchema = new mongoose.Schema(
         songHistory: {
             type: Array,
             default: []
-        }
+        },
+        playlists: [
+            {
+                name: {
+                    type: String,
+                    required: true
+                },
+                songs: {
+                    type: Array,
+                    default: []
+                }
+            }
+        ],
+        language: {
+            type: Array,
+            default: []
+        },
     },
     { timestamps: true }
 );
