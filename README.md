@@ -5,14 +5,14 @@ This is a free music streaming web application built with Next.js and powered by
 ## Features
 * Search and stream music from vast collection.
 * Play, pause, skip, and control the playback of songs.
-* Add songs to favorite.
+* Add songs to your favorite.
 * Display song details such as title, artist, album, and album artwork.
 * Responsive and mobile-friendly design for a great user experience on all devices.
 * Minimalistic and intuitive user interface.
 ***
 ![image](https://github.com/himanshu8443/hayasaka/assets/99420590/158bc035-463e-403b-a23a-db17b83ab7b0)
 ___
-![image](https://github.com/himanshu8443/hayasaka/assets/99420590/d4ab0352-bd66-4290-bf9c-148f85749161)
+![image](https://github.com/himanshu8443/hayasaka/assets/99420590/864aec2b-8d60-4278-a475-9f7ee6ae7680)
 
 
 ***
