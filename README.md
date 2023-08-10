@@ -6,6 +6,7 @@ This is a free music streaming web application built with Next.js and powered by
 * Search and stream music from vast collection.
 * Play, pause, skip, and control the playback of songs.
 * Add songs to your favorite.
+* Auto add similar songs to queue.
 * Display song details such as title, artist, album, and album artwork.
 * Responsive and mobile-friendly design for a great user experience on all devices.
 * Minimalistic and intuitive user interface.
