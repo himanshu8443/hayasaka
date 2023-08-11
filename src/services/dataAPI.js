@@ -1,5 +1,5 @@
 
-
+// home page data
 export async function homePageData(language){
     try {
     const response = await fetch(`https://saavn.me/modules?language=${language.toString()}`);
@@ -11,6 +11,7 @@ export async function homePageData(language){
 
 }
 
+// get song data
 export async function getSongData(id){
     try {
     const response = await fetch(`https://saavn.me/songs?id=${id.toString()}`);
@@ -22,6 +23,7 @@ export async function getSongData(id){
 
 }
 
+// get album data
 export async function getAlbumData(id){
     try {
     const response = await fetch(`https://saavn.me/albums?id=${id}`);
@@ -32,6 +34,7 @@ export async function getAlbumData(id){
     }
 }
 
+// get playlist data
 export async function getplaylistData(id){
     try {
     const response = await fetch(`https://saavn.me/playlists?id=${id}`);
@@ -42,6 +45,7 @@ export async function getplaylistData(id){
     }
 }
 
+// get Lyrics data
 export async function getlyricsData(id){
     try {
     const response = await fetch(`https://saavn.me/lyrics?id=${id}`);
@@ -52,6 +56,7 @@ export async function getlyricsData(id){
     }
 }
 
+// get artist data
 export async function getArtistData(id){
     try {
     const response = await fetch(`https://saavn.me/artists?id=${id}`);
@@ -62,6 +67,7 @@ export async function getArtistData(id){
     }
 }
 
+// get artist songs
 export async function getArtistSongs(id,page){
     try {
     const response = await fetch(`https://saavn.me/artists/${id}/songs?page=${page}`);
@@ -72,6 +78,7 @@ export async function getArtistSongs(id,page){
     }
 }
 
+// get artist albums
 export async function getArtistAlbums(id,page){
     try {
     const response = await fetch(`https://saavn.me/artists/${id}/albums?page=${page}`);
@@ -82,6 +89,7 @@ export async function getArtistAlbums(id,page){
     }
 }
 
+// get search data
 export async function getSearchedData(query){
     try {
     const response = await fetch(`https://saavn.me/search/all?query=${query}`);
@@ -163,5 +171,16 @@ export async function sendResetPasswordLink(email){
         return data;
     } catch (error) {
         console.log("Send reset password link API error",error);
+    }
+}
+
+// get  recommended songs
+export async function getRecommendedSongs(artistId, sondId){
+    try {
+    const response = await fetch(`https://saavn.me/artists/${artistId}/recommendations/${sondId}`);
+    const data = await response.json();
+    return data?.data;
+    } catch (error) {
+        console.log(error);
     }
 }
