@@ -7,6 +7,7 @@ const initialState = {
   isPlaying: false,
   activeSong: {},
   fullScreen: false,
+  autoAdd: false,
 };
 
 const playerSlice = createSlice({
@@ -14,7 +15,9 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setActiveSong: (state, action) => {
+      if(action.payload.song){
       state.activeSong = action.payload.song;
+      }
 
       if(action.payload.data){
       state.currentSongs = action.payload.data;
@@ -51,12 +54,15 @@ const playerSlice = createSlice({
 
     setFullScreen: (state, action) => {
       state.fullScreen = action.payload;
-    }
+    },
 
+    setAutoAdd: (state, action) => {
+      state.autoAdd = action.payload;
+    }
    
   },
 });
 
-export const { setActiveSong, nextSong, prevSong, playPause, setFullScreen } = playerSlice.actions;
+export const { setActiveSong, nextSong, prevSong, playPause, setFullScreen, setAutoAdd } = playerSlice.actions;
 
 export default playerSlice.reducer;

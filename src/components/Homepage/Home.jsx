@@ -12,6 +12,7 @@ import SongCardSkeleton from "./SongCardSkeleton";
 import ListenAgainCard from "../ListenAgainCard";
 import { GiMusicalNotes } from 'react-icons/gi'
 import { RiWifiOffLine } from 'react-icons/ri'
+import { setAutoAdd } from "@/redux/features/playerSlice";
 
 
 const Home = () => {
@@ -39,6 +40,7 @@ const Home = () => {
   useEffect(() => {
     setSongHistory(localStorage?.getItem("songHistory") ? JSON.parse(localStorage.getItem("songHistory")) : []);
     const lang = localStorage?.getItem("languages") ? JSON.parse(localStorage.getItem("languages")) : ['english'];
+    dispatch(setAutoAdd(localStorage?.getItem("autoAdd") ? JSON.parse(localStorage.getItem("autoAdd")) : false));
     dispatch(setLanguages(lang));
 
     const checkOnline = () => {

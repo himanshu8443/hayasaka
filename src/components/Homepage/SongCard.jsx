@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import PlayPause from '../PlayPause';
 import { playPause, setActiveSong, setFullScreen } from '../../redux/features/playerSlice';
-import { getSongData } from '@/services/dataAPI';
+import { getRecommendedSongs, getSongData } from '@/services/dataAPI';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
 
 const SongCard = ({ song, isPlaying, activeSong }) => {
   const [loading, setLoading] = useState(false);
-  const {currentSongs} = useSelector(state => state.player);
+  const {currentSongs, autoAdd} = useSelector(state => state.player);
 
 
   const dispatch = useDispatch();
@@ -26,9 +26,11 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
       setLoading(true);
       const Data = await getSongData(song?.id);
       const songData = await Data?.[0]
-      console.log('songData',songData.id);
+      const recommendedSongs = await getRecommendedSongs(songData?.primaryArtistsId,songData?.id);
+      // remove duplicate songs in recommendedSongs array and currentSongs array
+      const filteredRecommendedSongs = recommendedSongs?.filter((song) => !currentSongs?.find((s) => s?.id === song?.id));
       dispatch(setActiveSong({ song: songData,
-        data: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs : [...currentSongs, songData],
+        data: currentSongs?.find((s) => s?.id === songData?.id) ?  currentSongs : autoAdd ? [...currentSongs, songData, ...filteredRecommendedSongs] : [...currentSongs, songData],
          i: currentSongs?.find((s) => s?.id === songData?.id) ? currentSongs?.findIndex((s) => s?.id === songData?.id) : currentSongs?.length
         }));
       dispatch(setFullScreen(true));
