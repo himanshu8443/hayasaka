@@ -15,6 +15,7 @@ import { addFavourite, getFavourite } from '@/services/dataAPI';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import FavouriteButton from './FavouriteButton';
+import { usePalette } from 'react-palette';
 
 
 const MusicPlayer = () => {
@@ -31,6 +32,7 @@ const MusicPlayer = () => {
   const dispatch = useDispatch();
   const {status} = useSession();
   const router = useRouter();
+  const { data } = usePalette(activeSong?.image?.[1]?.link);
 
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
@@ -135,11 +137,12 @@ const MusicPlayer = () => {
 
 
   return (
-    <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 '}`}
+    <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
     onClick={() => {
-      if(activeSong?.id){
-      dispatch(setFullScreen(!fullScreen));
-      }
+      if(activeSong?.id){dispatch(setFullScreen(!fullScreen));}
+    }}
+    style={{
+      backgroundColor: data.darkVibrant ? `rgba(${parseInt(data?.darkVibrant?.slice(1, 3), 16)}, ${parseInt(data?.darkVibrant?.slice(3, 5), 16)}, ${parseInt(data?.darkVibrant?.slice(5, 7), 16)}, 0.3)` : 'rgba(0,0,0,0.2)',
     }}
     >
       <HiOutlineChevronDown onClick={

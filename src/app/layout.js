@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
             <Toaster />
             {children}
             <div className="h-20"></div>
-            <div className="fixed  bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#0b0b16] backdrop-blur-lg rounded-t-3 z-50">
+            <div className="fixed  bottom-0 left-0 right-0 flex backdrop-blur-lg rounded-t-3 z-50">
               <MusicPlayer />
             </div>
           </AuthProvider>
