@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-palette": "^1.0.2",
     "react-redux": "^8.1.1",
     "react-swipeable": "^7.0.1",
     "react-top-loading-bar": "^2.3.1",
