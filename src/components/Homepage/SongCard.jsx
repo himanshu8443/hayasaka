@@ -40,7 +40,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
   };
 
   return (
-    <div key={song?.id} className="flex flex-col lg:w-[205px] lg:[220px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
+    <div key={song?.id} className="flex flex-col lg:w-[205px] lg:[220px] p-2 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer">
       <Link onClick={(e)=>{if(song?.type == 'song'){
         e.preventDefault()
       }}} href={song?.type === 'album' ? `/album/${song?.id}` : song?.type ==='playlist' ? `/playlist/${song?.id}` : ''} >
@@ -64,7 +64,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
 
         <div className=" mt-2 lg:mt-4 flex flex-col">
           <p className={`font-semibold text-xs lg:text-sm text-white truncate w-full ${song?.subtitle === 'JioSaavn' ? 'text-center' : ''}`}>
-            {song?.name?.replace("&#039;", "'")?.replace("&amp;", "&") || song?.title}
+            {song?.name?.replaceAll("&#039;", "'")?.replaceAll("&amp;", "&") || song?.title}
           </p>
           <p className="text-[9px] lg:text-xs truncate text-gray-300 mt-1">
             {song?.artists?.map((artist) => artist?.name).join(', ') || song?.primaryArtists?.map((artist) => artist?.name).join(', ') || song?.artists?.map((artist) => artist.name).join(', ') || song?.subtitle != 'JioSaavn' && song?.subtitle }

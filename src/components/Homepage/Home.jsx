@@ -13,6 +13,7 @@ import ListenAgainCard from "../ListenAgainCard";
 import { GiMusicalNotes } from 'react-icons/gi'
 import { RiWifiOffLine } from 'react-icons/ri'
 import { setAutoAdd } from "@/redux/features/playerSlice";
+import SongBar from "./SongBar";
 
 
 const Home = () => {
@@ -80,6 +81,7 @@ const Home = () => {
         )
       }
     <h1 className='text-4xl font-bold mx-2 m-9 text-white flex gap-2'>"{salutation}  <GiMusicalNotes/>"</h1>
+    
       {/* Listen Again */}
       {
         songHistory?.length > 0 && (
@@ -96,26 +98,8 @@ const Home = () => {
         )
       }
 
-      {/* New Releases */}
-      <SwiperLayout title={"New Releases"}>
-        {
-           loading ? (
-                <SongCardSkeleton />
-           ) : (
-            data?.albums?.map(
-          (song) =>
-          (
-            <SwiperSlide key={song?.id}>
-              <SongCard song={song} activeSong={activeSong} isPlaying={isPlaying} />
-            </SwiperSlide>
-          )
-        )
-           )
-        }
-      </SwiperLayout>
-
-      {/* trending */}
-      <SwiperLayout title={"Trending"} >
+    {/* trending */}
+    <SwiperLayout title={"Trending"} >
       {
          loading ? (
           <SongCardSkeleton />
@@ -141,22 +125,43 @@ const Home = () => {
       </>
      )
       }
-      </SwiperLayout>
+    </SwiperLayout>
 
-      {/* top charts */}
-      <SwiperLayout title={"Top Charts"}>
+       {/* top charts */}
+       <div className="my-4 lg:mt-14">
+      <h2 className=" text-white mt-4 text-2xl lg:text-3xl font-semibold mb-4 ">Top Charts</h2>
+      <div className="grid lg:grid-cols-2 gap-x-10 max-h-96 lg:max-h-full lg:overflow-y-auto overflow-y-scroll">
         {
           loading ? (
+            <div className=" w-[90vw] overflow-x-hidden">
                 <SongCardSkeleton />
+            </div>
            ) : (
-            data?.charts?.map(
-              (song) =>
+            data?.charts?.slice(0,10)?.map(
+              (playlist,index) =>
               (
-                <SwiperSlide key={song?.id}>
-                  <SongCard song={song} activeSong={activeSong} isPlaying={isPlaying} />
-                </SwiperSlide>
+                  <SongBar playlist={playlist} i={index} />
               ))
           )
+        }
+      </div>
+      </div>
+
+        {/* New Releases */}
+      <SwiperLayout title={"New Releases"}>
+        {
+           loading ? (
+                <SongCardSkeleton />
+           ) : (
+            data?.albums?.map(
+          (song) =>
+          (
+            <SwiperSlide key={song?.id}>
+              <SongCard song={song} activeSong={activeSong} isPlaying={isPlaying} />
+            </SwiperSlide>
+          )
+        )
+           )
         }
       </SwiperLayout>
 
@@ -177,9 +182,6 @@ const Home = () => {
          )
         }
       </SwiperLayout>
-
-      
-
 
     </div>
   );
