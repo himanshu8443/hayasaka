@@ -40,7 +40,7 @@ const page = () => {
       {favouriteSongs?.length <= 0 && loading === false ?
         <h1 className='text-3xl font-semibold mt-10'>No Favourite Songs</h1>
         :
-        <SongsList SongData={favouriteSongs} loading={loading} />
+        <SongsList SongData={favouriteSongs.reverse()} loading={loading} />
       }
     </div>
   )
