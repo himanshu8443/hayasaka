@@ -47,11 +47,11 @@ const Lyrics = ({ activeSong }) => {
             <div>
                 {activeTab === 'lyrics' ? (
                     lyrics?.status === 'SUCCESS' ? (
-                        <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-[566px] overflow-y-scroll hideScrollBar">
+                        <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar">
                             {lyrics?.data?.lyrics}
                         </div>
                     ) : (
-                        <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[566px] overflow-y-scroll hideScrollBar text-center">
+                        <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar text-center">
                             No Lyrics Found
                         </div>
                     )) : (

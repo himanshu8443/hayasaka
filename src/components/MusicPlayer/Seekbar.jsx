@@ -10,7 +10,7 @@ const Seekbar = ({ value, min, max, onInput, setSeekTime, appTime, fullScreen })
       <button type="button" onClick={(e) =>{e.stopPropagation(); setSeekTime(appTime - 5)}} className="hidden lg:mr-4 lg:block text-white">
         <GiFastBackwardButton size={20} className=' text-gray-300' />
       </button>
-      <p className="text-white text-xs sm:text-base">{value === 0 ? '0:00' : getTime(value)}</p>
+      <p className="text-white text-xs sm:text-base w-5">{value === 0 ? '0:00' : getTime(value)}</p>
       <input onClick={(event) => {event.stopPropagation();}}
         type="range"
         step="any"
