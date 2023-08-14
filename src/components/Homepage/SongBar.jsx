@@ -5,7 +5,6 @@ import { usePalette } from 'react-palette';
 
 const SongBar = ({playlist,i}) => {
   const { data, loading, error } = usePalette(playlist.image?.[1]?.link);
-  console.log(data.vibrant);
 
   return (<Link href={`/playlist/${playlist?.id}`}>
   <div className={`w-full flex flex-row items-center group bg-opacity-20 py-2 p-4 rounded-lg cursor-pointer mb-2 `} style={
