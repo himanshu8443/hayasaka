@@ -2,8 +2,9 @@
 import React from 'react'
 import { MdOutlineFileDownload } from 'react-icons/md';
 import useDownloader from 'react-use-downloader';
+import {MdDownloadForOffline} from 'react-icons/md'
 
-const Downloader = ({activeSong}) => {
+const Downloader = ({activeSong, icon}) => {
     const { size, elapsed, percentage, download, error, isInProgress } =useDownloader();
 
     const songUrl = activeSong?.downloadUrl?.[4]?.link;
@@ -12,13 +13,13 @@ const Downloader = ({activeSong}) => {
   return (
     <div onClick={(e)=>{e.stopPropagation();
         download(songUrl, filename);
-    }} className={`flex  mb-1 cursor-pointer`}>
+    }} className={`flex  mb-1 cursor-pointer w-7`}>
     <div title={isInProgress ?'Downloading' : 'Download'} className={isInProgress ? 'download-button flex justify-center items-center':''}>
         {
             isInProgress ? 
             <div className=' text-white font-extrabold text-xs m-'>{percentage}</div>
             :
-            <MdOutlineFileDownload  size={25} color={'#ffff'}/>
+              icon === 2 ? <MdDownloadForOffline size={25} color={'#ffff'}/> : <MdOutlineFileDownload  size={25} color={'#ffff'}/>
         }
       </div>
     </div>

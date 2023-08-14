@@ -140,7 +140,7 @@ const Home = () => {
             data?.charts?.slice(0,10)?.map(
               (playlist,index) =>
               (
-                  <SongBar playlist={playlist} i={index} />
+                  <SongBar key={index} playlist={playlist} i={index} />
               ))
           )
         }

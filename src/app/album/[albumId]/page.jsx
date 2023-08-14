@@ -7,6 +7,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
+import {BsFillPlayFill} from 'react-icons/bs'
+
 
 const page = ({ params }) => {
   const [albumData, setAlbumData] = useState(null);
@@ -64,14 +66,14 @@ const page = ({ params }) => {
         )
         }
        
-        <div className=" lg:ml-10 text-gray-100 mt-12">
+        <div className=" lg:ml-10 text-gray-100 mt-12 flex flex-col gap-2">
           <h1 className="text-xl lg:text-4xl font-bold">{albumData?.name}</h1>
           <h2 className="text-xl font-semibold">{albumData?.subtitle}</h2>
           <h3 className="text-xl font-semibold cursor-pointer">
             {albumData?.primaryArtists?.split(",")?.map((artist, index) => (
               <React.Fragment key={index}>
                 <Link className=" hover:underline" href={`/artist/${albumData?.primaryArtistsId?.split(",")[index]?.trim()}`}>
-                  {artist?.trim()}
+                  {artist?.trim()?.replaceAll('&amp;','&')}
                 </Link>
                 {index < albumData.primaryArtists.split(",").length - 1 && ", "}
               </React.Fragment>
@@ -83,7 +85,14 @@ const page = ({ params }) => {
               • {albumData?.songCount} songs
             </li>
           </ul>
+          <div 
+          onClick={() => {handlePlayClick(albumData?.songs?.[0], 0);}}
+           className="flex items-center gap-2 mt-5 group rounded-3xl py-2 px-3 hover:border-[#00e6e6] w-fit cursor-pointer border border-white">
+            <BsFillPlayFill size={25} className="text-gray-200 group-hover:text-[#00e6e6]" />
+            <p className="text-lg font-semibold">Play</p>
+            </div>
         </div>
+
       </div>
       <div className="mt-10 text-gray-200">
         <h1 className="text-3xl font-bold">Songs</h1>

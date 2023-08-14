@@ -5,11 +5,18 @@ import { getplaylistData } from "@/services/dataAPI";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import {BsFillPlayFill} from 'react-icons/bs'
+import { setActiveSong, playPause } from "@/redux/features/playerSlice";
 
 const page = ({ params }) => {
   const [playlistData, setPlaylistData] = useState(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  const handlePlayClick = (song, index) => {
+    dispatch(setActiveSong({ song, data: playlistData?.songs, i: index }));
+    dispatch(playPause(true));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +51,7 @@ const page = ({ params }) => {
           )
         }
      
-        <div className="lg:ml-10 text-gray-100 mt-12">
+        <div className="lg:ml-10 text-gray-100 mt-12 flex flex-col gap-2 items-center md:items-start">
           <h1 className=" text-xl lg:text-4xl font-bold">{playlistData?.name}</h1>
           <ul className="flex items-center gap-3 text-gray-300">
             <li className="text-lg font-semibold">• {playlistData?.followerCount} followers</li>
@@ -52,6 +59,12 @@ const page = ({ params }) => {
               • {playlistData?.songCount} songs
             </li>
           </ul>
+          <div 
+          onClick={() => {handlePlayClick(playlistData?.songs?.[0], 0);}}
+           className="flex items-center gap-2 mt-5 rounded-3xl py-2 px-3 hover:border-[#00e6e6] group w-fit cursor-pointer border border-white">
+            <BsFillPlayFill size={25} className="text-gray-200 group-hover:text-[#00e6e6]" />
+            <p className="text-lg font-semibold">Play</p>
+            </div>
         </div>
       </div>
       <div className="mt-10 text-gray-200">
