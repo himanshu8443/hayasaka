@@ -12,14 +12,8 @@ const fileSchema = new mongoose.Schema(
         },
         playlists: [
             {
-                name: {
-                    type: String,
-                    required: true
-                },
-                songs: {
-                    type: Array,
-                    default: []
-                }
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "playlist"
             }
         ],
         language: {

@@ -17,7 +17,7 @@ const page = () => {
       const res = await getFavourite();
       if (res?.length > 0) {
         const favorites = await getSongData(res);
-        setFavouriteSongs(favorites.reverse());
+        setFavouriteSongs(favorites?.reverse());
       }
       setLoading(false);
     }
@@ -38,7 +38,7 @@ const page = () => {
       <h1 className='text-6xl font-semibold mt-10'>Favourites</h1>
       <h2 className='text-3xl font-semibold mt-10'>Songs</h2>
       {favouriteSongs?.length <= 0 && loading === false ?
-        <h1 className='text-3xl font-semibold mt-10'>No Favourite Songs</h1>
+        <h1 className='text-xl font-semibold mt-10'>No Favourite Songs</h1>
         :
         <SongsList SongData={favouriteSongs} loading={loading} />
       }

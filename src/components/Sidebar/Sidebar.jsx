@@ -8,6 +8,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Profile from './Profile'
 import { useDispatch } from 'react-redux'
+import Playlists from './Playlists'
+import { setProgress } from '@/redux/features/loadingBarSlice'
 
 
 const Sidebar = ({showNav, setShowNav}) => {
@@ -31,6 +33,9 @@ const Sidebar = ({showNav, setShowNav}) => {
         <Languages/>
       </div>
      <Favourites setShowNav={setShowNav} />
+     <div className=' mt-7 border-b border-gray-400 w-[60%]'>
+      <Playlists setShowNav={setShowNav}/>
+      </div>
      </div>
      <div className=' mb-28 text-gray-200 mx-3 flex gap-3'>
       <Link href='/dmca'>
