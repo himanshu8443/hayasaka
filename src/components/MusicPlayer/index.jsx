@@ -137,7 +137,7 @@ const MusicPlayer = () => {
 
 
   return (
-    <div className={`relative overflow-scroll hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
+    <div className={`relative overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
     onClick={() => {
       if(activeSong?.id){dispatch(setFullScreen(!fullScreen));}
     }}
@@ -204,7 +204,7 @@ const MusicPlayer = () => {
           setSeekTime={setSeekTime}
         />
       </div>
-      <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+      <VolumeBar activeSong={activeSong} data={data} fullScreen={fullScreen} value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
     </div>
     {
       fullScreen &&

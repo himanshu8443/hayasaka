@@ -5,11 +5,12 @@ import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { TbRepeat,TbRepeatOnce,TbArrowsShuffle } from 'react-icons/tb';
 import Downloader from './Downloader';
 import FavouriteButton from './FavouriteButton';
+import { BiAddToQueue } from 'react-icons/bi';
 
 
 const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs, loading }) => {
   return (
-  <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-2 sm:gap-0">
+  <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80 gap-4 sm:gap-0">
     <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={" sm:block hidden"} />
     {
       !repeat ? (
