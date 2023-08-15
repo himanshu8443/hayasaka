@@ -137,7 +137,7 @@ const MusicPlayer = () => {
 
 
   return (
-    <div className={`relative overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
+    <div className={`relative overflow-scroll lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
     onClick={() => {
       if(activeSong?.id){dispatch(setFullScreen(!fullScreen));}
     }}
