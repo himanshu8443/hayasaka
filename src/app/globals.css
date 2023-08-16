@@ -7,6 +7,7 @@
 html {
   font-family: 'Poppins', sans-serif;
   background-color: #000000;
+  overflow-x: hidden;
 }
 
 body,.gradient {
@@ -17,6 +18,7 @@ body,.gradient {
   background-size: cover;
   background-position: center;
   font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
 }
 
 .navbar {
