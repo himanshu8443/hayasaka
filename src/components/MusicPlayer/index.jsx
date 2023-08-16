@@ -20,7 +20,7 @@ import { usePalette } from 'react-palette';
 
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
-  const {isTyping} = useSelector(state => state.loadingBar);
+  const { isTyping } = useSelector(state => state.loadingBar);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -30,7 +30,7 @@ const MusicPlayer = () => {
   const [favouriteSongs, setFavouriteSongs] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const {status} = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const { data } = usePalette(activeSong?.image?.[1]?.link);
 
@@ -44,7 +44,7 @@ const MusicPlayer = () => {
         setLoading(true);
         const res = await getFavourite();
         // console.log("favourites",res);
-        if(res){
+        if (res) {
           setFavouriteSongs(res);
         }
         setLoading(false);
@@ -60,7 +60,7 @@ const MusicPlayer = () => {
     document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
   }, [fullScreen]);
 
-// Hotkey for play pause
+  // Hotkey for play pause
   const handleKeyPress = (event) => {
     // Check if the pressed key is the spacebar (keyCode 32 or key " ")
     if (!isTyping && (event.keyCode === 32 || event.key === " ")) {
@@ -111,115 +111,113 @@ const MusicPlayer = () => {
   };
 
   const handleAddToFavourite = async (favsong) => {
-    if(status === 'unauthenticated'){
+    if (status === 'unauthenticated') {
       dispatch(setFullScreen(false));
       router.push('/login');
     }
 
-    if(favsong?.id && status === 'authenticated'){
+    if (favsong?.id && status === 'authenticated') {
       try {
         setLoading(true);
-          // optimistic update
-          if(favouriteSongs?.find(song => song === favsong?.id)){
-            console.log("remove from fav",favouriteSongs);
-            setFavouriteSongs(favouriteSongs?.filter(song => song !== favsong?.id));
-          }
-          else{
-            setFavouriteSongs([...favouriteSongs,favsong?.id]);
-            console.log("add to fav",favouriteSongs);
-          }
+        // optimistic update
+        if (favouriteSongs?.find(song => song === favsong?.id)) {
+          setFavouriteSongs(favouriteSongs?.filter(song => song !== favsong?.id));
+        }
+        else {
+          setFavouriteSongs([...favouriteSongs, favsong?.id]);
+        }
         const res = await addFavourite(favsong);
-        if(res?.success === true){
+        if (res?.success === true) {
           setFavouriteSongs(res?.data?.favourites);
         }
         setLoading(false);
-        
+
       } catch (error) {
         setLoading(false);
-        console.log("add to fav error",error);
+        console.log("add to fav error", error);
       }
 
-      }
+    }
   };
- 
+
 
 
   return (
-    <div className={`relative overflow-scroll lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]':'w-full h-20 px-8 bg-black '}`}
-    onClick={() => {
-      if(activeSong?.id){dispatch(setFullScreen(!fullScreen));}
-    }}
-    style={{
-      backgroundColor: data.darkVibrant ? `rgba(${parseInt(data?.darkVibrant?.slice(1, 3), 16)}, ${parseInt(data?.darkVibrant?.slice(3, 5), 16)}, ${parseInt(data?.darkVibrant?.slice(5, 7), 16)}, 0.3)` : 'rgba(0,0,0,0.2)',
-    }}
+    <div className={`relative overflow-scroll lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]' : 'w-full h-20 px-8 bg-black '}`}
+      onClick={() => {
+        if (activeSong?.id) { dispatch(setFullScreen(!fullScreen)); }
+      }}
+      style={{
+        backgroundColor: data.darkVibrant ? `rgba(${parseInt(data?.darkVibrant?.slice(1, 3), 16)}, ${parseInt(data?.darkVibrant?.slice(3, 5), 16)}, ${parseInt(data?.darkVibrant?.slice(5, 7), 16)}, 0.3)` : 'rgba(0,0,0,0.2)',
+      }}
     >
       <HiOutlineChevronDown onClick={
-        (e)=>{
+        (e) => {
           e.stopPropagation();
           dispatch(setFullScreen(!fullScreen));
         }
-      } className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${fullScreen ? '':'hidden'}`}/>
+      } className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${fullScreen ? '' : 'hidden'}`} />
       <FullscreenTrack handleNextSong={handleNextSong} handlePrevSong={handlePrevSong} activeSong={activeSong} fullScreen={fullScreen} />
       <div className=' flex items-center justify-between pt-2'>
-      <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className={`${fullScreen ? '':'hidden'}  sm:hidden flex items-center justify-center gap-4`}>
-        <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={"mb-4"} />
-        <div className={`mb-3 sm:hidden flex items-center justify-center`}>
-          <Downloader activeSong={activeSong} fullScreen={fullScreen} />
+        <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div className={`${fullScreen ? '' : 'hidden'}  sm:hidden flex items-center justify-center gap-4`}>
+            <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={"mb-4"} />
+            <div className={`mb-3 sm:hidden flex items-center justify-center`}>
+              <Downloader activeSong={activeSong} fullScreen={fullScreen} />
+            </div>
+          </div>
+          <Controls
+            isPlaying={isPlaying}
+            isActive={isActive}
+            repeat={repeat}
+            setRepeat={setRepeat}
+            shuffle={shuffle}
+            setShuffle={setShuffle}
+            currentSongs={currentSongs}
+            activeSong={activeSong}
+            fullScreen={fullScreen}
+            handlePlayPause={handlePlayPause}
+            handlePrevSong={handlePrevSong}
+            handleNextSong={handleNextSong}
+            handleAddToFavourite={handleAddToFavourite}
+            favouriteSongs={favouriteSongs}
+            loading={loading}
+          />
+          <Seekbar
+            value={appTime}
+            min="0"
+            max={duration}
+            fullScreen={fullScreen}
+            onInput={(event) => setSeekTime(event.target.value)}
+            setSeekTime={setSeekTime}
+            appTime={appTime}
+          />
+          <Player
+            activeSong={activeSong}
+            volume={volume}
+            isPlaying={isPlaying}
+            seekTime={seekTime}
+            repeat={repeat}
+            currentIndex={currentIndex}
+            onEnded={handleNextSong}
+            handlePlayPause={handlePlayPause}
+            handleNextSong={handleNextSong}
+            handlePrevSong={handlePrevSong}
+            onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
+            onLoadedData={(event) => setDuration(event.target.duration)}
+            appTime={appTime}
+            setSeekTime={setSeekTime}
+          />
         </div>
+        <VolumeBar activeSong={activeSong} data={data} fullScreen={fullScreen} value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+      </div>
+      {
+        fullScreen &&
+        <div className=' sm:hidden'>
+          <Lyrics activeSong={activeSong} currentSongs={currentSongs} />
         </div>
-        <Controls 
-          isPlaying={isPlaying}
-          isActive={isActive}
-          repeat={repeat}
-          setRepeat={setRepeat}
-          shuffle={shuffle}
-          setShuffle={setShuffle}
-          currentSongs={currentSongs}
-          activeSong={activeSong}
-          fullScreen={fullScreen}
-          handlePlayPause={handlePlayPause}
-          handlePrevSong={handlePrevSong}
-          handleNextSong={handleNextSong}
-          handleAddToFavourite={handleAddToFavourite}
-          favouriteSongs={favouriteSongs}
-          loading={loading}
-        />
-        <Seekbar
-          value={appTime}
-          min="0"
-          max={duration}
-          fullScreen={fullScreen}
-          onInput={(event) => setSeekTime(event.target.value)}
-          setSeekTime={setSeekTime}
-          appTime={appTime}
-        />
-        <Player
-          activeSong={activeSong}
-          volume={volume}
-          isPlaying={isPlaying}
-          seekTime={seekTime}
-          repeat={repeat}
-          currentIndex={currentIndex}
-          onEnded={handleNextSong}
-          handlePlayPause={handlePlayPause}
-          handleNextSong={handleNextSong}
-          handlePrevSong={handlePrevSong}
-          onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
-          onLoadedData={(event) => setDuration(event.target.duration)}
-          appTime={appTime}
-          setSeekTime={setSeekTime}
-        />
-      </div>
-      <VolumeBar activeSong={activeSong} data={data} fullScreen={fullScreen} value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
-    </div>
-    {
-      fullScreen &&
-      <div className=' sm:hidden'>
-       <Lyrics activeSong={activeSong} currentSongs={currentSongs}/>
-      </div>
-    }
+      }
     </div>
   );
 };

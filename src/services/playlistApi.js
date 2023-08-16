@@ -1,6 +1,4 @@
 
-
-
 // create playlist
 export async function createPlaylist(name) {
   try {
