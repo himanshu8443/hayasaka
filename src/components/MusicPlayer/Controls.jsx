@@ -5,7 +5,6 @@ import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { TbRepeat,TbRepeatOnce,TbArrowsShuffle } from 'react-icons/tb';
 import Downloader from './Downloader';
 import FavouriteButton from './FavouriteButton';
-import { BiAddToQueue } from 'react-icons/bi';
 
 
 const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong, activeSong, fullScreen, handleAddToFavourite, favouriteSongs, loading }) => {

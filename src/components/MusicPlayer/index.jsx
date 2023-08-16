@@ -119,11 +119,19 @@ const MusicPlayer = () => {
     if(favsong?.id && status === 'authenticated'){
       try {
         setLoading(true);
+          // optimistic update
+          if(favouriteSongs?.find(song => song === favsong?.id)){
+            console.log("remove from fav",favouriteSongs);
+            setFavouriteSongs(favouriteSongs?.filter(song => song !== favsong?.id));
+          }
+          else{
+            setFavouriteSongs([...favouriteSongs,favsong?.id]);
+            console.log("add to fav",favouriteSongs);
+          }
         const res = await addFavourite(favsong);
         if(res?.success === true){
           setFavouriteSongs(res?.data?.favourites);
         }
-        // console.log("add to fav",favouriteSongs);
         setLoading(false);
         
       } catch (error) {
