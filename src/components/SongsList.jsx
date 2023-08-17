@@ -126,7 +126,7 @@ const SongsList = ({ SongData, loading, hidePlays, isUserPlaylist, playlistID, s
                     <div
                     onClick={() => {setShowMenu(false);}}
                      className='absolute text-white top-0 right-0 bg-black/50 bg-opacity-80 backdrop-blur-sm rounded-lg p-3 w-32 flex flex-col gap-2 z-40'>
-                       <p className='text-sm font-semibold flex gap-1 border-b border-white items-center'>{
+                       <p className='text-sm font-semibold flex gap-1 empty:hidden border-b border-white items-center'>{
                         isUserPlaylist ? null : 'Add to playlist'
                        }</p>
                         {
