@@ -57,7 +57,11 @@ const MusicPlayer = () => {
 
   // off scroll when full screen
   useEffect(() => {
-    document.body.style.overflow = fullScreen ? 'hidden' : 'auto';
+    document.documentElement.style.overflow = fullScreen ? 'hidden' : 'auto';
+
+    return () => {
+      document.documentElement.style.overflow = 'auto';
+    };
   }, [fullScreen]);
 
   // Hotkey for play pause
