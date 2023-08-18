@@ -23,6 +23,7 @@ const Lyrics = ({ activeSong }) => {
             setLyrics(res);
             setLoading(false);
         };
+        if (activeSong?.id)
         fetchData();
     }, [activeSong?.id]);
 
