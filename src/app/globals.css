@@ -204,7 +204,7 @@ details[open] summary .arrow {
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

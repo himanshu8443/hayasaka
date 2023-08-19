@@ -36,7 +36,7 @@ const Playlists = ({setShowNav}) => {
 
   return (
     <>
-    <div className=' text-white max-w-[220px]'>
+    <div className=' text-white max-w-[220px] '>
         <details open className='text-white detailanimatation'>
             <summary className=' flex cursor-pointer gap-3 items-baseline mx-2'>
             <FaChevronDown className='arrow '/>
@@ -44,7 +44,7 @@ const Playlists = ({setShowNav}) => {
                 <p className=' font-semibold text-lg mb-4 flex gap-2 items-center'>Playlists<BiSolidPlaylist size={25}/></p>
             </div>
                 </summary>
-                <div className='flex flex-col'>
+                <div className='flex flex-col max-h-60 overflow-y-scroll overflow-x-hidden'>
                     {
                         playlists?.map((playlist, index) => (
                             <div key={index} className='flex gap-3 hover:underline justify-between items-center px-3 w-full border-white mx-3 cursor-pointer mb-2'>
