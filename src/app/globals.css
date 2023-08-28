@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 html {
   font-family: 'Poppins', sans-serif;
@@ -16,7 +15,6 @@ body,.gradient {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
 }
 

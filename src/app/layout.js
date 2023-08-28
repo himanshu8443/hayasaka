@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import MusicPlayer from "@/components/MusicPlayer";
 import Providers from "@/redux/Providers";
 import TopProgressBar from "@/components/topProgressBar/TopProgressBar";
@@ -9,8 +8,13 @@ import SongsHistory from "@/components/SongsHistory";
 import PassiveListner from "@/components/Homepage/PassiveListner";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
+import { Poppins } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ 
+  weight: "500",
+  subsets: ["latin-ext"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Hayasaka",
@@ -27,7 +31,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <PassiveListner />
         <Providers>
           <AuthProvider>
