@@ -147,7 +147,7 @@ const MusicPlayer = () => {
 
 
   return (
-    <div className={`relative overflow-scroll lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]' : 'w-full h-20 px-8 bg-black '}`}
+    <div className={`relative overflow-scroll items-center lg:items-stretch lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]' : 'w-full h-20 px-8 bg-black '}`}
       onClick={() => {
         if (activeSong?.id) { dispatch(setFullScreen(!fullScreen)); }
       }}
@@ -218,7 +218,7 @@ const MusicPlayer = () => {
       </div>
       {
         fullScreen &&
-        <div className=' sm:hidden'>
+        <div className=' lg:hidden'>
           <Lyrics activeSong={activeSong} currentSongs={currentSongs} />
         </div>
       }

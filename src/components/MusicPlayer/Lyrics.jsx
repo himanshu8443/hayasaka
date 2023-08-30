@@ -57,8 +57,8 @@ const Lyrics = ({ activeSong }) => {
                         </div>
                     )) : (
                     <div>
-                        <div className=' flex justify-between mt-4' onClick={(e)=>e.stopPropagation()}>
-                            <p className=' text-white font-medium ml-4'>
+                        <div className=' flex justify-between gap-7 mt-4' onClick={(e)=>e.stopPropagation()}>
+                            <p className=' text-white font-medium'>
                                 Auto add similar songs to queue
                             </p>
 
@@ -75,7 +75,7 @@ const Lyrics = ({ activeSong }) => {
                         </div>
                         {
                             currentSongs?.length > 0 ? (
-                                <div className=" text-white p-4 mt- md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar ">
+                                <div className=" text-white p- mt- md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar ">
                                     <SongsList SongData={currentSongs} loading={false} hidePlays={true} activeSong={activeSong} />
                                 </div>
                             ) : (

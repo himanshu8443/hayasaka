@@ -18,7 +18,7 @@ const Seekbar = ({ value, min, max, onInput, setSeekTime, appTime, fullScreen })
         min={min}
         max={max}
         onInput={onInput}
-        className="md:block w-[70vw] md:w-56 2xl:w-[50vw] h-1 mx-4 2xl:mx-6 rounded-lg accent-[#00e6e6] cursor-pointer"
+        className="md:block w-[70vw] md:w-[650px] 2xl:w-[50vw] h-1 mx-4 2xl:mx-6 rounded-lg accent-[#00e6e6] cursor-pointer"
       />
       <p className="text-white text-xs sm:text-base">{max === 0 ? '0:00' : getTime(max)}</p>
       <button type="button" onClick={(e) =>{e.stopPropagation(); setSeekTime(appTime + 5)}} className="hidden lg:ml-4 lg:block text-white">
