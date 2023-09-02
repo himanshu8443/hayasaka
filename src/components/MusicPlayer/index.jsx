@@ -53,6 +53,10 @@ const MusicPlayer = () => {
       }
     }
     fetchFavourites();
+    // change page title to song name
+    if (activeSong?.name) {
+      document.title = activeSong?.name;
+    }
   }, [activeSong]);
 
   // off scroll when full screen
