@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { FaPlayCircle } from 'react-icons/fa';
 import { usePalette } from 'react-palette';
