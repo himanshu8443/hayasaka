@@ -9,8 +9,9 @@ import PassiveListner from "@/components/Homepage/PassiveListner";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   weight: "500",
   subsets: ["latin-ext"],
   display: "swap",
@@ -31,6 +32,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-Z4FJ5T627Q"
+      ></Script>
+      <Script>
+        {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z4FJ5T627Q');
+  `}
+      </Script>
       <body className={poppins.className}>
         <PassiveListner />
         <Providers>
