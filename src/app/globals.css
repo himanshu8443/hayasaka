@@ -8,7 +8,8 @@ html {
   background-color: #000000;
 }
 
-body,.gradient {
+body,
+.gradient {
   background: rgb(100, 201, 215);
   background: linear-gradient(180deg, rgba(100, 201, 215, 0.8996848739495799) 0%, rgba(0, 8, 20, 1) 32%);
   background-repeat: no-repeat;
@@ -18,9 +19,7 @@ body,.gradient {
   overflow-x: hidden;
 }
 
-.navbar {
-  background-color: #020813;
-}
+
 
 .download-button {
   position: relative;
@@ -255,6 +254,7 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 0px #ffffff inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+
 input {
   caret-color: rgb(255, 255, 255);
 }
@@ -338,25 +338,28 @@ input {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: 
-    radial-gradient(farthest-side,#00e6e6 94%,#0000) top/5px 5px no-repeat,
-    conic-gradient(#0000 30%,#00e6e6);
-  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 5px),#000 0);
-  animation:s3 1s infinite linear;
+  background:
+    radial-gradient(farthest-side, #00e6e6 94%, #0000) top/5px 5px no-repeat,
+    conic-gradient(#0000 30%, #00e6e6);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 5px), #000 0);
+  animation: s3 1s infinite linear;
 }
 
-@keyframes s3{ 
-  100%{transform: rotate(1turn)}
+@keyframes s3 {
+  100% {
+    transform: rotate(1turn)
+  }
 }
 
 
 /* search bar */
 
-.search-box{
+.search-box {
   width: fit-content;
   height: fit-content;
 }
-.input-search{
+
+.input-search {
   height: 50px;
   width: 0px;
   border-style: none;
@@ -364,16 +367,18 @@ input {
   outline: none;
   transition: all .5s ease-in-out;
   background-color: #22a6b3;
-  color:#fff;
+  color: #fff;
 }
-.input-search::placeholder{
-  color:rgba(255,255,255,.5);
+
+.input-search::placeholder {
+  color: rgba(255, 255, 255, .5);
   font-size: 15px;
   letter-spacing: 2px;
   font-weight: 100;
   font-family: 'Poppins', sans-serif;
 }
-.btn-search{
+
+.btn-search {
   width: 50px;
   height: 50px;
   border-style: none;
@@ -384,21 +389,23 @@ input {
   border-radius: 50%;
   position: absolute;
   right: 0px;
-  color:#ffffff ;
-  background-color:transparent;
-  pointer-events: painted;  
+  color: #ffffff;
+  background-color: transparent;
+  pointer-events: painted;
 }
-.btn-search:focus ~ .input-search{
+
+.btn-search:focus~.input-search {
   width: 198px;
   border-radius: 0px;
   background-color: transparent;
-  border-bottom:1px solid rgba(255,255,255,.5);
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
   transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
-.input-search:focus{
+
+.input-search:focus {
   width: 198px;
   border-radius: 0px;
   background-color: transparent;
-  border-bottom:1px solid rgba(255,255,255,.5);
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
   transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
