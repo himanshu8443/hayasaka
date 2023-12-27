@@ -1,26 +1,38 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { nextSong, prevSong, playPause, setFullScreen } from '../../redux/features/playerSlice';
-import Controls from './Controls';
-import Player from './Player';
-import Seekbar from './Seekbar';
-import Track from './Track';
-import VolumeBar from './VolumeBar';
-import FullscreenTrack from './FullscreenTrack';
-import Lyrics from './Lyrics';
-import Downloader from './Downloader';
-import { HiOutlineChevronDown } from 'react-icons/hi';
-import { addFavourite, getFavourite } from '@/services/dataAPI';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import FavouriteButton from './FavouriteButton';
-import { usePalette } from 'react-palette';
-
+"use client";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  nextSong,
+  prevSong,
+  playPause,
+  setFullScreen,
+} from "../../redux/features/playerSlice";
+import Controls from "./Controls";
+import Player from "./Player";
+import Seekbar from "./Seekbar";
+import Track from "./Track";
+import VolumeBar from "./VolumeBar";
+import FullscreenTrack from "./FullscreenTrack";
+import Lyrics from "./Lyrics";
+import Downloader from "./Downloader";
+import { HiOutlineChevronDown } from "react-icons/hi";
+import { addFavourite, getFavourite } from "@/services/dataAPI";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import FavouriteButton from "./FavouriteButton";
+import getPixels from "get-pixels";
+import { extractColors } from "extract-colors";
 
 const MusicPlayer = () => {
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying, fullScreen } = useSelector((state) => state.player);
-  const { isTyping } = useSelector(state => state.loadingBar);
+  const {
+    activeSong,
+    currentSongs,
+    currentIndex,
+    isActive,
+    isPlaying,
+    fullScreen,
+  } = useSelector((state) => state.player);
+  const { isTyping } = useSelector((state) => state.loadingBar);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -32,7 +44,7 @@ const MusicPlayer = () => {
   const dispatch = useDispatch();
   const { status } = useSession();
   const router = useRouter();
-  const { data } = usePalette(activeSong?.image?.[1]?.link);
+  const [bgColor, setBgColor] = useState();
 
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
@@ -51,8 +63,26 @@ const MusicPlayer = () => {
       } catch (error) {
         setLoading(false);
       }
-    }
+    };
     fetchFavourites();
+    // set ambient background
+    const src = activeSong?.image?.[1]?.link;
+
+    if (src) {
+      getPixels(src, (err, pixels) => {
+        if (!err) {
+          const data = [...pixels.data];
+          const width = Math.round(Math.sqrt(data.length / 4));
+          const height = width;
+
+          extractColors({ data, width, height })
+            .then((colors) => {
+              setBgColor(colors[0]);
+            })
+            .catch(console.log);
+        }
+      });
+    }
     // change page title to song name
     if (activeSong?.name) {
       document.title = activeSong?.name;
@@ -61,10 +91,10 @@ const MusicPlayer = () => {
 
   // off scroll when full screen
   useEffect(() => {
-    document.documentElement.style.overflow = fullScreen ? 'hidden' : 'auto';
+    document.documentElement.style.overflow = fullScreen ? "hidden" : "auto";
 
     return () => {
-      document.documentElement.style.overflow = 'auto';
+      document.documentElement.style.overflow = "auto";
     };
   }, [fullScreen]);
 
@@ -77,11 +107,11 @@ const MusicPlayer = () => {
     }
   };
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
 
     // Clean up the event listener when the component unmounts
     return () => {
-      document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener("keydown", handleKeyPress);
     };
   }, [handleKeyPress]);
 
@@ -119,19 +149,20 @@ const MusicPlayer = () => {
   };
 
   const handleAddToFavourite = async (favsong) => {
-    if (status === 'unauthenticated') {
+    if (status === "unauthenticated") {
       dispatch(setFullScreen(false));
-      router.push('/login');
+      router.push("/login");
     }
 
-    if (favsong?.id && status === 'authenticated') {
+    if (favsong?.id && status === "authenticated") {
       try {
         setLoading(true);
         // optimistic update
-        if (favouriteSongs?.find(song => song === favsong?.id)) {
-          setFavouriteSongs(favouriteSongs?.filter(song => song !== favsong?.id));
-        }
-        else {
+        if (favouriteSongs?.find((song) => song === favsong?.id)) {
+          setFavouriteSongs(
+            favouriteSongs?.filter((song) => song !== favsong?.id)
+          );
+        } else {
           setFavouriteSongs([...favouriteSongs, favsong?.id]);
         }
         const res = await addFavourite(favsong);
@@ -139,38 +170,64 @@ const MusicPlayer = () => {
           setFavouriteSongs(res?.data?.favourites);
         }
         setLoading(false);
-
       } catch (error) {
         setLoading(false);
         console.log("add to fav error", error);
       }
-
     }
   };
 
-
-
   return (
-    <div className={`relative overflow-scroll items-center lg:items-stretch lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${fullScreen ? 'h-[100vh] w-[100vw]' : 'w-full h-20 px-8 bg-black '}`}
+    <div
+      className={`relative overflow-scroll items-center lg:items-stretch lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${
+        fullScreen ? "h-[100vh] w-[100vw]" : "w-full h-20 px-8 bg-black "
+      }`}
       onClick={() => {
-        if (activeSong?.id) { dispatch(setFullScreen(!fullScreen)); }
-      }}
-      style={{
-        backgroundColor: data.darkVibrant ? `rgba(${parseInt(data?.darkVibrant?.slice(1, 3), 16)}, ${parseInt(data?.darkVibrant?.slice(3, 5), 16)}, ${parseInt(data?.darkVibrant?.slice(5, 7), 16)}, 0.3)` : 'rgba(0,0,0,0.2)',
-      }}
-    >
-      <HiOutlineChevronDown onClick={
-        (e) => {
-          e.stopPropagation();
+        if (activeSong?.id) {
           dispatch(setFullScreen(!fullScreen));
         }
-      } className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${fullScreen ? '' : 'hidden'}`} />
-      <FullscreenTrack handleNextSong={handleNextSong} handlePrevSong={handlePrevSong} activeSong={activeSong} fullScreen={fullScreen} />
-      <div className=' flex items-center justify-between pt-2'>
-        <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} fullScreen={fullScreen} />
+      }}
+      style={{
+        backgroundColor: bgColor
+          ? `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, 0.2)`
+          : "rgba(0,0,0,0.2)",
+      }}
+    >
+      <HiOutlineChevronDown
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(setFullScreen(!fullScreen));
+        }}
+        className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${
+          fullScreen ? "" : "hidden"
+        }`}
+      />
+      <FullscreenTrack
+        handleNextSong={handleNextSong}
+        handlePrevSong={handlePrevSong}
+        activeSong={activeSong}
+        fullScreen={fullScreen}
+      />
+      <div className=" flex items-center justify-between pt-2">
+        <Track
+          isPlaying={isPlaying}
+          isActive={isActive}
+          activeSong={activeSong}
+          fullScreen={fullScreen}
+        />
         <div className="flex-1 flex flex-col items-center justify-center">
-          <div className={`${fullScreen ? '' : 'hidden'}  sm:hidden flex items-center justify-center gap-4`}>
-            <FavouriteButton favouriteSongs={favouriteSongs} activeSong={activeSong} loading={loading} handleAddToFavourite={handleAddToFavourite} style={"mb-4"} />
+          <div
+            className={`${
+              fullScreen ? "" : "hidden"
+            }  sm:hidden flex items-center justify-center gap-4`}
+          >
+            <FavouriteButton
+              favouriteSongs={favouriteSongs}
+              activeSong={activeSong}
+              loading={loading}
+              handleAddToFavourite={handleAddToFavourite}
+              style={"mb-4"}
+            />
             <div className={`mb-3 sm:hidden flex items-center justify-center`}>
               <Downloader activeSong={activeSong} fullScreen={fullScreen} />
             </div>
@@ -218,14 +275,22 @@ const MusicPlayer = () => {
             setSeekTime={setSeekTime}
           />
         </div>
-        <VolumeBar activeSong={activeSong} data={data} fullScreen={fullScreen} value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+        <VolumeBar
+          activeSong={activeSong}
+          bgColor={bgColor}
+          fullScreen={fullScreen}
+          value={volume}
+          min="0"
+          max="1"
+          onChange={(event) => setVolume(event.target.value)}
+          setVolume={setVolume}
+        />
       </div>
-      {
-        fullScreen &&
-        <div className=' lg:hidden'>
+      {fullScreen && (
+        <div className=" lg:hidden">
           <Lyrics activeSong={activeSong} currentSongs={currentSongs} />
         </div>
-      }
+      )}
     </div>
   );
 };
