@@ -7,8 +7,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import {BsFillPlayFill} from 'react-icons/bs'
-
+import { BsFillPlayFill } from "react-icons/bs";
 
 const page = ({ params }) => {
   const [albumData, setAlbumData] = useState(null);
@@ -33,7 +32,7 @@ const page = ({ params }) => {
     const seconds = Math.round(durationInSeconds % 60);
 
     if (minutes > 0) {
-      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     } else {
       return `${seconds}`;
     }
@@ -44,36 +43,49 @@ const page = ({ params }) => {
     dispatch(playPause(true));
   };
 
-
   return (
     <div className="w-11/12 m-auto mt-16">
       <div className=" flex flex-col lg:flex-row items-center">
-        {
-           loading ? (
-            <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
+        {loading ? (
+          <div
+            role="status"
+            className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center"
+          >
             <div className="flex rounded-lg items-center justify-center w-[300px] h-[300px] bg-gray-300 dark:bg-gray-700">
-            <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
-            </svg>
-        </div>
-        </div>) : (
-           <img className=" rounded-lg"
-           src={albumData?.image?.[2]?.link}
-           alt={albumData?.title}
-           width={300}
-           height={300}
-         />
-        )
-        }
-       
+              <svg
+                className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 18"
+              >
+                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+              </svg>
+            </div>
+          </div>
+        ) : (
+          <img
+            className=" rounded-lg"
+            src={albumData?.image?.[2]?.url}
+            alt={albumData?.title}
+            width={300}
+            height={300}
+          />
+        )}
+
         <div className=" lg:ml-10 text-gray-100 mt-12 flex flex-col gap-2">
           <h1 className="text-xl lg:text-4xl font-bold">{albumData?.name}</h1>
           <h2 className="text-xl font-semibold">{albumData?.subtitle}</h2>
           <h3 className="text-xl font-semibold cursor-pointer">
             {albumData?.primaryArtists?.split(",")?.map((artist, index) => (
               <React.Fragment key={index}>
-                <Link className=" hover:underline" href={`/artist/${albumData?.primaryArtistsId?.split(",")[index]?.trim()}`}>
-                  {artist?.trim()?.replaceAll('&amp;','&')}
+                <Link
+                  className=" hover:underline"
+                  href={`/artist/${albumData?.primaryArtistsId
+                    ?.split(",")
+                    [index]?.trim()}`}
+                >
+                  {artist?.trim()?.replaceAll("&amp;", "&")}
                 </Link>
                 {index < albumData.primaryArtists.split(",").length - 1 && ", "}
               </React.Fragment>
@@ -85,29 +97,34 @@ const page = ({ params }) => {
               • {albumData?.songCount} songs
             </li>
           </ul>
-          <div 
-          onClick={() => {handlePlayClick(albumData?.songs?.[0], 0);}}
-           className="flex items-center gap-2 mt-5 group rounded-3xl py-2 px-3 hover:border-[#00e6e6] w-fit cursor-pointer border border-white">
-            <BsFillPlayFill size={25} className="text-gray-200 group-hover:text-[#00e6e6]" />
+          <div
+            onClick={() => {
+              handlePlayClick(albumData?.songs?.[0], 0);
+            }}
+            className="flex items-center gap-2 mt-5 group rounded-3xl py-2 px-3 hover:border-[#00e6e6] w-fit cursor-pointer border border-white"
+          >
+            <BsFillPlayFill
+              size={25}
+              className="text-gray-200 group-hover:text-[#00e6e6]"
+            />
             <p className="text-lg font-semibold">Play</p>
-            </div>
+          </div>
         </div>
-
       </div>
       <div className="mt-10 text-gray-200">
         <h1 className="text-3xl font-bold">Songs</h1>
         <div className="mt-5">
           {albumData?.songs?.map((song, index) => (
-            <div key={song?.id}
+            <div
+              key={song?.id}
               onClick={() => {
                 handlePlayClick(song, index);
-              }
-              }
-              className="flex items-center  mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between">
+              }}
+              className="flex items-center  mt-5 cursor-pointer group border-b-[1px] border-gray-400 justify-between"
+            >
               <div className="flex items-center gap-5">
                 <div className=" relative">
-                  <div className=" w-10 h-10"
-                  />
+                  <div className=" w-10 h-10" />
                   <p className=" group-hover:hidden font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-200">
                     {index + 1}.
                   </p>
@@ -117,7 +134,8 @@ const page = ({ params }) => {
                   />
                 </div>
                 <div className=" w-32 lg:w-80">
-                  <p className=" text-sm lg:text-lg font-semibold truncate">{song?.name.replace("&#039;", "'").replace("&amp;", "&")}
+                  <p className=" text-sm lg:text-lg font-semibold truncate">
+                    {song?.name.replace("&#039;", "'").replace("&amp;", "&")}
                   </p>
                 </div>
               </div>
