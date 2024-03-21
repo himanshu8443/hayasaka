@@ -196,10 +196,10 @@ export async function sendResetPasswordLink(email) {
 }
 
 // get  recommended songs
-export async function getRecommendedSongs(artistId, sondId) {
+export async function getRecommendedSongs(artistId, songId) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/artists/${artistId}/recommendations/${sondId}`
+      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${songId}/suggestions`
     );
     const data = await response.json();
     return data?.data;

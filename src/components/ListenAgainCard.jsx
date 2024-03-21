@@ -30,7 +30,7 @@ const ListenAgainCard = ({ song, index, SongData }) => {
         <div className="flex items-center gap-5">
           <div className=" relative mb-2">
             <img
-              src={song?.image?.[2]?.url}
+              src={song?.image?.[2]?.url || song?.image?.[1]?.link}
               alt={song?.name}
               width={50}
               height={50}

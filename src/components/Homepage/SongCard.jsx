@@ -33,9 +33,10 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
         songData?.id
       );
       // remove duplicate songs in recommendedSongs array and currentSongs array
-      const filteredRecommendedSongs = recommendedSongs?.filter(
-        (song) => !currentSongs?.find((s) => s?.id === song?.id)
-      );
+      const filteredRecommendedSongs =
+        recommendedSongs?.filter(
+          (song) => !currentSongs?.find((s) => s?.id === song?.id)
+        ) || [];
       dispatch(
         setActiveSong({
           song: songData,
@@ -96,9 +97,11 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
             height={200}
             loading="lazy"
             alt="song_img"
-            srcSet={`${song.image?.[0]?.link} 320w, ${song.image?.[1]?.link} 480w, ${song.image?.[2]?.link} 800w`}
+            srcSet={`${song.image?.[0]?.url || song.image?.[0]?.link} 320w, ${
+              song.image?.[1]?.url || song.image?.[1]?.link
+            } 480w, ${song.image?.[2]?.url || song.image?.[1]?.link} 800w`}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-            src={song.image?.[1]?.link}
+            src={song.image?.[1]?.url || song.image?.[1]?.link}
             className={`${
               song.type === "playlist" && song?.subtitle === "JioSaavn"
                 ? "rounded-full"
