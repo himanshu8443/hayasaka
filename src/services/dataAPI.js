@@ -113,7 +113,7 @@ export async function getArtistAlbums(id, page) {
 export async function getSearchedData(query) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/search/all?query=${query}`
+      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/search?query=${query}`
     );
     const data = await response.json();
     return data?.data;
