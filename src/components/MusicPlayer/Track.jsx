@@ -31,15 +31,7 @@ const Track = ({ isPlaying, isActive, activeSong, fullScreen }) => (
         {activeSong?.artists?.primary
           ? activeSong?.artists?.primary?.map((artist, index) => (
               <React.Fragment key={index}>
-                <Link
-                  className=" hover:underline mx-1"
-                  href={`/artist/${artist?.id}`}
-                  onClick={() => {
-                    dispatch(setFullScreen(false));
-                  }}
-                >
-                  {artist?.name?.trim()}
-                </Link>
+                {artist?.name?.trim()}
               </React.Fragment>
             ))
           : "Artist"}
