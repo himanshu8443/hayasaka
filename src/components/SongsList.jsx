@@ -108,7 +108,7 @@ const SongsList = ({
                     alt={song?.name}
                     width={50}
                     height={50}
-                    className=""
+                    className=" rounded-lg w-12 h-12 md:w-14 md:h-14 object-cover"
                   />
                   {activeSong?.id === song?.id ? (
                     <BiHeadphone

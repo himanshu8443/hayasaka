@@ -32,7 +32,11 @@ const FullscreenTrack = ({
           {...handlers}
           className=" h-80 w-80 lg:h-[500px] lg:w-[500px] sm:mt-5 mt-28 "
         >
-          <img src={activeSong?.image?.[2].url} alt="cover art" />
+          <img
+            src={activeSong?.image?.[2].url}
+            alt="cover art"
+            className="rounded-2xl"
+          />
         </div>
         <div
           onClick={(e) => e.stopPropagation()}
