@@ -29,13 +29,15 @@ const ListenAgainCard = ({ song, index, SongData }) => {
       >
         <div className="flex items-center gap-5">
           <div className=" relative mb-2">
-            <img
-              src={song?.image?.[2]?.url || song?.image?.[1]?.link}
-              alt={song?.name}
-              width={50}
-              height={50}
-              className=""
-            />
+            <div className="group w-12 h-12 md:w-14 md:h-14 relative">
+              <img
+                src={song?.image?.[2]?.url || song?.image?.[2]?.link}
+                alt={song?.name}
+                width={50}
+                height={50}
+                className="rounded-lg object-cover w-12 h-12 md:w-14 md:h-14"
+              />
+            </div>
             {activeSong?.id === song?.id ? (
               <BiHeadphone
                 size={27}
@@ -53,7 +55,7 @@ const ListenAgainCard = ({ song, index, SongData }) => {
               {song?.name?.replace("&#039;", "'")?.replace("&amp;", "&")}
             </p>
             <p className="text-gray-400 truncate text-xs">
-              {song?.primary?.artists?.map((artist) => artist.name).join(", ")}
+              {song?.artists?.primary?.map((artist) => artist?.name).join(", ")}
             </p>
           </div>
         </div>
