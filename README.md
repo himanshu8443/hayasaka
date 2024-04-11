@@ -24,11 +24,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 Create env file in root dir.
 ```
-MONGODB_URL = mongodb URL
+MONGODB_URL = MongoDB connection string
 DB_NAME = database name
 
 
-JWT_SECRET = jwt secret
+JWT_SECRET = JWT secret
 NEXTAUTH_URL= next auth url (http://localhost:3000 or your domain)
 
 
@@ -37,8 +37,8 @@ GOOGLE_CLIENT_SECRET = Google client secret
 
 
 MAIL_HOST = mail host (smtp.gmail.com)
-MAIL_USER = mail user
-MAIL_PASS = mail password
+MAIL_USER = mail user (your gmail address)
+MAIL_PASS = mail password (google app password)
 
 NEXT_PUBLIC_SAAVN_API = "https://saavn.dev" # Saavn API URL create your own API from https://github.com/sumitkolhe/jiosaavn-api 
 ```
