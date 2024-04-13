@@ -120,9 +120,8 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
               song?.title}
           </p>
           <p className="text-[9px] lg:text-xs truncate text-gray-300 mt-1">
-            {song?.artists?.map((artist) => artist?.name).join(", ") ||
-              song?.primaryArtists?.map((artist) => artist?.name).join(", ") ||
-              song?.artists?.map((artist) => artist.name).join(", ") ||
+            {song?.artists?.primary?.map((artist) => artist?.name).join(", ") ||
+              song?.artists?.map((artist) => artist?.name).join(", ") ||
               (song?.subtitle != "JioSaavn" && song?.subtitle)}
           </p>
         </div>

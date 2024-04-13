@@ -1,7 +1,6 @@
 import PlayButton from "@/components/PlayButton";
 import SongList from "@/components/SongsList";
 import { getplaylistData, homePageData } from "@/services/dataAPI";
-import { BsFillPlayFill } from "react-icons/bs";
 
 const page = async ({ params }) => {
   // const [playlistData, setPlaylistData] = useState(null);
@@ -44,12 +43,9 @@ const page = async ({ params }) => {
           <h1 className=" text-xl lg:text-4xl font-bold">
             {playlistData?.name}
           </h1>
-          <ul className="flex items-center gap-3 text-gray-300">
-            <li className="text-lg font-semibold">
-              • {playlistData?.followerCount} followers
-            </li>
-            <li className="text-lg font-semibold">
-              • {playlistData?.songCount} songs
+          <ul className="flex items-center text-center flex-col gap-3 text-gray-300">
+            <li className="text-sm font-semibold">
+              {playlistData?.description}
             </li>
           </ul>
           <PlayButton songList={playlistData} />

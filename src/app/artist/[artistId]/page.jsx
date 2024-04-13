@@ -27,15 +27,16 @@ const page = ({ params }) => {
     const fetchData = async () => {
       dispatch(setProgress(30));
       const details = await getArtistData(params.artistId);
-      console.log("details", details);
+      // console.log("details", details);
       dispatch(setProgress(60));
       setArtistDetails(details);
       const songs = await getArtistSongs(params.artistId, 1);
       dispatch(setProgress(90));
       setArtistSongs(songs);
       const albums = await getArtistAlbums(params.artistId, 1);
+      setArtistAlbums(albums?.albums);
+      console.log("cccc", albums.albums);
       dispatch(setProgress(100));
-      setArtistAlbums(albums);
       setLoading(false);
     };
     fetchData();
@@ -108,7 +109,7 @@ const page = ({ params }) => {
 
       <div className="mt-10 text-gray-200">
         <SwiperLayout title={"Albums"}>
-          {artistAlbums?.results?.map((album, index) => (
+          {artistAlbums?.map((album, index) => (
             <SwiperSlide key={index}>
               <SongCard song={album} />
             </SwiperSlide>
