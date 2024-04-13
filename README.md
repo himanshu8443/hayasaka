@@ -18,40 +18,49 @@ ___
 
 
 ***
+## Installation
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+1. Clone the repository to your local machine.
+    ```sh
+    git clone https://github.com/himanshu8443/hayasaka.git
+    ```
 
-## Getting Started
-Create env file in root dir.
-```
-MONGODB_URL = MongoDB connection string
-DB_NAME = database name
+2. Install the required packages.
+    ```sh
+    cd hayasaka
+    ```
+    ```sh
+    npm install
+    ```
+
+3. Set up the environment variables:
+    Create env file in root dir.
+   ```
+    MONGODB_URL = MongoDB connection string
+    DB_NAME = database name
+
+   JWT_SECRET = JWT secret
+   NEXTAUTH_URL= next auth url (http://localhost:3000 or your domain)
+
+   
+   GOOGLE_CLIENT_ID = Google client id  (https://analytify.io/get-google-client-id-and-client-secret)
+   GOOGLE_CLIENT_SECRET = Google client secret
 
 
-JWT_SECRET = JWT secret
-NEXTAUTH_URL= next auth url (http://localhost:3000 or your domain)
+   MAIL_HOST = mail host (smtp.gmail.com)
+   MAIL_USER = mail user (your gmail address)
+   MAIL_PASS = mail password (google app password)
 
+   NEXT_PUBLIC_SAAVN_API = "https://saavn.dev" # Saavn API URL create your own API from https://github.com/sumitkolhe/jiosaavn-api 
+   ```
 
-GOOGLE_CLIENT_ID = Google client id
-GOOGLE_CLIENT_SECRET = Google client secret
+5. Start the development server.
+    ```sh
+    npm run dev
+    ```
 
-
-MAIL_HOST = mail host (smtp.gmail.com)
-MAIL_USER = mail user (your gmail address)
-MAIL_PASS = mail password (google app password)
-
-NEXT_PUBLIC_SAAVN_API = "https://saavn.dev" # Saavn API URL create your own API from https://github.com/sumitkolhe/jiosaavn-api 
-```
-
-Run the development server:
-
-```bash
-npm install
-npm run dev
-```
+6. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
