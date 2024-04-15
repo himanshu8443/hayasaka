@@ -60,7 +60,7 @@ export async function getplaylistData(id) {
 export async function getlyricsData(id) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/lyrics?id=${id}`
+      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${id}/lyrics`
     );
     const data = await response.json();
     return data;
@@ -89,7 +89,6 @@ export async function getArtistSongs(id, page) {
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/artists/${id}/songs?page=${page}&`
     );
     const data = await response.json();
-    console.log("artist songs", data.data);
     return data?.data;
   } catch (error) {
     console.log(error);
