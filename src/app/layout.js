@@ -5,7 +5,6 @@ import Providers from "@/redux/Providers";
 import TopProgressBar from "@/components/topProgressBar/TopProgressBar";
 import Favicon from "./favicon.ico";
 import SongsHistory from "@/components/SongsHistory";
-import PassiveListner from "@/components/Homepage/PassiveListner";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
 import { Poppins } from "next/font/google";
@@ -46,7 +45,6 @@ export default function RootLayout({ children }) {
   `}
       </Script>
       <body className={poppins.className}>
-        <PassiveListner />
         <Providers>
           <AuthProvider>
             <TopProgressBar />

@@ -1,23 +1,13 @@
 "use client";
-import React, { use } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setLanguages } from "@/redux/features/languagesSlice";
-import { useEffect } from "react";
 
 const Languages = () => {
   const dispatch = useDispatch();
   const { languages } = useSelector((state) => state.languages);
   const [selectedLanguages, setSelectedLanguages] = useState([...languages]);
-
-  useEffect(() => {
-    const lang = localStorage?.getItem("languages")
-      ? JSON.parse(localStorage.getItem("languages"))
-      : [...languages];
-    setSelectedLanguages(lang);
-  }, []);
 
   const languageList = [
     { id: "english", label: "English" },
@@ -43,7 +33,6 @@ const Languages = () => {
 
     setSelectedLanguages(updatedLanguages);
     dispatch(setLanguages(updatedLanguages));
-    localStorage.setItem("languages", JSON.stringify(updatedLanguages));
   };
 
   return (
