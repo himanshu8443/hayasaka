@@ -20,7 +20,7 @@
     "get-pixels": "^3.3.3",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
-    "next": "^14.2.1",
+    "next": "^14.2.12",
     "next-auth": "^4.22.3",
     "nodemailer": "^6.9.4",
     "postcss": "8.4.31",
