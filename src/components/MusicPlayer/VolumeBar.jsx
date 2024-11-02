@@ -14,7 +14,7 @@ const VolumeBar = ({
   const [showMenu, setShowMenu] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   const [speed, setSpeedState] = useState(value || 1.0); // default speed
-
+//i have to make changes here
   useEffect(() => {
     const getPlaylists = async () => {
       const res = await getUserPlaylists();
