@@ -36,7 +36,7 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
-  const [volume, setVolume] = useState(0.8);
+  const [volume, setVolume] = useState(1);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [favouriteSongs, setFavouriteSongs] = useState([]);
@@ -282,7 +282,7 @@ const MusicPlayer = () => {
           fullScreen={fullScreen}
           value={volume}
           min="0"
-          max="1"
+          max="2"
           onChange={(event) => setVolume(event.target.value)}
           setVolume={setVolume}
         />

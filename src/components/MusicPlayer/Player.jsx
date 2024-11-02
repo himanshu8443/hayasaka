@@ -41,10 +41,12 @@ const Player = ({
   
     // Speak lyrics when playing, stop when paused
     useEffect(() => {
+      console.log("THE VOLUME IS:",volume);
       if (isPlaying && lyrics) {
         const utterance = new SpeechSynthesisUtterance(lyrics);
         utterance.lang = "en-US";
-        utterance.rate = 1;
+        
+        utterance.rate = volume ;
         utterance.pitch = 1;
         window.speechSynthesis.speak(utterance);
   

@@ -7,7 +7,6 @@ import SongsList from "../SongsList";
 import { useDispatch } from "react-redux";
 import { setAutoAdd } from "@/redux/features/playerSlice";
 
-import fetch from 'node-fetch';
 
 // Function to fetch lyrics by song name
 
