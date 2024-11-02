@@ -1,48 +1,53 @@
 import React, { useEffect, useState } from "react";
-import {
-  BsFillVolumeUpFill,
-  BsVolumeDownFill,
-  BsFillVolumeMuteFill,
-} from "react-icons/bs";
 import { BiAddToQueue } from "react-icons/bi";
 import { addSongToPlaylist, getUserPlaylists } from "@/services/playlistApi";
 import { toast } from "react-hot-toast";
 
 const VolumeBar = ({
   value,
-  min,
-  max,
-  onChange,
-  setVolume,
+  min = 0.5,
+  max = 2.0,
   activeSong,
   bgColor,
+  audioRef, // Pass in audio element ref to control playback speed
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [playlists, setPlaylists] = useState([]);
+  const [speed, setSpeedState] = useState(value || 1.0); // default speed
+
   useEffect(() => {
     const getPlaylists = async () => {
       const res = await getUserPlaylists();
-      if (res?.success == true) {
+      if (res?.success === true) {
         setPlaylists(res?.data?.playlists);
       }
     };
     getPlaylists();
   }, []);
 
-  // add song to playlist
   const handleAddToPlaylist = async (song, playlistID) => {
     setShowMenu(false);
     const res = await addSongToPlaylist(playlistID, song);
-    if (res?.success == true) {
+    if (res?.success === true) {
       toast.success(res?.message);
     } else {
       toast.error(res?.message);
     }
   };
+
+  const handleSpeedChange = (e) => {
+    const newSpeed = parseFloat(e.target.value);
+    console.log("the speed is:",newSpeed)
+    setSpeedState(newSpeed);
+    if (audioRef && audioRef.current) {
+      audioRef.current.playbackRate = newSpeed; // Set playback speed directly
+    }
+  };
+
   return (
     <>
       <div className="hidden lg:flex flex-1 items-center justify-end">
-        <div className=" relative">
+        <div className="relative">
           <BiAddToQueue
             onClick={(e) => {
               e.stopPropagation();
@@ -90,44 +95,20 @@ const VolumeBar = ({
             </div>
           )}
         </div>
-        {value <= 1 && value > 0.5 && (
-          <BsFillVolumeUpFill
-            size={25}
-            color="#FFF"
-            className=" cursor-pointer"
-            onClick={() => setVolume(0)}
-          />
-        )}
-        {value <= 0.5 && value > 0 && (
-          <BsVolumeDownFill
-            size={25}
-            className=" cursor-pointer"
-            color="#FFF"
-            onClick={() => setVolume(0)}
-          />
-        )}
-        {value === 0 && (
-          <BsFillVolumeMuteFill
-            size={25}
-            color="#FFF"
-            className=" cursor-pointer"
-            onClick={() => setVolume(1)}
-          />
-        )}
+
         <input
           onClick={(event) => {
             event.stopPropagation();
           }}
           type="range"
-          step="any"
-          value={value}
+          step="0.2"
+          value={speed}
           min={min}
           max={max}
-          onChange={onChange}
+          onChange={handleSpeedChange}
           className="2xl:w-24 lg:w-24 md:w-28 h-1 ml-2 accent-[#00e6e6] cursor-pointer"
         />
       </div>
-      {/* overlay */}
       {showMenu && (
         <div
           onClick={(e) => {
