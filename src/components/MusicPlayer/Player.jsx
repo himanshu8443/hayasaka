@@ -1,6 +1,4 @@
-"use client";
-/* eslint-disable jsx-a11y/media-has-caption */
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect,useState } from "react";
 
 const Player = ({
   activeSong,
@@ -16,17 +14,46 @@ const Player = ({
   handleNextSong,
   setSeekTime,
   appTime,
+  playbackSpeed = 1, // Add this new prop
 }) => {
   const ref = useRef(null);
-  // eslint-disable-next-line no-unused-expressions
-  if (ref.current) {
-    if (isPlaying) {
-      ref.current.play();
-    } else {
-      ref.current.pause();
-    }
-  }
-
+  const [lyrics, setLyrics] = useState(null);
+    useEffect(() => {
+      const getLyricsData = async (songName) => {
+        try {
+          const artist = activeSong.artists.primary[0].name;
+          const url = `https://api.lyrics.ovh/v1/${artist}/${songName}`;
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error("Lyrics not found");
+          }
+          const data = await response.json();
+          setLyrics(data.lyrics);
+        } catch (error) {
+          console.error(error.message);
+        }
+      };
+  
+      if (activeSong?.name) {
+        getLyricsData(activeSong.name);
+      }
+    }, [activeSong]);
+  
+    // Speak lyrics when playing, stop when paused
+    useEffect(() => {
+      if (isPlaying && lyrics) {
+        const utterance = new SpeechSynthesisUtterance(lyrics);
+        utterance.lang = "en-US";
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+  
+        // Stop speaking when paused
+        return () => window.speechSynthesis.cancel();
+      } else {
+        window.speechSynthesis.cancel(); // Stop any ongoing speech when paused or song changes
+      }
+    }, [isPlaying, lyrics]);
   // media session metadata:
   const mediaMetaData = activeSong.name
     ? {
@@ -42,6 +69,8 @@ const Player = ({
         ],
       }
     : {};
+
+  
   useEffect(() => {
     // Check if the Media Session API is available in the browser environment
     if ("mediaSession" in navigator) {
@@ -61,6 +90,7 @@ const Player = ({
       });
     }
   }, [mediaMetaData]);
+
   // media session handlers:
   const onPlay = () => {
     handlePlayPause();
@@ -78,25 +108,32 @@ const Player = ({
     handleNextSong();
   };
 
+  // Handle volume changes
   useEffect(() => {
     ref.current.volume = volume;
   }, [volume]);
-  // updates audio element only on seekTime change (and not on each rerender):
+
+  // Handle seek time changes
   useEffect(() => {
     ref.current.currentTime = seekTime;
   }, [seekTime]);
 
+  // Handle playback speed changes
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
   return (
-    <>
-      <audio
-        src={activeSong?.downloadUrl?.[4]?.url}
-        ref={ref}
-        loop={repeat}
-        onEnded={onEnded}
-        onTimeUpdate={onTimeUpdate}
-        onLoadedData={onLoadedData}
-      />
-    </>
+    <audio
+      src={activeSong?.downloadUrl?.[4]?.url}
+      ref={ref}
+      loop={repeat}
+      onEnded={onEnded}
+      onTimeUpdate={onTimeUpdate}
+      onLoadedData={onLoadedData}
+    />
   );
 };
 

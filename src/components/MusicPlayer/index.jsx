@@ -260,6 +260,7 @@ const MusicPlayer = () => {
           />
           <Player
             activeSong={activeSong}
+            // lyrics={}
             volume={volume}
             isPlaying={isPlaying}
             seekTime={seekTime}

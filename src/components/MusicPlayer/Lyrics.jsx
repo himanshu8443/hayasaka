@@ -1,27 +1,111 @@
 "use client";
-import { getRecommendedSongs, getlyricsData } from "@/services/dataAPI";
+import { getRecommendedSongs } from "@/services/dataAPI";
 import { useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect ,useRef} from "react";
 import { useSelector } from "react-redux";
 import SongsList from "../SongsList";
 import { useDispatch } from "react-redux";
 import { setAutoAdd } from "@/redux/features/playerSlice";
 
-const Lyrics = ({ activeSong }) => {
+import fetch from 'node-fetch';
+
+// Function to fetch lyrics by song name
+
+// getLyrics(songName);
+// const getlyricsData = async (songTitle) => {
+//   const token = 'iSlMTlheV44DGW-W0A-P77_E-RIj3BrtNh0HMMlNx-pX2ummpgTC0shNlzRILqIi'; // Replace with your actual token
+//   console.log("receivedd song title:",songTitle)
+//   try {
+//     // Step 1: Search for the song by title
+//     const searchResponse = await fetch(`https://api.genius.com/search?q=${encodeURIComponent(songTitle)}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     console.log("search response:",searchResponse)
+//     const searchData = await searchResponse.json();
+
+//     if (searchData.response.hits.length > 0) {
+//       const songUrl = searchData.response.hits[0].result.url;
+
+//       // Step 2: Fetch the lyrics from the song URL
+//       const lyricsResponse = await fetch(songUrl);
+//       const lyricsPage = await lyricsResponse.text();
+
+//       // Step 3: Extract lyrics using a regex (adjust as needed)
+//       const lyricsMatch = lyricsPage.match(/<div class="lyrics">.*?<p>(.*?)<\/p>/s);
+//       const lyrics = lyricsMatch ? lyricsMatch[1].replace(/<br>/g, '\n').trim() : "Lyrics not found";
+
+//       return {
+//         success: true,
+//         songTitle: songTitle,
+//         lyrics: lyrics,
+//         url: songUrl
+//       };
+//     } else {
+//       return {
+//         success: false,
+//         message: 'Lyrics not found for the provided song title.'
+//       };
+//     }
+//   } catch (error) {
+//     console.error('Error fetching lyrics from Genius:', error);
+//     return {
+//       success: false,
+//       message: 'An error occurred while fetching lyrics.',
+//       error: error.message
+//     };
+//   }
+// };
+const Lyrics = ({ activeSong ,isPlaying}) => {
+  
   const dispatch = useDispatch();
   const { currentSongs, autoAdd } = useSelector((state) => state.player);
   const [lyrics, setLyrics] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("queue");
-
+  const ref=useRef(null)
+  async function getlyricsData(songName) {
+    // Format: Artist - Title
+        const artist=activeSong.artists.primary[0].name
+        console.log("artist",artist,":",songName)
+        const url = `https://api.lyrics.ovh/v1/${artist}/${songName}`;
+    
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Lyrics not found');
+            }
+            const data = await response.json();
+            setLyrics(data.lyrics);
+            console.log(lyrics || 'No lyrics found');
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+    // useEffect(()=>{
+    //   if(ref.current){
+    //     if(isPlaying){
+    //       ref.current.play();
+    //       speakLyrics(lyrics)
+    //     }else {
+    //       ref.current.pause;
+    //     }
+    //   }
+    // })
+   
+    
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await getlyricsData(activeSong?.id);
-      setLyrics(res);
+      console.log("song name:",activeSong?.name)
+      const res = await getlyricsData(`${activeSong?.name}`);
+      console.log(res);
+      // setLyrics(res);
       setLoading(false);
     };
     if (activeSong?.id) fetchData();
+    
   }, [activeSong?.id]);
 
   const handleAutoAdd = (checked) => {
@@ -65,15 +149,16 @@ const Lyrics = ({ activeSong }) => {
       </div>
       <div>
         {activeTab === "lyrics" ? (
-          lyrics?.success ? (
+          lyrics?(
             <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar text-center">
-              {lyrics?.data?.lyrics?.split("<br>").map((line, index) => {
+              {lyrics?.split("<br>").map((line, index) => {
                 return <p key={index}>{line}</p>;
               })}
             </div>
           ) : (
             <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar text-center">
               No Lyrics Found
+              <button onClick={() => console.log(lyrics)}>hi</button>
             </div>
           )
         ) : (

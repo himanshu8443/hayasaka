@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
+import { MdSlowMotionVideo, MdSpeed } from "react-icons/md";
 import { addSongToPlaylist, getUserPlaylists } from "@/services/playlistApi";
 import { toast } from "react-hot-toast";
 
@@ -9,12 +10,13 @@ const VolumeBar = ({
   max = 2.0,
   activeSong,
   bgColor,
-  audioRef, // Pass in audio element ref to control playback speed
+  audioRef,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [playlists, setPlaylists] = useState([]);
-  const [speed, setSpeedState] = useState(value || 1.0); // default speed
-//i have to make changes here
+  const [speed, setSpeedState] = useState(value || 1.0);
+  const [showSpeedTooltip, setShowSpeedTooltip] = useState(false);
+
   useEffect(() => {
     const getPlaylists = async () => {
       const res = await getUserPlaylists();
@@ -24,6 +26,13 @@ const VolumeBar = ({
     };
     getPlaylists();
   }, []);
+
+  // Initialize playback speed on component mount
+  useEffect(() => {
+    if (audioRef?.current) {
+      audioRef.current.playbackRate = speed;
+    }
+  }, [audioRef]);
 
   const handleAddToPlaylist = async (song, playlistID) => {
     setShowMenu(false);
@@ -36,14 +45,20 @@ const VolumeBar = ({
   };
 
   const handleSpeedChange = (e) => {
+    e.stopPropagation();
     const newSpeed = parseFloat(e.target.value);
-    console.log("the speed is:",newSpeed)
     setSpeedState(newSpeed);
-    if (audioRef && audioRef.current) {
-      audioRef.current.playbackRate = newSpeed; // Set playback speed directly
+    
+    if (audioRef?.current) {
+      audioRef.current.playbackRate = newSpeed;
+      // Show visual feedback
+      toast.success(`Playback speed: ${newSpeed.toFixed(1)}x`);
     }
   };
 
+  // Get the speed indicator icon
+  const SpeedIcon = speed > 1.0 ? MdSpeed : MdSlowMotionVideo;
+  
   return (
     <>
       <div className="hidden lg:flex flex-1 items-center justify-end">
@@ -55,14 +70,12 @@ const VolumeBar = ({
             }}
             title="Add to Playlist"
             size={25}
-            color={"white"}
-            className={`${!true ? "hidden sm:block" : " m-3"} cursor-pointer`}
+            color="white"
+            className={`${!true ? "hidden sm:block" : "m-3"} cursor-pointer`}
           />
           {showMenu && (
             <div
-              onClick={() => {
-                setShowMenu(false);
-              }}
+              onClick={() => setShowMenu(false)}
               className="absolute text-white bottom-[130%] backdrop-blur-lg rounded-lg p-3 w-32 flex flex-col gap-2 z-[100]"
               style={{
                 backgroundColor: bgColor
@@ -96,27 +109,40 @@ const VolumeBar = ({
           )}
         </div>
 
-        <input
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-          type="range"
-          step="0.2"
-          value={speed}
-          min={min}
-          max={max}
-          onChange={handleSpeedChange}
-          className="2xl:w-24 lg:w-24 md:w-28 h-1 ml-2 accent-[#00e6e6] cursor-pointer"
-        />
+        <div className="flex items-center gap-2 relative"
+             onMouseEnter={() => setShowSpeedTooltip(true)}
+             onMouseLeave={() => setShowSpeedTooltip(false)}>
+          <SpeedIcon
+            size={20}
+            color="white"
+            className="cursor-pointer"
+          />
+          <input
+            onClick={(event) => event.stopPropagation()}
+            type="range"
+            step="0.1"
+            value={speed}
+            min={min}
+            max={max}
+            onChange={handleSpeedChange}
+            className="2xl:w-24 lg:w-24 md:w-28 h-1 ml-2 accent-[#00e6e6] cursor-pointer"
+          />
+          {showSpeedTooltip && (
+            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white text-xs py-1 px-2 rounded whitespace-nowrap">
+              {speed.toFixed(1)}x speed
+            </div>
+          )}
+        </div>
       </div>
+      
       {showMenu && (
         <div
           onClick={(e) => {
             e.stopPropagation();
             setShowMenu(false);
           }}
-          className=" absolute w-screen h-screen bottom-0 left-0 z-[50]"
-        ></div>
+          className="absolute w-screen h-screen bottom-0 left-0 z-[50]"
+        />
       )}
     </>
   );

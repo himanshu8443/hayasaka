@@ -1,4 +1,6 @@
 // home page data
+// import getLyrics from './getLyrics.js';
+
 export async function homePageData(language) {
   try {
     const response = await fetch(
@@ -50,24 +52,43 @@ export async function getplaylistData(id) {
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/playlists?id=${id}&limit=50`
     );
     const data = await response.json();
+    console.log("the lyrics:",data);
     return data?.data;
   } catch (error) {
     console.log(error);
   }
 }
 
+
+// export const getlyricsData = async (songTitle) => {
+//   const token = 'eF8U16TDTBXQ_y14DpZhAq6oSznwyDC0XZOlTE7rNTnwYXG3kwtxDvyMwSjN9kBx';
+//   const options={
+//     apikey:'fTzLHw7TjrrtOcko-leXry-Q6bOZcGEszWS7e58e6dEewxGcfPnehUYSNPT1lH-y',
+//     title:songTitle,
+//     artist:artists.all[0].name,
+//     optimizeQuery:true
+//   }
+//     getLyrics(options).then((lyrics)=>{
+//       return lyrics.json();
+//     })
+
+// };
+
+// fetchLyricsFromGenius('Shape of You');
+
 // get Lyrics data
-export async function getlyricsData(id) {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${id}/lyrics`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+// export async function getlyricsData(id) {
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${id}/lyrics`
+//     );
+//     console.log(response)
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // get artist data
 export async function getArtistData(id) {
