@@ -1,66 +1,76 @@
-   [![Project Banner](https://github-production-user-asset-6210df.s3.amazonaws.com/99420590/256470702-de779111-e63e-4ecc-93d1-e79edadf19ed.png)](https://hayasaka.live/)
+<img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-This is a free music streaming web application built with Next.js and powered by the [savan API](https://github.com/sumitkolhe/jiosaavn-api). The app allows users to search and stream music from a vast collection of songs available on the Saavn platform.
-
-## Features
-* Search and stream music from vast collection.
-* Play, pause, skip, and control the playback of songs.
-* Create your own playlists.
-* Add songs to your favorite.
-* Auto add similar songs to queue.
-* Display song details such as title, artist, album, and album artwork.
-* Responsive and mobile-friendly design for a great user experience.
-* Minimalistic and intuitive user interface.
-***
-![image](https://github.com/himanshu8443/hayasaka/assets/99420590/158bc035-463e-403b-a23a-db17b83ab7b0)
-___
-![image](https://github.com/himanshu8443/hayasaka/assets/99420590/864aec2b-8d60-4278-a475-9f7ee6ae7680)
+# [Project Name] 🎯
 
 
-***
-## Installation
-
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/himanshu8443/hayasaka.git
-    ```
-
-2. Install the required packages.
-    ```sh
-    cd hayasaka
-    ```
-    ```sh
-    npm install
-    ```
-
-3. Set up the environment variables:
-    Create env file in root dir.
-   ```
-    MONGODB_URL = MongoDB connection string
-    DB_NAME = database name
-
-   JWT_SECRET = JWT secret
-   NEXTAUTH_URL= next auth url (http://localhost:3000 or your domain)
-
-   
-   GOOGLE_CLIENT_ID = Google client id  (https://analytify.io/get-google-client-id-and-client-secret)
-   GOOGLE_CLIENT_SECRET = Google client secret
+## Basic Details
+### Team Name: [SyncSoul]
 
 
-   MAIL_HOST = mail host (smtp.gmail.com)
-   MAIL_USER = mail user (your gmail address)
-   MAIL_PASS = mail password (google app password)
-
-   NEXT_PUBLIC_SAAVN_API = "https://saavn.dev" # Saavn API URL create your own API from https://github.com/sumitkolhe/jiosaavn-api 
-   ```
-
-5. Start the development server.
-    ```sh
-    npm run dev
-    ```
-
-6. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Team Members
+- Team Lead: [Keerthana T P] - [College of Engineering Trivandrum]
+- Member 2: [Kishlay Yadav] - [College of Engineering Trivandrum]
 
 
+### Project Description
+[A music player app with a twist..it allows you to appreciate the lyrics in a new way]
+
+### The Problem (that doesn't exist)
+[Are you tired of music overshadowing the poetic beauty of song lyrics? Do you find it hard to focus on the words while a catchy tune plays in the background? This app solves a problem that no one really had!]
+
+### The Solution (that nobody asked for)
+[Our solution? A music player that doesn’t play music! Instead, it offers a mesmerizing mechanical read-aloud of lyrics, like karaoke without the karaoke!]
+
+## Technical Details
+### Technologies/Components Used
+For Software:
+- [JavaScript, HTML, CSS]
+- [NextJS]
+- [Axios, SpeechSynthesis API]
+- [Visual Studio Code, GitHub]
+
+
+
+### Implementation
+For Software:
+# Installation
+[git clone https://github.com/Kishlayyadavv/use-less
+npm install]
+
+# Run
+[npm run dev]
+
+### Project Documentation
+For Software:
+
+# Screenshots (Add at least 3)
+![Screenshot1](Add screenshot 1 here with proper name)
+*Add caption explaining what this shows*
+
+![Screenshot2](Add screenshot 2 here with proper name)
+*Add caption explaining what this shows*
+
+![Screenshot3](Add screenshot 3 here with proper name)
+*Add caption explaining what this shows*
+
+
+
+
+
+### Project Demo
+# Video
+[Add your demo video link here]
+*Explain what the video demonstrates*
+
+
+
+## Team Contributions
+- [Kishlay Yadav]: [Frontend development,API integration]
+- [Keerthana T P]: [API integration,NextJS]
+
+
+---
+Made with ❤️ at TinkerHub Useless Projects 
+
+![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
+![Static Badge](https://img.shields.io/badge/UselessProject--24-24?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
