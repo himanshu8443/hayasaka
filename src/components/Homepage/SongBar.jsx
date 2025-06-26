@@ -18,7 +18,6 @@ const SongBar = ({ playlist, i }) => {
         extractColors({ data, width, height })
           .then((colors) => {
             setCardColor(colors);
-            console.log(colors[0].red, colors[0].blue, colors[0].green);
           })
           .catch(console.log);
       }
