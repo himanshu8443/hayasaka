@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
+import PlausibleProvider from "next-plausible";
 
 const poppins = Poppins({
   weight: "500",
@@ -19,8 +20,7 @@ const poppins = Poppins({
 export const metadata = {
   title: "Hayasaka",
   description: "Music streaming app",
-  image:
-    "https://res.cloudinary.com/dbr73rpz9/image/upload/v1690380865/images/logo-color_noktgr.png",
+  image: "https://avatars.githubusercontent.com/u/143804558?v=4",
   url: "https://hayasaka.vercel.app",
   type: "website",
   icons: [{ rel: "icon", url: Favicon.src }],
@@ -45,19 +45,24 @@ export default function RootLayout({ children }) {
   `}
       </Script>
       <body className={poppins.className}>
-        <Providers>
-          <AuthProvider>
-            <TopProgressBar />
-            <SongsHistory />
-            <Navbar />
-            <Toaster />
-            {children}
-            <div className="h-20"></div>
-            <div className="fixed  bottom-0 left-0 right-0 flex backdrop-blur-lg rounded-t-3 z-50">
-              <MusicPlayer />
-            </div>
-          </AuthProvider>
-        </Providers>
+        <PlausibleProvider
+          customDomain="https://plausible.8man.me"
+          domain="hayasaka.vercel.app"
+        >
+          <Providers>
+            <AuthProvider>
+              <TopProgressBar />
+              <SongsHistory />
+              <Navbar />
+              <Toaster />
+              {children}
+              <div className="h-20"></div>
+              <div className="fixed  bottom-0 left-0 right-0 flex backdrop-blur-lg rounded-t-3 z-50">
+                <MusicPlayer />
+              </div>
+            </AuthProvider>
+          </Providers>
+        </PlausibleProvider>
       </body>
     </html>
   );
