@@ -48,6 +48,7 @@ export default function RootLayout({ children }) {
         <PlausibleProvider
           customDomain="https://plausible.8man.me"
           domain="hayasaka.vercel.app"
+          trackFileDownloads={true}
         >
           <Providers>
             <AuthProvider>
