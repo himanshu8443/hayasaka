@@ -44,9 +44,16 @@ export default function RootLayout({ children }) {
   gtag('config', 'G-Z4FJ5T627Q');
   `}
       </Script>
+      <Script
+        data-rum-site-id="afa10b0c-11e2-4378-90f8-02a29d54e44b"
+        data-rum-spa="true"
+        data-rum-ingest={"https://rum-staging.speedvitals.com/api/v1"}
+        src="https://assets.speedvitals.com/vitals.min.js"
+        defer
+      ></Script>
       <body className={poppins.className}>
         <PlausibleProvider
-          customDomain="https://plausible.8man.me"
+          customDomain="https://plausible.8man.dev"
           domain="hayasaka.vercel.app"
           trackFileDownloads={true}
         >
