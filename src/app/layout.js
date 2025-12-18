@@ -9,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
-import PlausibleProvider from "next-plausible";
 
 const poppins = Poppins({
   weight: "500",
@@ -45,24 +44,19 @@ export default function RootLayout({ children }) {
   `}
       </Script>
       <body className={poppins.className}>
-        <PlausibleProvider
-          customDomain="https://plausible.8man.me"
-          domain="hayasaka.vercel.app"
-        >
-          <Providers>
-            <AuthProvider>
-              <TopProgressBar />
-              <SongsHistory />
-              <Navbar />
-              <Toaster />
-              {children}
-              <div className="h-20"></div>
-              <div className="fixed  bottom-0 left-0 right-0 flex backdrop-blur-lg rounded-t-3 z-50">
-                <MusicPlayer />
-              </div>
-            </AuthProvider>
-          </Providers>
-        </PlausibleProvider>
+        <Providers>
+          <AuthProvider>
+            <TopProgressBar />
+            <SongsHistory />
+            <Navbar />
+            <Toaster />
+            {children}
+            <div className="h-20"></div>
+            <div className="fixed  bottom-0 left-0 right-0 flex backdrop-blur-lg rounded-t-3 z-50">
+              <MusicPlayer />
+            </div>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );
