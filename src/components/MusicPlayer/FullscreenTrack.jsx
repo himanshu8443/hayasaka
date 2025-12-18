@@ -25,12 +25,12 @@ const FullscreenTrack = ({
     <div
       className={`${
         fullScreen ? "block" : "hidden"
-      } w-[100vw] flex lg:flex-row lg:w-[1000px] mx-auto flex-col  lg:justify-between mt-10`}
+      } w-full flex lg:h-full mr-auto flex-col mt-10 min-[1180px]:flex-row max-[1179px]:items-center min-[1180px]:justify-between max-w-7xl`}
     >
-      <div className="flex flex-col items-center lg:w-96">
+      <div className="flex flex-col h-full min-[1180px]:ml-[180px] w-fit items-center">
         <div
           {...handlers}
-          className=" h-80 w-80 lg:h-[500px] lg:w-[500px] sm:mt-5 mt-28 "
+          className=" h-80 w-80 min-[1180px]:h-full min-[1180px]:w-[400px] sm:mt-5 "
         >
           <img
             src={activeSong?.image?.[2].url}
@@ -40,7 +40,7 @@ const FullscreenTrack = ({
         </div>
         <div
           onClick={(e) => e.stopPropagation()}
-          className=" w-full select-none cursor-pointer text-center my-5"
+          className="w-fit select-none cursor-pointer text-center my-5 ml"
         >
           <p className="truncate text-white font-bold text-2xl mx-3 mb-1">
             {activeSong?.name
@@ -68,7 +68,7 @@ const FullscreenTrack = ({
       </div>
       <div
         onClick={(e) => e.stopPropagation()}
-        className=" ml-60  flex-col items-center lg:flex hidden"
+        className="flex-col items-center min-[1180px]:flex hidden"
       >
         <Lyrics activeSong={activeSong} />
       </div>

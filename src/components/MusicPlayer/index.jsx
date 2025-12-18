@@ -179,8 +179,8 @@ const MusicPlayer = () => {
 
   return (
     <div
-      className={`relative overflow-scroll items-center lg:items-stretch lg:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${
-        fullScreen ? "h-[100vh] w-[100vw]" : "w-full h-20 px-8 bg-black "
+      className={`relative overflow-scroll items-center min-[1180px]:items-stretch min-[1180px]:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${
+        fullScreen ? "h-[100vh] w-[100vw] pb-5" : "w-full h-20 px-8 bg-black "
       }`}
       onClick={() => {
         if (activeSong?.id) {
@@ -199,95 +199,100 @@ const MusicPlayer = () => {
           dispatch(setFullScreen(!fullScreen));
         }}
         className={` absolute top-16 md:top-10 right-7 text-white text-3xl cursor-pointer ${
-          fullScreen ? "" : "hidden"
+          fullScreen ? "hidden md:block" : "hidden"
         }`}
       />
-      <FullscreenTrack
-        handleNextSong={handleNextSong}
-        handlePrevSong={handlePrevSong}
-        activeSong={activeSong}
-        fullScreen={fullScreen}
-      />
-      <div className=" flex items-center justify-between pt-2">
-        <Track
-          isPlaying={isPlaying}
-          isActive={isActive}
+      <div className="flex flex-col max-md:min-h-screen max-md:justify-center max-md:items-center">
+        <FullscreenTrack
+          handleNextSong={handleNextSong}
+          handlePrevSong={handlePrevSong}
           activeSong={activeSong}
           fullScreen={fullScreen}
         />
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <div
-            className={`${
-              fullScreen ? "" : "hidden"
-            }  sm:hidden flex items-center justify-center gap-4`}
-          >
-            <FavouriteButton
-              favouriteSongs={favouriteSongs}
-              activeSong={activeSong}
-              loading={loading}
-              handleAddToFavourite={handleAddToFavourite}
-              style={"mb-4"}
-            />
-            <div className={`mb-3 sm:hidden flex items-center justify-center`}>
-              <Downloader activeSong={activeSong} fullScreen={fullScreen} />
-            </div>
-          </div>
-          <Controls
+        <div className=" flex items-center justify-between pt-2">
+          <Track
             isPlaying={isPlaying}
             isActive={isActive}
-            repeat={repeat}
-            setRepeat={setRepeat}
-            shuffle={shuffle}
-            setShuffle={setShuffle}
-            currentSongs={currentSongs}
             activeSong={activeSong}
             fullScreen={fullScreen}
-            handlePlayPause={handlePlayPause}
-            handlePrevSong={handlePrevSong}
-            handleNextSong={handleNextSong}
-            handleAddToFavourite={handleAddToFavourite}
-            favouriteSongs={favouriteSongs}
-            loading={loading}
           />
-          <Seekbar
-            value={appTime}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div
+              className={`${
+                fullScreen ? "" : "hidden"
+              }  sm:hidden flex items-center justify-center gap-4`}
+            >
+              <FavouriteButton
+                favouriteSongs={favouriteSongs}
+                activeSong={activeSong}
+                loading={loading}
+                handleAddToFavourite={handleAddToFavourite}
+                style={"mb-4"}
+              />
+              <div
+                className={`mb-3 sm:hidden flex items-center justify-center`}
+              >
+                <Downloader activeSong={activeSong} fullScreen={fullScreen} />
+              </div>
+            </div>
+            <Controls
+              isPlaying={isPlaying}
+              isActive={isActive}
+              repeat={repeat}
+              setRepeat={setRepeat}
+              shuffle={shuffle}
+              setShuffle={setShuffle}
+              currentSongs={currentSongs}
+              activeSong={activeSong}
+              fullScreen={fullScreen}
+              handlePlayPause={handlePlayPause}
+              handlePrevSong={handlePrevSong}
+              handleNextSong={handleNextSong}
+              handleAddToFavourite={handleAddToFavourite}
+              favouriteSongs={favouriteSongs}
+              loading={loading}
+            />
+            <Seekbar
+              value={appTime}
+              min="0"
+              max={duration}
+              fullScreen={fullScreen}
+              onInput={(event) => setSeekTime(event.target.value)}
+              setSeekTime={setSeekTime}
+              appTime={appTime}
+            />
+            <Player
+              activeSong={activeSong}
+              volume={volume}
+              isPlaying={isPlaying}
+              seekTime={seekTime}
+              repeat={repeat}
+              currentIndex={currentIndex}
+              onEnded={handleNextSong}
+              handlePlayPause={handlePlayPause}
+              handleNextSong={handleNextSong}
+              handlePrevSong={handlePrevSong}
+              onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
+              onLoadedData={(event) => setDuration(event.target.duration)}
+              appTime={appTime}
+              setSeekTime={setSeekTime}
+            />
+          </div>
+          <VolumeBar
+            activeSong={activeSong}
+            bgColor={bgColor}
+            fullScreen={fullScreen}
+            value={volume}
             min="0"
-            max={duration}
-            fullScreen={fullScreen}
-            onInput={(event) => setSeekTime(event.target.value)}
-            setSeekTime={setSeekTime}
-            appTime={appTime}
-          />
-          <Player
-            activeSong={activeSong}
-            volume={volume}
-            isPlaying={isPlaying}
-            seekTime={seekTime}
-            repeat={repeat}
-            currentIndex={currentIndex}
-            onEnded={handleNextSong}
-            handlePlayPause={handlePlayPause}
-            handleNextSong={handleNextSong}
-            handlePrevSong={handlePrevSong}
-            onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
-            onLoadedData={(event) => setDuration(event.target.duration)}
-            appTime={appTime}
-            setSeekTime={setSeekTime}
+            max="1"
+            onChange={(event) => setVolume(event.target.value)}
+            setVolume={setVolume}
           />
         </div>
-        <VolumeBar
-          activeSong={activeSong}
-          bgColor={bgColor}
-          fullScreen={fullScreen}
-          value={volume}
-          min="0"
-          max="1"
-          onChange={(event) => setVolume(event.target.value)}
-          setVolume={setVolume}
-        />
       </div>
+
       {fullScreen && (
-        <div className=" lg:hidden">
+        <div className=" min-[1180px]:hidden">
           <Lyrics activeSong={activeSong} currentSongs={currentSongs} />
         </div>
       )}

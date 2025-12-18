@@ -41,7 +41,7 @@ const VolumeBar = ({
   };
   return (
     <>
-      <div className="hidden lg:flex flex-1 items-center justify-end">
+      <div className="hidden min-[1180px]:flex flex-1 items-center justify-end">
         <div className=" relative">
           <BiAddToQueue
             onClick={(e) => {

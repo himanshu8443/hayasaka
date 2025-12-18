@@ -48,7 +48,7 @@ const Lyrics = ({ activeSong }) => {
           }}
           className={`${
             activeTab === "queue" ? "border-[#00e6e6] border-b-2" : ""
-          } text-white text-xl m-3 mt-20 sm:mt-0 font-medium `}
+          } text-white text-xl m-3 font-medium `}
         >
           Queue
         </button>
@@ -58,7 +58,7 @@ const Lyrics = ({ activeSong }) => {
           }}
           className={`${
             activeTab === "lyrics" ? "border-[#00e6e6] border-b-2" : ""
-          } text-white text-xl m-3 mt-20 sm:mt-0  font-medium`}
+          } text-white text-xl m-3 font-medium`}
         >
           Lyrics
         </button>
@@ -66,13 +66,13 @@ const Lyrics = ({ activeSong }) => {
       <div>
         {activeTab === "lyrics" ? (
           lyrics?.success ? (
-            <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar text-center">
+            <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center">
               {lyrics?.data?.lyrics?.split("<br>").map((line, index) => {
                 return <p key={index}>{line}</p>;
               })}
             </div>
           ) : (
-            <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar text-center">
+            <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center">
               No Lyrics Found
             </div>
           )
@@ -106,7 +106,7 @@ const Lyrics = ({ activeSong }) => {
               </label>
             </div>
             {currentSongs?.length > 0 ? (
-              <div className=" text-white p- mt- md:w-[450px] md:h-[530px] overflow-y-scroll hideScrollBar ">
+              <div className=" text-white p- mt- md:w-[450px] md:h-full overflow-y-scroll hideScrollBar ">
                 <SongsList
                   SongData={currentSongs}
                   loading={false}
@@ -115,7 +115,7 @@ const Lyrics = ({ activeSong }) => {
                 />
               </div>
             ) : (
-              <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-[500px] overflow-y-scroll hideScrollBar text-center">
+              <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] h-full overflow-y-scroll hideScrollBar text-center">
                 No Songs
               </div>
             )}
