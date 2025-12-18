@@ -180,7 +180,7 @@ const MusicPlayer = () => {
   return (
     <div
       className={`relative overflow-scroll items-center min-[1180px]:items-stretch min-[1180px]:overflow-visible hideScrollBar sm:px-12  flex flex-col transition-all duration-100 ${
-        fullScreen ? "h-[100vh] w-[100vw] pb-5" : "w-full h-20 px-8 bg-black "
+        fullScreen ? "h-[100vh] w-[100vw]" : "w-full h-20 px-8 bg-black "
       }`}
       onClick={() => {
         if (activeSong?.id) {
@@ -202,14 +202,18 @@ const MusicPlayer = () => {
           fullScreen ? "hidden md:block" : "hidden"
         }`}
       />
-      <div className="flex flex-col max-md:min-h-screen max-md:justify-center max-md:items-center">
+      <div
+        className={`flex flex-col  max-md:justify-center max-md:items-center ${
+          fullScreen ? "max-md:min-h-screen pb-5" : ""
+        }  `}
+      >
         <FullscreenTrack
           handleNextSong={handleNextSong}
           handlePrevSong={handlePrevSong}
           activeSong={activeSong}
           fullScreen={fullScreen}
         />
-        <div className=" flex items-center justify-between pt-2">
+        <div className=" flex items-center justify-between pt-2 max-w-[1300px]">
           <Track
             isPlaying={isPlaying}
             isActive={isActive}

@@ -25,9 +25,9 @@ const FullscreenTrack = ({
     <div
       className={`${
         fullScreen ? "block" : "hidden"
-      } w-full flex lg:h-full mr-auto flex-col mt-10 min-[1180px]:flex-row max-[1179px]:items-center min-[1180px]:justify-between max-w-7xl`}
+      } w-full flex lg:h-full mr-auto flex-col mt-10 min-[1180px]:flex-row max-[1180px]:items-center min-[1180px]:justify-between max-w-7xl`}
     >
-      <div className="flex flex-col h-full min-[1180px]:ml-[180px] w-fit items-center">
+      <div className="flex flex-col h-full min-[1180px]:ml-[185px] w-fit items-center">
         <div
           {...handlers}
           className=" h-80 w-80 min-[1180px]:h-full min-[1180px]:w-[400px] sm:mt-5 "
