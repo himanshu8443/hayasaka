@@ -63,7 +63,7 @@ const Lyrics = ({ activeSong }) => {
           Lyrics
         </button>
       </div>
-      <div>
+      <div className="min-[1180px]:max-h-[30rem] overflow-y-auto">
         {activeTab === "lyrics" ? (
           lyrics?.success ? (
             <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center">
