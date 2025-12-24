@@ -86,13 +86,8 @@ export const metadata = {
   alternates: {
     canonical: siteUrl,
   },
-  verification: {
-    // Add your Google Search Console verification code here
-    // google: "your-google-verification-code",
-  },
 };
 
-// JSON-LD Structured Data for Website with SearchAction (enables Google Sitelinks Searchbox)
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
