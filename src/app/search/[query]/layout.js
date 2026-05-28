@@ -1,4 +1,6 @@
-const siteUrl = "https://hayasaka.8man.in";
+import { SITE_URL } from "@/utils/siteConfig";
+
+const siteUrl = SITE_URL;
 
 export async function generateMetadata({ params }) {
   const query = decodeURIComponent(params.query);

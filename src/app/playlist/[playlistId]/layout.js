@@ -1,10 +1,12 @@
-const siteUrl = "https://hayasaka.8man.in";
+import { SITE_URL } from "@/utils/siteConfig";
+
+const siteUrl = SITE_URL;
 
 async function getPlaylistData(id) {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/playlists?id=${id}&limit=50`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 86400 } },
     );
     const data = await response.json();
     return data?.data;

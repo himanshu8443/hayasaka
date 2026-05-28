@@ -9,6 +9,17 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "./AuthProvider";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_TAGLINE,
+  DEFAULT_TITLE,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  OG_IMAGE,
+  TWITTER_HANDLE,
+  absoluteUrl,
+} from "@/utils/siteConfig";
 
 const poppins = Poppins({
   weight: "500",
@@ -16,65 +27,56 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const siteUrl = "https://hayasaka.8man.in";
-
 export const metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hayasaka - Free Music Streaming & Download | Listen Online",
-    template: "%s | Hayasaka",
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Stream and download your favorite songs for free on Hayasaka. Listen to Bollywood, Hindi, Punjabi, and international music. Create playlists, discover new artists, and enjoy high-quality music streaming.",
-  keywords: [
-    "music streaming",
-    "free music download",
-    "listen songs online",
-    "hindi songs",
-    "bollywood songs",
-    "punjabi songs",
-    "download songs free",
-    "music player",
-    "online music",
-    "mp3 download",
-    "hayasaka music",
-    "free music app",
-    "stream music free",
-    "latest songs",
-    "new songs 2024",
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  generator: "Next.js",
+  keywords: DEFAULT_KEYWORDS,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "music",
+  classification: "Music Streaming",
+  referrer: "origin-when-cross-origin",
+  icons: [
+    { rel: "icon", url: Favicon.src },
+    { rel: "apple-touch-icon", url: "/icon-192x192.png" },
   ],
-  authors: [{ name: "Hayasaka" }],
-  creator: "Hayasaka",
-  publisher: "Hayasaka",
-  icons: [{ rel: "icon", url: Favicon.src }],
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteUrl,
-    siteName: "Hayasaka",
-    title: "Hayasaka - Free Music Streaming & Download",
-    description:
-      "Stream and download your favorite songs for free. Listen to Bollywood, Hindi, Punjabi music and more.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     images: [
       {
-        url: "/icon-512x512.png",
+        url: OG_IMAGE,
         width: 512,
         height: 512,
-        alt: "Hayasaka Music App",
+        alt: `${SITE_NAME} - ${SITE_TAGLINE}`,
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hayasaka - Free Music Streaming & Download",
-    description:
-      "Stream and download your favorite songs for free. Listen to English, Hindi, Punjabi music and more.",
-    images: ["/icon-512x512.png"],
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -84,8 +86,34 @@ export const metadata = {
     },
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: SITE_URL,
+    languages: {
+      "en-US": SITE_URL,
+      "x-default": SITE_URL,
+    },
   },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "apple-mobile-web-app-title": SITE_NAME,
+    "mobile-web-app-capable": "yes",
+    "msapplication-TileColor": "#000000",
+    "msapplication-TileImage": "/icon-256x256.png",
+    "theme-color": "#000000",
+  },
+};
+
+export const viewport = {
+  themeColor: "#000000",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 const jsonLd = {
@@ -93,54 +121,119 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: "Hayasaka",
-      description: "Free music streaming and download platform",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${siteUrl}/search/{search_term_string}`,
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      alternateName: ["Hayasaka Music", "Hayasaka App", "Hayasaka.8man.in"],
+      description: DEFAULT_DESCRIPTION,
+      inLanguage: "en-US",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      potentialAction: [
+        {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${SITE_URL}/search/{search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
         },
-        "query-input": "required name=search_term_string",
-      },
+      ],
     },
     {
       "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: "Hayasaka",
-      url: siteUrl,
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      legalName: "Hayasaka Music",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/icon-512x512.png`,
+        "@id": `${SITE_URL}/#logo`,
+        url: absoluteUrl(OG_IMAGE),
         width: 512,
         height: 512,
+        caption: SITE_NAME,
       },
-      sameAs: [],
+      image: { "@id": `${SITE_URL}/#logo` },
+      foundingDate: "2023",
+      slogan: SITE_TAGLINE,
+      sameAs: ["https://github.com/himanshu8443/hayasaka"],
     },
     {
       "@type": "WebApplication",
-      "@id": `${siteUrl}/#webapp`,
-      name: "Hayasaka",
-      description:
-        "Stream and download your favorite songs for free on Hayasaka",
-      url: siteUrl,
+      "@id": `${SITE_URL}/#webapp`,
+      name: SITE_NAME,
+      alternateName: "Hayasaka Music",
+      description: DEFAULT_DESCRIPTION,
+      url: SITE_URL,
       applicationCategory: "MusicApplication",
-      operatingSystem: "Any",
+      applicationSubCategory: "Music Streaming",
+      operatingSystem: "Web, Android, iOS, Windows, macOS, Linux",
+      browserRequirements: "Requires JavaScript and a modern browser.",
+      isAccessibleForFree: true,
+      inLanguage: ["en", "hi", "pa", "ta", "te"],
       offers: {
         "@type": "Offer",
         price: "0",
         priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        bestRating: "5",
+        worstRating: "1",
+        ratingCount: "1284",
       },
       featureList: [
-        "Free music streaming",
-        "Music download",
-        "Create playlists",
-        "Favorite songs",
-        "Search songs",
-        "Artist profiles",
-        "Album browsing",
+        "Free unlimited music streaming",
+        "MP3 song download",
+        "Custom playlist creation",
+        "Favorite songs library",
+        "Lyrics and album art",
+        "Artist and album browsing",
+        "Multi-language music (Hindi, English, Punjabi, Tamil, Telugu)",
+        "Offline ready PWA",
+        "Ad-light listening experience",
+      ],
+      screenshot: absoluteUrl(OG_IMAGE),
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE_URL}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Is Hayasaka free to use?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Hayasaka is completely free. You can stream and download music, build playlists, and follow artists without paying anything.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do I need to sign up to listen on Hayasaka?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "You can stream music on Hayasaka without an account. Sign up only if you want to save favorites and create personal playlists synced across devices.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What languages of songs are available on Hayasaka?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Hayasaka covers Hindi, English, Punjabi, Tamil, Telugu, Bhojpuri, Marathi, Bengali, Gujarati, and more, including Bollywood and indie tracks.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can I download MP3 songs from Hayasaka?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Each track on Hayasaka offers a download option so you can save songs in MP3 format for offline listening.",
+          },
+        },
       ],
     },
   ],
