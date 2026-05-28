@@ -155,6 +155,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
+      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-Z4FJ5T627Q"
