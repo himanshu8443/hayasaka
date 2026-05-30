@@ -56,6 +56,26 @@ const nextConfig = {
       },
     ];
   },
+  webpack: (config, { isServer }) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "./taglib-web.wasm$": require("path").resolve(
+        __dirname,
+        "node_modules/taglib-wasm/dist/taglib-web.wasm",
+      ),
+    };
+
+    // Handle taglib-wasm browser build
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        module: false,
+        fs: false,
+        path: false,
+      };
+    }
+    return config;
+  },
 };
 
 const withPWA = require("@ducanh2912/next-pwa").default({

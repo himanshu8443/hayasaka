@@ -33,7 +33,7 @@ const Sidebar = ({ showNav, setShowNav }) => {
                 }}
                 src={logoWhite}
                 alt="logo"
-                className=" lg:py-2  aspect-video w-[139px] h-[31px] lg:h-[62px] lg:w-[190px]"
+                className=" lg:py-2 aspect-video w-[139px] h-[31px] lg:h-[60px] lg:w-[190px]"
               />
             </Link>
           </div>

@@ -160,7 +160,7 @@ const MusicPlayer = () => {
         // optimistic update
         if (favouriteSongs?.find((song) => song === favsong?.id)) {
           setFavouriteSongs(
-            favouriteSongs?.filter((song) => song !== favsong?.id)
+            favouriteSongs?.filter((song) => song !== favsong?.id),
           );
         } else {
           setFavouriteSongs([...favouriteSongs, favsong?.id]);

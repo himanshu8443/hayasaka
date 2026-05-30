@@ -14,10 +14,17 @@ const Lyrics = ({ activeSong }) => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("queue");
 
+  const lyricsText =
+    typeof lyrics === "string"
+      ? lyrics
+      : lyrics?.lyrics || lyrics?.data?.lyrics || "";
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await getlyricsData(activeSong?.id);
+      const lyricsId =
+        activeSong?.lyrics_id || activeSong?.lyricsId || activeSong?.id;
+      const res = await getlyricsData(lyricsId);
       setLyrics(res);
       setLoading(false);
     };
@@ -65,11 +72,9 @@ const Lyrics = ({ activeSong }) => {
       </div>
       <div className="min-[1180px]:max-h-[30rem] overflow-y-auto">
         {activeTab === "lyrics" ? (
-          lyrics?.success ? (
-            <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center">
-              {lyrics?.data?.lyrics?.split("<br>").map((line, index) => {
-                return <p key={index}>{line}</p>;
-              })}
+          lyricsText ? (
+            <div className="text-white text-sm sm:text-base p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center whitespace-pre-line">
+              {lyricsText.replace(/<br\s*\/?>/gi, "\n").replace(/\r\n/g, "\n")}
             </div>
           ) : (
             <div className="text-white text-lg p-4 sm:p-0 mt-5 md:w-[450px] md:h-full overflow-y-scroll hideScrollBar text-center">

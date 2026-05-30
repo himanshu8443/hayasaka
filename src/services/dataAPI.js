@@ -57,10 +57,12 @@ export async function getplaylistData(id) {
 }
 
 // get Lyrics data
-export async function getlyricsData(id) {
+export async function getlyricsData(lyricsId) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${id}/lyrics`,
+      `https://www.jiosaavn.com/api.php?__call=lyrics.getLyrics&lyrics_id=${encodeURIComponent(
+        lyricsId,
+      )}&ctx=web6dot0&api_version=4&_format=json&_marker=0`,
     );
     const data = await response.json();
     return data;

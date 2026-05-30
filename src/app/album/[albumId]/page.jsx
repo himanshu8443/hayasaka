@@ -1,7 +1,7 @@
 "use client";
 import { setProgress } from "@/redux/features/loadingBarSlice";
-import { playPause, setActiveSong } from "@/redux/features/playerSlice";
 import { getAlbumData } from "@/services/dataAPI";
+import PlayButton from "@/components/PlayButton";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -37,11 +37,6 @@ const page = ({ params }) => {
       return `${seconds}`;
     }
   }
-
-  const handlePlayClick = (song, index) => {
-    dispatch(setActiveSong({ song, data: albumData?.songs, i: index }));
-    dispatch(playPause(true));
-  };
 
   return (
     <div className="w-11/12 m-auto mt-16">
@@ -97,18 +92,7 @@ const page = ({ params }) => {
               • {albumData?.songCount} songs
             </li>
           </ul>
-          <div
-            onClick={() => {
-              handlePlayClick(albumData?.songs?.[0], 0);
-            }}
-            className="flex items-center gap-2 mt-5 group rounded-3xl py-2 px-3 hover:border-[#00e6e6] w-fit cursor-pointer border border-white"
-          >
-            <BsFillPlayFill
-              size={25}
-              className="text-gray-200 group-hover:text-[#00e6e6]"
-            />
-            <p className="text-lg font-semibold">Play</p>
-          </div>
+          <PlayButton songList={albumData} />
         </div>
       </div>
       <div className="mt-10 text-gray-200">
