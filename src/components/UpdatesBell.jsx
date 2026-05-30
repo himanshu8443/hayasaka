@@ -88,7 +88,7 @@ const UpdatesBell = ({ mobileSearchOpen }) => {
       >
         <HiOutlineBell className="h-5 w-5" />
         {hasUnread ? (
-          <span className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full bg-red-[#00e6e6] shadow-[0_0_0_2px_rgba(2,8,19,0.95)]" />
+          <span className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full bg-[#00e6e6] shadow-[0_0_0_2px_rgba(2,8,19,0.95)]" />
         ) : null}
       </button>
 
