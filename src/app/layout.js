@@ -43,6 +43,9 @@ export const metadata = {
   category: "music",
   classification: "Music Streaming",
   referrer: "origin-when-cross-origin",
+  verification: {
+    google: "xKWFwcLg7uqtQGOTNIKraZ8uxuWF9Jxa_By43QL3678",
+  },
   icons: [
     { rel: "icon", url: Favicon.src },
     { rel: "apple-touch-icon", url: "/icon-192x192.png" },
