@@ -96,24 +96,6 @@ export default function sitemap() {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/login`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.4,
-    },
-    {
-      url: `${SITE_URL}/signup`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.4,
-    },
-    {
-      url: `${SITE_URL}/favourite`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    },
-    {
       url: `${SITE_URL}/dmca`,
       lastModified: now,
       changeFrequency: "yearly",

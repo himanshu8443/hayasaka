@@ -1,24 +1,7 @@
 /** @type {import('next').NextConfig} */
-const NEW_HOST = "hayasaka.8man.in";
-const LEGACY_HOSTS = [
-  "hayasaka.live",
-  "www.hayasaka.live",
-  "hayasaka.vercel.app",
-];
-
 const nextConfig = {
   images: {
     domains: ["c.saavncdn.com", "static.saavncdn.com", "www.jiosaavn.com"],
-  },
-  // Permanent (308) redirects from any legacy host to the canonical domain.
-  // Helps Google consolidate signals and drop the old URLs from the index.
-  async redirects() {
-    return LEGACY_HOSTS.map((legacyHost) => ({
-      source: "/:path*",
-      has: [{ type: "host", value: legacyHost }],
-      destination: `https://${NEW_HOST}/:path*`,
-      permanent: true,
-    }));
   },
   async headers() {
     return [
