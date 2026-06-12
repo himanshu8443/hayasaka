@@ -180,13 +180,6 @@ const jsonLd = {
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
       },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.8",
-        bestRating: "5",
-        worstRating: "1",
-        ratingCount: "1284",
-      },
       featureList: [
         "Free unlimited music streaming",
         "MP3 song download",
