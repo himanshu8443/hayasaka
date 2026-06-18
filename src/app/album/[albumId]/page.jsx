@@ -1,5 +1,10 @@
 "use client";
 import { setProgress } from "@/redux/features/loadingBarSlice";
+import {
+  playPause,
+  setActiveSong,
+  setFullScreen,
+} from "@/redux/features/playerSlice";
 import { getAlbumData } from "@/services/dataAPI";
 import PlayButton from "@/components/PlayButton";
 import Link from "next/link";
@@ -25,6 +30,12 @@ const page = ({ params }) => {
     };
     fetchData();
   }, []);
+
+  const handlePlayClick = (song, index) => {
+    dispatch(setActiveSong({ song, data: albumData?.songs, i: index }));
+    dispatch(setFullScreen(true));
+    dispatch(playPause(true));
+  };
 
   // Utility function to format the duration in seconds to "m:ss" format (without leading zero for minutes)
   function formatDuration(durationInSeconds) {
