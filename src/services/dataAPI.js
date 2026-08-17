@@ -1,8 +1,9 @@
 // home page data
 export async function homePageData(language) {
   try {
+    const lang = Array.isArray(language) ? language.join(",") : language?.toString() || "";
     const response = await fetch(
-      `${"https://jiosaavn-api-sigma-sandy.vercel.app"}/modules?language=${language.toString()}`,
+      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/modules?language=${encodeURIComponent(lang)}`,
       {
         next: {
           revalidate: 86400,
@@ -60,12 +61,10 @@ export async function getplaylistData(id) {
 export async function getlyricsData(lyricsId) {
   try {
     const response = await fetch(
-      `https://www.jiosaavn.com/api.php?__call=lyrics.getLyrics&lyrics_id=${encodeURIComponent(
-        lyricsId,
-      )}&ctx=web6dot0&api_version=4&_format=json&_marker=0`,
+      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${encodeURIComponent(lyricsId)}/lyrics`,
     );
     const data = await response.json();
-    return data;
+    return data?.data;
   } catch (error) {
     console.log(error);
   }
