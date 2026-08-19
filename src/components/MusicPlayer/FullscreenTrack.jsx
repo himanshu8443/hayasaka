@@ -21,6 +21,12 @@ const FullscreenTrack = ({
     trackMouse: true,
   });
 
+  const primaryArtists = Array.isArray(activeSong?.artists?.primary)
+    ? activeSong.artists.primary
+    : Array.isArray(activeSong?.artists)
+    ? activeSong.artists
+    : [];
+
   return (
     <div
       className={`${
@@ -33,7 +39,7 @@ const FullscreenTrack = ({
           className=" h-80 w-80 min-[1180px]:h-full min-[1180px]:w-[400px] sm:mt-5 "
         >
           <img
-            src={activeSong?.image?.[2].url}
+            src={activeSong?.image?.[2]?.url || activeSong?.image?.[1]?.url || activeSong?.image?.[0]?.url || ""}
             alt="cover art"
             className="rounded-2xl"
           />
@@ -48,21 +54,25 @@ const FullscreenTrack = ({
               : "Song"}
           </p>
           <p className="truncate text-gray-300">
-            {activeSong?.artists?.primary
-              ? activeSong?.artists.primary?.map((artist, index) => (
-                  <React.Fragment key={index}>
-                    <Link
-                      className=" hover:underline mx-1"
-                      href={`/artist/${artist?.id}`}
-                      onClick={() => {
-                        dispatch(setFullScreen(false));
-                      }}
-                    >
-                      {artist?.name?.trim()}
-                    </Link>
-                  </React.Fragment>
-                ))
-              : "Artist"}
+            {primaryArtists.length > 0 ? (
+              primaryArtists.map((artist, index) => (
+                <React.Fragment key={artist?.id || index}>
+                  <Link
+                    className=" hover:underline mx-1"
+                    href={`/artist/${artist?.id}`}
+                    onClick={() => {
+                      dispatch(setFullScreen(false));
+                    }}
+                  >
+                    {artist?.name?.trim()}
+                  </Link>
+                </React.Fragment>
+              ))
+            ) : typeof activeSong?.artists === "string" ? (
+              activeSong.artists
+            ) : (
+              "Artist"
+            )}
           </p>
         </div>
       </div>

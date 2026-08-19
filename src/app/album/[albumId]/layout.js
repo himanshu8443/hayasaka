@@ -27,7 +27,9 @@ export async function generateMetadata({ params }) {
   }
 
   const albumName = albumData?.name || "Album";
-  const artistNames = albumData?.primaryArtists || "";
+  const artistNames = Array.isArray(albumData?.artists?.primary)
+    ? albumData.artists.primary.map((a) => a?.name).join(", ")
+    : albumData?.primaryArtists || "";
   const songCount = albumData?.songCount || 0;
   const year = albumData?.year || "";
 

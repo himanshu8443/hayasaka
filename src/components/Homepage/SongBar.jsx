@@ -8,9 +8,14 @@ const SongBar = ({ playlist, i }) => {
   const [cardColor, setCardColor] = useState();
 
   useEffect(() => {
-    const src = playlist?.image?.[1]?.link;
+    const src =
+      playlist?.image?.[1]?.url ||
+      playlist?.image?.[1]?.link ||
+      playlist?.image?.[2]?.url ||
+      playlist?.image?.[0]?.url;
+    if (!src) return;
     getPixels(src, (err, pixels) => {
-      if (!err) {
+      if (!err && pixels?.data) {
         const data = [...pixels.data];
         const width = Math.round(Math.sqrt(data.length / 4));
         const height = width;
@@ -22,7 +27,7 @@ const SongBar = ({ playlist, i }) => {
           .catch(console.log);
       }
     });
-  }, []);
+  }, [playlist]);
 
   return (
     <Link href={`/playlist/${playlist?.id}`}>
@@ -43,9 +48,11 @@ const SongBar = ({ playlist, i }) => {
             height={80}
             loading="lazy"
             alt="song_img"
-            srcSet={`${playlist.image?.[0]?.link} 320w, ${playlist.image?.[1]?.link} 480w, ${playlist.image?.[2]?.link} 800w`}
+            srcSet={`${playlist?.image?.[0]?.url || playlist?.image?.[0]?.link || ""} 320w, ${
+              playlist?.image?.[1]?.url || playlist?.image?.[1]?.link || ""
+            } 480w, ${playlist?.image?.[2]?.url || playlist?.image?.[2]?.link || ""} 800w`}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-            src={playlist.image?.[1]?.link}
+            src={playlist?.image?.[1]?.url || playlist?.image?.[1]?.link || playlist?.image?.[2]?.url || ""}
             className=" w-20 h-20 rounded-lg"
           />
           <div className="flex-1 flex flex-col justify-center mx-3">

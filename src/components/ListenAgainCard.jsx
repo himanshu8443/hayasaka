@@ -17,6 +17,16 @@ const ListenAgainCard = ({ song, index, SongData }) => {
     dispatch(setFullScreen(true));
     dispatch(playPause(true));
   };
+
+  const artistDisplay =
+    (Array.isArray(song?.artists?.primary) &&
+      song.artists.primary.map((artist) => artist?.name).join(", ")) ||
+    (Array.isArray(song?.artists) &&
+      song.artists.map((artist) => artist?.name).join(", ")) ||
+    (Array.isArray(song?.artists?.all) &&
+      song.artists.all.map((artist) => artist?.name).join(", ")) ||
+    "";
+
   return (
     <div>
       <div
@@ -31,7 +41,7 @@ const ListenAgainCard = ({ song, index, SongData }) => {
           <div className=" relative mb-2">
             <div className="group w-12 h-12 md:w-14 md:h-14 relative">
               <img
-                src={song?.image?.[2]?.url || song?.image?.[2]?.link}
+                src={song?.image?.[2]?.url || song?.image?.[1]?.url || song?.image?.[2]?.link || ""}
                 alt={song?.name}
                 width={50}
                 height={50}
@@ -55,7 +65,7 @@ const ListenAgainCard = ({ song, index, SongData }) => {
               {song?.name?.replace("&#039;", "'")?.replace("&amp;", "&")}
             </p>
             <p className="text-gray-400 truncate text-xs">
-              {song?.artists?.primary?.map((artist) => artist?.name).join(", ")}
+              {artistDisplay}
             </p>
           </div>
         </div>

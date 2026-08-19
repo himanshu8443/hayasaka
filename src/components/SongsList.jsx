@@ -56,7 +56,7 @@ const SongsList = ({
     const getPlaylists = async () => {
       const res = await getUserPlaylists();
       if (res?.success == true) {
-        setPlaylists(res?.data?.playlists);
+        setPlaylists(res?.data?.playlists || []);
       }
     };
     getPlaylists();
@@ -90,10 +90,10 @@ const SongsList = ({
   return (
     <>
       <div className="mt-5">
-        {!loading && SongData?.length > 0 ? (
+        {!loading && Array.isArray(SongData) && SongData?.length > 0 ? (
           SongData?.map((song, index) => (
             <div
-              key={song?.id}
+              key={song?.id || index}
               onClick={() => {
                 handlePlayClick(song, index);
               }}
@@ -104,7 +104,7 @@ const SongsList = ({
               <div className="flex items-center gap-5">
                 <div className=" relative mb-3">
                   <img
-                    src={song?.image?.[2]?.url}
+                    src={song?.image?.[2]?.url || song?.image?.[1]?.url || song?.image?.[0]?.url || ""}
                     alt={song?.name}
                     width={50}
                     height={50}
@@ -129,9 +129,11 @@ const SongsList = ({
                       ?.replaceAll("&amp;", "&")}
                   </p>
                   <p className="text-gray-400 truncate text-xs">
-                    {song?.artists?.primary
-                      ?.map((artist) => artist.name)
-                      .join(", ")}
+                    {Array.isArray(song?.artists?.primary)
+                      ? song.artists.primary.map((artist) => artist?.name).join(", ")
+                      : Array.isArray(song?.artists)
+                      ? song.artists.map((artist) => artist?.name).join(", ")
+                      : song?.artists?.primary || ""}
                   </p>
                 </div>
               </div>

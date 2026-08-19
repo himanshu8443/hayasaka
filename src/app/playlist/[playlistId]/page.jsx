@@ -3,10 +3,6 @@ import SongList from "@/components/SongsList";
 import { getplaylistData, homePageData } from "@/services/dataAPI";
 
 const page = async ({ params }) => {
-  // const [playlistData, setPlaylistData] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const dispatch = useDispatch();
-
   const playlistData = await getplaylistData(params.playlistId);
 
   return (
@@ -32,8 +28,8 @@ const page = async ({ params }) => {
         ) : (
           <img
             className=" rounded-full"
-            src={playlistData?.image?.[2]?.url}
-            alt={playlistData?.title}
+            src={playlistData?.image?.[2]?.url || playlistData?.image?.[1]?.url || playlistData?.image?.[0]?.url || ""}
+            alt={playlistData?.name || playlistData?.title}
             width={300}
             height={300}
           />
@@ -65,8 +61,16 @@ export default page;
 export const revalidate = 14400;
 
 export async function generateStaticParams() {
-  const res = await homePageData(["english", "hindi", "punjabi"]);
-  return res?.charts?.map((playlist) => ({
-    playlistId: playlist?.id.toString(),
-  }));
+  try {
+    const res = await homePageData(["english", "hindi", "punjabi"]);
+    if (Array.isArray(res?.charts)) {
+      return res.charts.map((playlist) => ({
+        playlistId: playlist?.id?.toString(),
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }

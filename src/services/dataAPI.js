@@ -10,10 +10,12 @@ export async function homePageData(language) {
         },
       },
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("homePageData error:", error);
+    return null;
   }
 }
 
@@ -23,11 +25,13 @@ export async function getSongData(id) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${id}`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     console.log("song data", data);
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getSongData error:", error);
+    return null;
   }
 }
 
@@ -37,10 +41,12 @@ export async function getAlbumData(id) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/albums?id=${id}`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getAlbumData error:", error);
+    return null;
   }
 }
 
@@ -50,10 +56,12 @@ export async function getplaylistData(id) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/playlists?id=${id}&limit=50`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getplaylistData error:", error);
+    return null;
   }
 }
 
@@ -63,10 +71,12 @@ export async function getlyricsData(lyricsId) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${encodeURIComponent(lyricsId)}/lyrics`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getlyricsData error:", error);
+    return null;
   }
 }
 
@@ -76,10 +86,12 @@ export async function getArtistData(id) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/artists?id=${id}`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getArtistData error:", error);
+    return null;
   }
 }
 
@@ -89,10 +101,12 @@ export async function getArtistSongs(id, page) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/artists/${id}/songs?page=${page}&`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getArtistSongs error:", error);
+    return null;
   }
 }
 
@@ -102,10 +116,12 @@ export async function getArtistAlbums(id, page) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/artists/${id}/albums?page=${page}`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log("album error", error);
+    console.log("getArtistAlbums error:", error);
+    return null;
   }
 }
 
@@ -115,10 +131,12 @@ export async function getSearchedData(query) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/search?query=${query}`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getSearchedData error:", error);
+    return null;
   }
 }
 
@@ -132,10 +150,12 @@ export async function addFavourite(id) {
         "Content-Type": "application/json",
       },
     });
+    if (!response.ok) return null;
     const data = await response.json();
     return data;
   } catch (error) {
     console.log("Add favourite API error", error);
+    return null;
   }
 }
 
@@ -143,10 +163,12 @@ export async function addFavourite(id) {
 export async function getFavourite() {
   try {
     const response = await fetch("/api/favourite");
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data?.favourites;
   } catch (error) {
     console.log("Get favourite API error", error);
+    return null;
   }
 }
 
@@ -154,10 +176,12 @@ export async function getFavourite() {
 export async function getUserInfo() {
   try {
     const response = await fetch("/api/userInfo");
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
     console.log("Get user info API error", error);
+    return null;
   }
 }
 
@@ -171,10 +195,12 @@ export async function resetPassword(password, confirmPassword, token) {
         "Content-Type": "application/json",
       },
     });
+    if (!response.ok) return null;
     const data = await response.json();
     return data;
   } catch (error) {
     console.log("Reset password API error", error);
+    return null;
   }
 }
 
@@ -188,10 +214,12 @@ export async function sendResetPasswordLink(email) {
         "Content-Type": "application/json",
       },
     });
+    if (!response.ok) return null;
     const data = await response.json();
     return data;
   } catch (error) {
     console.log("Send reset password link API error", error);
+    return null;
   }
 }
 
@@ -201,9 +229,11 @@ export async function getRecommendedSongs(artistId, songId) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${songId}/suggestions`,
     );
+    if (!response.ok) return null;
     const data = await response.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    console.log("getRecommendedSongs error:", error);
+    return null;
   }
 }

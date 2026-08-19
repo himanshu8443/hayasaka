@@ -31,9 +31,15 @@ export const downloadBlob = (blob, filename) => {
 };
 
 export const buildTagInput = (activeSong) => {
+  const primaryArtists = Array.isArray(activeSong?.artists?.primary)
+    ? activeSong.artists.primary
+    : Array.isArray(activeSong?.artists)
+    ? activeSong.artists
+    : [];
+
   const artists =
-    activeSong?.artists?.primary
-      ?.map((artist) => sanitize(artist.name))
+    primaryArtists
+      ?.map((artist) => sanitize(artist?.name))
       ?.filter(Boolean) || [];
 
   return {

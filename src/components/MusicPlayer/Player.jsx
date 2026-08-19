@@ -27,15 +27,25 @@ const Player = ({
     }
   }
 
+  const artistName = Array.isArray(activeSong?.artists?.primary)
+    ? activeSong.artists.primary.map((a) => a?.name).join(", ")
+    : typeof activeSong?.artists === "string"
+    ? activeSong.artists
+    : activeSong?.primaryArtists || "Artist";
+
   // media session metadata:
-  const mediaMetaData = activeSong.name
+  const mediaMetaData = activeSong?.name
     ? {
         title: activeSong?.name,
-        artist: activeSong?.primaryArtists,
-        album: activeSong?.album.name,
+        artist: artistName,
+        album: activeSong?.album?.name || "",
         artwork: [
           {
-            src: activeSong.image[2]?.url,
+            src:
+              activeSong?.image?.[2]?.url ||
+              activeSong?.image?.[1]?.url ||
+              activeSong?.image?.[0]?.url ||
+              "",
             sizes: "500x500",
             type: "image/jpg",
           },
@@ -44,7 +54,7 @@ const Player = ({
     : {};
   useEffect(() => {
     // Check if the Media Session API is available in the browser environment
-    if ("mediaSession" in navigator) {
+    if ("mediaSession" in navigator && activeSong?.name) {
       // Set media metadata
       navigator.mediaSession.metadata = new window.MediaMetadata(mediaMetaData);
 
@@ -79,17 +89,21 @@ const Player = ({
   };
 
   useEffect(() => {
-    ref.current.volume = volume;
+    if (ref.current) {
+      ref.current.volume = volume;
+    }
   }, [volume]);
   // updates audio element only on seekTime change (and not on each rerender):
   useEffect(() => {
-    ref.current.currentTime = seekTime;
+    if (ref.current) {
+      ref.current.currentTime = seekTime;
+    }
   }, [seekTime]);
 
   return (
     <>
       <audio
-        src={activeSong?.downloadUrl?.[4]?.url}
+        src={activeSong?.downloadUrl?.[4]?.url || activeSong?.downloadUrl?.[3]?.url || activeSong?.downloadUrl?.[2]?.url || ""}
         ref={ref}
         loop={repeat}
         onEnded={onEnded}

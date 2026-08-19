@@ -27,9 +27,13 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
     if (song?.type === "song") {
       setLoading(true);
       const Data = await getSongData(song?.id);
-      const songData = await Data?.[0];
+      const songData = Array.isArray(Data) ? Data[0] : Data;
+      const primaryArtistsId =
+        songData?.primaryArtistsId ||
+        songData?.artists?.primary?.[0]?.id ||
+        songData?.id;
       const recommendedSongs = await getRecommendedSongs(
-        songData?.primaryArtistsId,
+        primaryArtistsId,
         songData?.id
       );
       // remove duplicate songs in recommendedSongs array and currentSongs array
@@ -55,6 +59,19 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
       setLoading(false);
     }
   };
+
+  const artistDisplay =
+    (Array.isArray(song?.artists?.primary) &&
+      song.artists.primary.length > 0 &&
+      song.artists.primary.map((artist) => artist?.name).join(", ")) ||
+    (Array.isArray(song?.artists) &&
+      song.artists.length > 0 &&
+      song.artists.map((artist) => artist?.name).join(", ")) ||
+    (Array.isArray(song?.artists?.all) &&
+      song.artists.all.length > 0 &&
+      song.artists.all.map((artist) => artist?.name).join(", ")) ||
+    (song?.subtitle != "JioSaavn" && song?.subtitle) ||
+    "";
 
   return (
     <div
@@ -97,13 +114,13 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
             height={200}
             loading="lazy"
             alt="song_img"
-            srcSet={`${song.image?.[0]?.url || song.image?.[0]?.link} 320w, ${
-              song.image?.[1]?.url || song.image?.[1]?.link
-            } 480w, ${song.image?.[2]?.url || song.image?.[2]?.link} 800w`}
+            srcSet={`${song?.image?.[0]?.url || song?.image?.[0]?.link || ""} 320w, ${
+              song?.image?.[1]?.url || song?.image?.[1]?.link || ""
+            } 480w, ${song?.image?.[2]?.url || song?.image?.[2]?.link || ""} 800w`}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-            src={song.image?.[1]?.url || song.image?.[1]?.link}
+            src={song?.image?.[1]?.url || song?.image?.[1]?.link || song?.image?.[2]?.url || ""}
             className={`${
-              song.type === "playlist" && song?.subtitle === "JioSaavn"
+              song?.type === "playlist" && song?.subtitle === "JioSaavn"
                 ? "rounded-full"
                 : "rounded-lg"
             } w-full h-full `}
@@ -120,9 +137,7 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
               song?.title}
           </p>
           <p className="text-[9px] lg:text-xs truncate text-gray-300 mt-1">
-            {song?.artists?.primary?.map((artist) => artist?.name).join(", ") ||
-              song?.artists?.map((artist) => artist?.name).join(", ") ||
-              (song?.subtitle != "JioSaavn" && song?.subtitle)}
+            {artistDisplay}
           </p>
         </div>
       </Link>

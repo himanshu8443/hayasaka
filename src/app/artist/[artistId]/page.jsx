@@ -27,20 +27,26 @@ const page = ({ params }) => {
     const fetchData = async () => {
       dispatch(setProgress(30));
       const details = await getArtistData(params.artistId);
-      // console.log("details", details);
       dispatch(setProgress(60));
-      setArtistDetails(details);
+      setArtistDetails(details || {});
       const songs = await getArtistSongs(params.artistId, 1);
       dispatch(setProgress(90));
       setArtistSongs(songs);
       const albums = await getArtistAlbums(params.artistId, 1);
-      setArtistAlbums(albums?.albums);
-      console.log("cccc", albums.albums);
+      setArtistAlbums(albums?.albums || (Array.isArray(albums) ? albums : []));
       dispatch(setProgress(100));
       setLoading(false);
     };
     fetchData();
   }, []);
+
+  const songsList = Array.isArray(artistSongs?.songs)
+    ? artistSongs.songs
+    : Array.isArray(artistSongs)
+    ? artistSongs
+    : [];
+
+  const albumsList = Array.isArray(artistAlbums) ? artistAlbums : [];
 
   return (
     <div className="w-11/12 m-auto">
@@ -64,12 +70,12 @@ const page = ({ params }) => {
           </div>
         ) : (
           <div className=" relative">
-            <Image
-              src={artistDetails?.image?.[2]?.url}
+            <img
+              src={artistDetails?.image?.[2]?.url || artistDetails?.image?.[1]?.url || artistDetails?.image?.[0]?.url || ""}
+              alt={artistDetails?.name}
               width={300}
               height={300}
-              alt={artistDetails?.name}
-              className="lg:w-[400px] lg:h-[400px]"
+              className="lg:w-[400px] lg:h-[400px] rounded-lg object-cover"
             />
             <div className="absolute lg:w-[400px] w-[300px] inset-0 bg-gradient-to-t from-black via-transparent"></div>
           </div>
@@ -90,7 +96,7 @@ const page = ({ params }) => {
           </div>
           <ul className="flex items-center gap-3 text-gray-300">
             <li className=" text-sm lg:text-lg font-semibold">
-              • {artistDetails?.fanCount} listners
+              • {artistDetails?.fanCount || artistDetails?.followerCount || 0} listeners
             </li>
           </ul>
         </div>
@@ -102,15 +108,15 @@ const page = ({ params }) => {
           <SongListSkeleton />
         ) : (
           <div>
-            <SongList SongData={artistSongs?.songs} />
+            <SongList SongData={songsList} />
           </div>
         )}
       </div>
 
       <div className="mt-10 text-gray-200">
         <SwiperLayout title={"Albums"}>
-          {artistAlbums?.map((album, index) => (
-            <SwiperSlide key={index}>
+          {albumsList.map((album, index) => (
+            <SwiperSlide key={album?.id || index}>
               <SongCard song={album} />
             </SwiperSlide>
           ))}
