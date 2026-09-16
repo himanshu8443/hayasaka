@@ -255,7 +255,7 @@ const MusicPlayer = () => {
     <div
       className={`relative transition-all duration-100 flex flex-col hideScrollBar backdrop-blur-2xl ${
         fullScreen
-          ? "h-[100dvh] w-full justify-between overflow-y-auto min-[1180px]:overflow-hidden px-4 sm:px-6 lg:px-8"
+          ? "h-[100dvh] w-full justify-center overflow-y-auto min-[1180px]:overflow-hidden px-4 sm:px-6 lg:px-8"
           : "w-full h-20 px-3 sm:px-6 lg:px-8 justify-center overflow-visible"
       }`}
       onClick={() => {

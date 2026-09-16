@@ -102,13 +102,13 @@ const FullscreenTrack = ({
     <div
       className={`${
         fullScreen ? "flex" : "hidden"
-      } w-full h-full flex-col max-w-[1550px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 pb-3 sm:pb-6`}
+      } w-full h-full flex-col justify-center max-w-[1550px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-6 xl:py-8`}
     >
       {/* Main Content Area */}
-      <div className="flex-1 min-h-0 w-full flex min-[1180px]:flex-row items-center justify-center min-[1180px]:items-start min-[1180px]:justify-between gap-6 min-[1180px]:gap-12 xl:gap-20 py-2 sm:py-4">
+      <div className="flex-1 min-h-0 w-full flex min-[1180px]:flex-row items-center justify-center min-[1180px]:items-center min-[1180px]:justify-between gap-6 min-[1180px]:gap-12 xl:gap-20 py-2 sm:py-4 my-auto">
         {/* Left Column (Artwork, Track Info, Controls, Seekbar) */}
         <div
-          className={`flex-col items-center justify-between w-full min-[1180px]:max-w-[620px] xl:max-w-[720px] 2xl:max-w-[820px] h-full min-[1180px]:h-[630px] xl:h-[670px] 2xl:h-[730px] ${
+          className={`flex-col items-center justify-between w-full min-[1180px]:max-w-[620px] xl:max-w-[720px] 2xl:max-w-[820px] h-full min-[1180px]:h-[640px] xl:h-[700px] 2xl:h-[760px] min-[1180px]:max-h-[85vh] ${
             mobileTab !== "song" ? "hidden min-[1180px]:flex" : "flex"
           }`}
         >
@@ -300,7 +300,7 @@ const FullscreenTrack = ({
         {/* Right Column: Queue & Lyrics + VolumeBar (Desktop >= 1180px) */}
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex-col justify-between min-[1180px]:flex hidden flex-1 max-w-[500px] xl:max-w-[560px] 2xl:max-w-[620px] w-full min-[1180px]:h-[630px] xl:h-[670px] 2xl:h-[730px]"
+          className="flex-col justify-between min-[1180px]:flex hidden flex-1 max-w-[500px] xl:max-w-[560px] 2xl:max-w-[620px] w-full min-[1180px]:h-[640px] xl:h-[700px] 2xl:h-[760px] min-[1180px]:max-h-[85vh]"
         >
           <div className="w-full flex-1 min-h-0 flex flex-col">
             <Lyrics
