@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { HiOutlineBell } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 
-const CURRENT_UPDATE_KEY = "hayasaka_updates_seen_v1";
+const CURRENT_UPDATE_KEY = "hayasaka_updates_seen_v3";
 
 const CHANGES = [
   {
@@ -37,9 +37,7 @@ const UpdatesBell = ({ mobileSearchOpen }) => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const seen =
-      window.localStorage.getItem("hayasaka_updates_seen_v1") === "true" ||
-      window.localStorage.getItem("hayasaka_updates_seen_v2") === "true";
+    const seen = window.localStorage.getItem(CURRENT_UPDATE_KEY) === "true";
     setHasUnread(!seen);
   }, []);
 
