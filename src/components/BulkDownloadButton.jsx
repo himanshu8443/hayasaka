@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 import {
   MdCheckCircleOutline,
@@ -12,11 +13,17 @@ import {
   QUALITY_OPTIONS,
   buildTagInput,
   downloadBlob,
+  fetchLyricsForDownload,
   getCoverType,
   sanitize,
 } from "./MusicPlayer/downloadUtils";
 
 const BulkDownloadButton = ({ songList }) => {
+  const {
+    defaultDownloadQuality = "ask",
+    lyricsMode = "synced",
+    separateLrcFile = false,
+  } = useSelector((state) => state.settings || {});
   const [showMenu, setShowMenu] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -99,7 +106,10 @@ const BulkDownloadButton = ({ songList }) => {
           continue;
         }
 
-        const audioRes = await fetch(songUrl);
+        const [audioRes, { embedLyrics, lrcContent }] = await Promise.all([
+          fetch(songUrl),
+          fetchLyricsForDownload(song, lyricsMode, separateLrcFile),
+        ]);
         if (!audioRes.ok) {
           continue;
         }
@@ -107,7 +117,7 @@ const BulkDownloadButton = ({ songList }) => {
         const audioBuffer = await audioRes.arrayBuffer();
         let taggedBuffer = await applyTags(
           new Uint8Array(audioBuffer),
-          buildTagInput(song),
+          buildTagInput(song, embedLyrics),
         );
 
         const coverUrl =
@@ -131,8 +141,14 @@ const BulkDownloadButton = ({ songList }) => {
           }
         }
 
-        const fileName = `${sanitize(song?.name) || "track"}.m4a`;
+        const baseName = sanitize(song?.name) || "track";
+        const fileName = `${baseName}.m4a`;
         folder.file(fileName, taggedBuffer);
+
+        if (separateLrcFile && lrcContent) {
+          folder.file(`${baseName}.lrc`, lrcContent);
+        }
+
         setProgress(Math.round(((index + 1) / songs.length) * 85));
       }
 
@@ -173,15 +189,47 @@ const BulkDownloadButton = ({ songList }) => {
         type="button"
         onClick={(e) => {
           e.stopPropagation();
+          if (downloading) return;
+
+          if (
+            defaultDownloadQuality !== "ask" &&
+            defaultDownloadQuality !== null &&
+            defaultDownloadQuality !== undefined
+          ) {
+            const targetQuality = QUALITY_OPTIONS.find(
+              (q) => q.index === Number(defaultDownloadQuality)
+            );
+            if (targetQuality && songs.some((song) => song?.downloadUrl?.[targetQuality.index]?.url)) {
+              handleBulkDownload(targetQuality);
+              return;
+            }
+            if (availableQualities.length > 0) {
+              handleBulkDownload(availableQualities[availableQualities.length - 1]);
+              return;
+            }
+          }
+
+          setShowMenu((prev) => {
+            const next = !prev;
+            if (next) updateMenuPosition();
+            return next;
+          });
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
           if (!downloading) {
-            setShowMenu((prev) => {
-              const next = !prev;
-              if (next) updateMenuPosition();
-              return next;
-            });
+            setShowMenu(true);
+            updateMenuPosition();
           }
         }}
-        title={downloading ? "Downloading" : `Download ${downloadTitle}`}
+        title={
+          downloading
+            ? "Downloading"
+            : defaultDownloadQuality !== "ask"
+            ? `Download ${downloadTitle} (Right-click to select quality)`
+            : `Download ${downloadTitle}`
+        }
         aria-label={downloading ? "Downloading" : `Download ${downloadTitle}`}
         className={`relative overflow-hidden flex h-12 w-full sm:w-auto sm:min-w-[220px] items-center justify-center gap-3 rounded-full border border-white/25 px-5 sm:px-6 text-gray-100 shadow-[0_0_28px_rgba(0,230,230,0.12)] transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-[#00e6e6]/20 sm:min-w-[260px] ${
           downloading

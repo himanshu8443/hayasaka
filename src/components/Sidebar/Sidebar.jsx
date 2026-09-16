@@ -1,75 +1,85 @@
+"use client";
 import React from "react";
 import logoWhite from "../../assets/logoWhite.png";
 import Languages from "./Languages";
 import Favourites from "./Favourites";
+import Playlists from "./Playlists";
+import Profile from "./Profile";
+import SettingsLink from "./SettingsLink";
 import { FaGithub } from "react-icons/fa";
 import { MdOutlineMenu } from "react-icons/md";
 import Image from "next/image";
 import Link from "next/link";
-import Profile from "./Profile";
 import { useDispatch } from "react-redux";
-import Playlists from "./Playlists";
 import { setProgress } from "@/redux/features/loadingBarSlice";
 
 const Sidebar = ({ showNav, setShowNav }) => {
   const dispatch = useDispatch();
+
   return (
-    <div
-      className={`${
-        showNav ? "" : "translate-x-[-100%]"
-      } transition-all duration-200  h-screen lg:w-[300px] md:w-[250px] w-[65vw] fixed top-0 left-0 z-40 bg-[#020813] flex flex-col justify-between`}
+    <aside
+      className={`fixed top-0 left-0 h-screen w-[290px] sm:w-[320px] max-w-[85vw] z-50 transition-transform duration-200 ease-out flex flex-col bg-[#020813] border-r border-white/10 shadow-2xl ${
+        showNav ? "translate-x-0" : "-translate-x-full"
+      }`}
     >
-      <div>
-        <div className=" flex mt-3">
-          <MdOutlineMenu
+      {/* Header — matched exactly with Navbar logo size & placement */}
+      <div className="h-[70px] flex items-center border-b border-white/10 flex-shrink-0">
+        <MdOutlineMenu
+          onClick={() => setShowNav(false)}
+          className="mx-4 text-2xl lg:text-3xl my-auto text-white cursor-pointer"
+        />
+        <div className="flex justify-center items-center">
+          <Link href="/">
+            <Image
+              onClick={() => {
+                setShowNav(false);
+                dispatch(setProgress(100));
+              }}
+              src={logoWhite}
+              alt="logo"
+              className="lg:py-2 aspect-video w-[135px] h-[30.741px] lg:h-[58px] lg:w-[190px]"
+            />
+          </Link>
+        </div>
+      </div>
+
+      {/* Navigation Body */}
+      <div className="flex-1 min-h-0 overflow-y-auto hideScrollBar py-2">
+        <Profile setShowNav={setShowNav} />
+        <div className="py-2">
+          <Favourites setShowNav={setShowNav} />
+        </div>
+        <Playlists setShowNav={setShowNav} />
+        <Languages />
+      </div>
+
+      {/* Settings pinned at end */}
+      <div className="border-t border-white/10 py-1 flex-shrink-0">
+        <SettingsLink setShowNav={setShowNav} />
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 py-4 pb-24 border-t border-white/10 flex items-center justify-between text-sm text-gray-400 flex-shrink-0">
+        <div className="flex gap-5">
+          <Link
+            href="/dmca"
             onClick={() => setShowNav(false)}
-            className=" mx-4 text-2xl lg:text-3xl my-auto text-white cursor-pointer"
-          />
-          <div className=" flex justify-center items-center">
-            <Link href="/">
-              <Image
-                onClick={() => {
-                  dispatch(setProgress(100));
-                }}
-                src={logoWhite}
-                alt="logo"
-                className=" lg:py-2 aspect-video w-[139px] h-[31px] lg:h-[60px] lg:w-[190px]"
-              />
-            </Link>
-          </div>
-        </div>
-        <div className=" mt-7 pb-7 border-b border-gray-400 w-[95%]">
-          <Profile setShowNav={setShowNav} />
-        </div>
-        <div className="flex flex-col gap-1">
-          <Languages />
-          <hr className="border-gray-400 w-[95%] mx-auto" />
-        </div>
-        <Favourites setShowNav={setShowNav} />
-        <div className="flex flex-col gap-1">
-          <hr className="border-gray-400 w-[95%] mx-auto" />
-          <Playlists setShowNav={setShowNav} />
-          <hr className="border-gray-400 w-[95%] mx-auto" />
-        </div>
-      </div>
-      <div className=" mb-28 text-gray-200 mx-3 flex gap-3">
-        <Link href="/dmca">
-          <p className="hover:border border-gray-200 p-1 font-medium w-fit rounded cursor-pointer text-sm">
+            className="hover:text-white transition-colors"
+          >
             DMCA
-          </p>
-        </Link>
-        <a
-          href="https://github.com/himanshu8443/hayasaka"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <p className=" hover:border border-gray-200 p-1 font-medium w-fit rounded cursor-pointer text-sm flex items-center gap-1">
-            <FaGithub />
-            Github
-          </p>
-        </a>
+          </Link>
+          <a
+            href="https://github.com/himanshu8443/hayasaka"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-white transition-colors flex items-center gap-1.5"
+          >
+            <FaGithub size={15} />
+            <span>GitHub</span>
+          </a>
+        </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

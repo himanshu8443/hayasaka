@@ -17,7 +17,8 @@ function normalizeQuery(raw) {
 }
 
 export async function generateMetadata({ params }) {
-  const normalized = normalizeQuery(params.query);
+  const resolvedParams = await params;
+  const normalized = normalizeQuery(resolvedParams?.query || "");
   const display = normalized.replace(/\b\w/g, (c) => c.toUpperCase());
   const canonicalSlug = encodeURIComponent(normalized);
   const canonicalUrl = `${siteUrl}/search/${canonicalSlug}`;

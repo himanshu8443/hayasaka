@@ -5,10 +5,12 @@ import { getSongData } from "@/services/dataAPI";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { getSinglePlaylist } from "@/services/playlistApi";
 
 const page = ({ params }) => {
+  const routeParams = useParams();
+  const playlistId = routeParams?.playlistId || params?.playlistId;
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
   const [playlist, setPlaylist] = useState({});
@@ -16,8 +18,9 @@ const page = ({ params }) => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
+      if (!playlistId) return;
       setLoading(true);
-      const res = await getSinglePlaylist(params.playlistId);
+      const res = await getSinglePlaylist(playlistId);
       if (res?.success === true) {
         setPlaylist(res?.data);
         if (res?.data?.songs?.length > 0) {

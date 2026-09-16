@@ -17,7 +17,9 @@ async function getPlaylistData(id) {
 }
 
 export async function generateMetadata({ params }) {
-  const playlistData = await getPlaylistData(params.playlistId);
+  const resolvedParams = await params;
+  const playlistId = resolvedParams?.playlistId;
+  const playlistData = await getPlaylistData(playlistId);
 
   if (!playlistData) {
     return {
@@ -44,7 +46,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${playlistName} Playlist | Hayasaka`,
       description: `Listen to ${playlistName} playlist. ${songCount} songs. Stream and download for free.`,
-      url: `${siteUrl}/playlist/${params.playlistId}`,
+      url: `${siteUrl}/playlist/${playlistId}`,
       siteName: "Hayasaka",
       type: "music.playlist",
       images: playlistData?.image?.[2]?.url
@@ -65,7 +67,7 @@ export async function generateMetadata({ params }) {
       images: playlistData?.image?.[2]?.url ? [playlistData.image[2].url] : [],
     },
     alternates: {
-      canonical: `${siteUrl}/playlist/${params.playlistId}`,
+      canonical: `${siteUrl}/playlist/${playlistId}`,
     },
   };
 }

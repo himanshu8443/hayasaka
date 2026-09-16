@@ -16,19 +16,34 @@ const Seekbar = ({
 
   return (
     <div
-      className={` ${!fullScreen ? "hidden sm:flex" : " flex mt-5"}   flex-row items-center`}
+      className={`${
+        !fullScreen
+          ? "hidden sm:flex w-full max-w-[700px] lg:max-w-[850px] xl:max-w-[1050px] 2xl:max-w-[1250px] flex-row items-center justify-center px-4"
+          : "flex w-full max-w-[620px] xl:max-w-[720px] 2xl:max-w-[820px] mt-4 flex-row items-center justify-between"
+      }`}
     >
       <button
         type="button"
+        onMouseDown={(e) => e.preventDefault()}
         onClick={(e) => {
           e.stopPropagation();
+          e.currentTarget.blur();
           setSeekTime(appTime - 5);
         }}
-        className="hidden lg:mr-4 lg:block text-white"
+        className={`${
+          !fullScreen ? "hidden lg:block lg:mr-3" : "hidden sm:flex mr-2"
+        } text-white hover:text-[#00e6e6] transition-colors flex-shrink-0 outline-none focus:outline-none focus:ring-0`}
       >
-        <GiFastBackwardButton size={20} className=" text-gray-300" />
+        <GiFastBackwardButton
+          size={fullScreen ? 24 : 20}
+          className="text-gray-300 hover:text-[#00e6e6]"
+        />
       </button>
-      <p className="text-white text-xs sm:text-base w-5">
+      <p
+        className={`text-white ${
+          fullScreen ? "text-xs sm:text-base w-9 sm:w-11" : "text-xs sm:text-sm w-9 sm:w-10"
+        } text-center font-medium select-none flex-shrink-0`}
+      >
         {value === 0 ? "0:00" : getTime(value)}
       </p>
       <input
@@ -41,20 +56,33 @@ const Seekbar = ({
         min={min}
         max={max}
         onInput={onInput}
-        className="md:block w-[70vw] min-[1085px]:w-[650px] md:w-[250px] 2xl:w-[50vw] h-1 mx-4 2xl:mx-6 rounded-lg accent-[#00e6e6] cursor-pointer"
+        className={`w-full flex-1 min-w-0 ${
+          fullScreen ? "h-1.5 sm:h-2 mx-2 sm:mx-4" : "h-1.5 mx-2 sm:mx-4"
+        } rounded-lg accent-[#00e6e6] cursor-pointer transition-all outline-none focus:outline-none focus:ring-0`}
       />
-      <p className="text-white text-xs sm:text-base">
+      <p
+        className={`text-white ${
+          fullScreen ? "text-xs sm:text-base w-9 sm:w-11" : "text-xs sm:text-sm w-9 sm:w-10"
+        } text-center font-medium select-none flex-shrink-0`}
+      >
         {max === 0 ? "0:00" : getTime(max)}
       </p>
       <button
         type="button"
+        onMouseDown={(e) => e.preventDefault()}
         onClick={(e) => {
           e.stopPropagation();
+          e.currentTarget.blur();
           setSeekTime(appTime + 5);
         }}
-        className="hidden lg:ml-4 lg:block text-white"
+        className={`${
+          !fullScreen ? "hidden lg:block lg:ml-3" : "hidden sm:flex ml-2"
+        } text-white hover:text-[#00e6e6] transition-colors flex-shrink-0 outline-none focus:outline-none focus:ring-0`}
       >
-        <GiFastForwardButton size={20} className=" text-gray-300 " />
+        <GiFastForwardButton
+          size={fullScreen ? 24 : 20}
+          className="text-gray-300 hover:text-[#00e6e6]"
+        />
       </button>
     </div>
   );

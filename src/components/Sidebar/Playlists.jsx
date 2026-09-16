@@ -1,112 +1,96 @@
 "use client";
-import React, { use } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
-import { BiSolidPlaylist } from "react-icons/bi";
-import PlaylistModal from "./PlaylistModal";
-import { useState } from "react";
-import { useEffect } from "react";
-import { deletePlaylist, getUserPlaylists } from "@/services/playlistApi";
-import { MdPlaylistPlay } from "react-icons/md";
-import { PiDotsThreeVerticalBold } from "react-icons/pi";
-import { MdOutlineDeleteOutline } from "react-icons/md";
+import { MdPlaylistPlay, MdOutlineDeleteOutline } from "react-icons/md";
 import Link from "next/link";
+import PlaylistModal from "./PlaylistModal";
+import { deletePlaylist, getUserPlaylists } from "@/services/playlistApi";
+import { toast } from "react-hot-toast";
 
 const Playlists = ({ setShowNav }) => {
   const [show, setShow] = useState(false);
   const [playlists, setPlaylists] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const getPlaylists = async () => {
       const res = await getUserPlaylists();
-      if (res?.success == true) {
-        setPlaylists(res?.data?.playlists);
+      if (res?.success === true) {
+        setPlaylists(res?.data?.playlists || []);
       }
     };
     getPlaylists();
   }, [show]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, e) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     const res = await deletePlaylist(id);
-    if (res?.success == true) {
-      setPlaylists(playlists.filter((playlist) => playlist._id !== id));
+    if (res?.success === true) {
+      toast.success("Playlist deleted");
+      setPlaylists((prev) => prev.filter((p) => p._id !== id));
+    } else {
+      toast.error(res?.message || "Failed to delete");
     }
   };
 
   return (
-    <>
-      <div className="text-white pt-5 m-2 rounded-md w-[95%] hover:bg-white/5">
-        <details open className="text-white detailanimatation">
-          <summary className=" flex cursor-pointer gap-3 items-baseline mx-2">
-            <FaChevronDown className="arrow " />
-            <div>
-              <p className=" font-semibold text-lg mb-4 flex gap-2 items-center">
-                Playlists
-                <BiSolidPlaylist size={25} />
-              </p>
-            </div>
-          </summary>
-          <div className="flex flex-col max-h-60 overflow-y-scroll overflow-x-hidden">
-            {playlists?.map((playlist, index) => (
-              <div
-                key={index}
-                className="flex gap-3 hover:underline justify-between items-center px-3 w-full border-white mx-3 cursor-pointer mb-2"
+    <div className="py-3">
+      <div className="flex items-center justify-between px-5 py-2">
+        <span className="text-xs font-bold uppercase tracking-wider text-gray-300">
+          Playlists
+        </span>
+        <button
+          type="button"
+          onClick={() => setShow(true)}
+          className="text-xs text-[#00e6e6] hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer font-semibold py-1 px-2 rounded-md hover:bg-white/5"
+          title="Create Playlist"
+        >
+          <FaPlus size={11} />
+          <span>New</span>
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-1 max-h-56 overflow-y-auto hideScrollBar px-3 mt-1">
+        {playlists && playlists.length > 0 ? (
+          playlists.map((playlist) => (
+            <div
+              key={playlist._id}
+              className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/5 text-gray-200 hover:text-white group transition-colors"
+            >
+              <Link
+                href={`/myPlaylists/${playlist._id}`}
+                onClick={() => setShowNav(false)}
+                className="flex items-center gap-3 min-w-0 flex-1 mr-2"
               >
-                <Link href={`/myPlaylists/${playlist._id}`}>
-                  <div
-                    onClick={() => setShowNav(false)}
-                    className="flex gap-2 items-center"
-                  >
-                    <MdPlaylistPlay size={20} />
-                    <p className="text-xl font-semibold truncate w-32">
-                      {playlist.name}
-                    </p>
-                  </div>
-                </Link>
-                <div className="flex gap-2 items-center relative">
-                  <PiDotsThreeVerticalBold
-                    onClick={() => setShowMenu(playlist?._id)}
-                    size={25}
-                    className=" text-gray-300"
-                  />
-                  {showMenu === playlist._id && (
-                    <div
-                      onClick={() => {
-                        setShowMenu(false);
-                        handleDelete(playlist._id);
-                      }}
-                      className="absolute top-0 right-0 bg-gray-900 z-50 hover:bg-gray-800 rounded-lg p-2"
-                    >
-                      <p className="text-xs font-semibold flex gap-1 items-center">
-                        Delete <MdOutlineDeleteOutline size={15} />
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-center items-center mt-3">
+                <MdPlaylistPlay size={22} className="text-[#00e6e6] flex-shrink-0 transition-colors" />
+                <span className="text-base font-semibold truncate">{playlist.name}</span>
+              </Link>
               <button
-                onClick={() => setShow(true)}
-                className="text-xs group font-semibold mb-7 flex gap-2 border-[1.5px] border-white rounded-lg px-2 items-center py-2"
+                type="button"
+                onClick={(e) => handleDelete(playlist._id, e)}
+                className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-400 hover:text-red-400 transition-all cursor-pointer rounded-lg hover:bg-white/10"
+                title="Delete Playlist"
               >
-                <FaPlus className=" group-hover:text-[#00e6e6]" />
-                Create
+                <MdOutlineDeleteOutline size={18} />
               </button>
             </div>
+          ))
+        ) : (
+          <div className="py-4 px-2 text-left">
+            <p className="text-sm text-gray-400 mb-2">No playlists yet</p>
+            <button
+              type="button"
+              onClick={() => setShow(true)}
+              className="text-sm text-[#00e6e6] hover:underline cursor-pointer font-semibold"
+            >
+              + Create playlist
+            </button>
           </div>
-        </details>
-        <PlaylistModal show={show} setShow={setShow} />
+        )}
       </div>
-      {/* overlay */}
-      {showMenu && (
-        <div
-          onClick={() => setShowMenu(false)}
-          className="fixed top-0 left-0 w-full h-full z-30"
-        ></div>
-      )}
-    </>
+
+      <PlaylistModal show={show} setShow={setShow} />
+    </div>
   );
 };
 

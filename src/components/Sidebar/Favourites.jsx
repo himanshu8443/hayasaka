@@ -4,23 +4,14 @@ import { AiFillHeart } from "react-icons/ai";
 
 const Favourites = ({ setShowNav }) => {
   return (
-    <div className=" pt-5 m-2 rounded-md w-[95%] hover:bg-white/5">
-      <Link
-        href="/favourite"
-        className="flex cursor-pointer items-center"
-        onClick={() => setShowNav(false)}
-      >
-        <p className=" font-semibold text-lg text-white mx-3 mb-7">
-          Favourites
-        </p>
-        <AiFillHeart
-          title="Favourites"
-          size={25}
-          color={"white"}
-          className={` mb-7 `}
-        />
-      </Link>
-    </div>
+    <Link
+      href="/favourite"
+      onClick={() => setShowNav(false)}
+      className="flex items-center gap-3.5 px-5 py-3 text-white hover:text-[#00e6e6] hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
+    >
+      <AiFillHeart size={24} className="text-[#00e6e6]" />
+      <span className="text-base font-semibold tracking-wide">Favourites</span>
+    </Link>
   );
 };
 

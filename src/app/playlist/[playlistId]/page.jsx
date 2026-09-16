@@ -3,7 +3,8 @@ import SongList from "@/components/SongsList";
 import { getplaylistData, homePageData } from "@/services/dataAPI";
 
 const page = async ({ params }) => {
-  const playlistData = await getplaylistData(params.playlistId);
+  const resolvedParams = await params;
+  const playlistData = await getplaylistData(resolvedParams?.playlistId);
 
   return (
     <div className="w-11/12 m-auto mt-16">

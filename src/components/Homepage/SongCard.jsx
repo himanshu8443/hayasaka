@@ -54,7 +54,6 @@ const SongCard = ({ song, isPlaying, activeSong }) => {
             : currentSongs?.length,
         })
       );
-      dispatch(setFullScreen(true));
       dispatch(playPause(true));
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 import { MdOutlineFileDownload, MdDownloadForOffline } from "react-icons/md";
 import { toast } from "react-hot-toast";
@@ -7,11 +8,17 @@ import {
   QUALITY_OPTIONS,
   buildTagInput,
   downloadBlob,
+  fetchLyricsForDownload,
   getCoverType,
   sanitize,
 } from "./downloadUtils";
 
-const Downloader = ({ activeSong, icon }) => {
+const Downloader = ({ activeSong, icon, size = 25 }) => {
+  const {
+    defaultDownloadQuality = "ask",
+    lyricsMode = "synced",
+    separateLrcFile = false,
+  } = useSelector((state) => state.settings || {});
   const [showMenu, setShowMenu] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -67,8 +74,11 @@ const Downloader = ({ activeSong, icon }) => {
 
       setProgress(10);
 
-      // Fetch the audio file
-      const audioRes = await fetch(songUrl);
+      // Fetch audio and lyrics in parallel
+      const [audioRes, { embedLyrics, lrcContent }] = await Promise.all([
+        fetch(songUrl),
+        fetchLyricsForDownload(activeSong, lyricsMode, separateLrcFile),
+      ]);
       if (!audioRes.ok) throw new Error("Failed to fetch audio");
       const audioBuffer = await audioRes.arrayBuffer();
       setProgress(40);
@@ -77,7 +87,7 @@ const Downloader = ({ activeSong, icon }) => {
       const { applyCoverArt, applyTags } = await import("taglib-wasm/simple");
       let taggedBuffer = await applyTags(
         new Uint8Array(audioBuffer),
-        buildTagInput(activeSong),
+        buildTagInput(activeSong, embedLyrics),
       );
 
       setProgress(60);
@@ -111,6 +121,15 @@ const Downloader = ({ activeSong, icon }) => {
         `${songName}.m4a`,
       );
 
+      if (separateLrcFile && lrcContent) {
+        setTimeout(() => {
+          downloadBlob(
+            new Blob([lrcContent], { type: "text/plain;charset=utf-8" }),
+            `${songName}.lrc`,
+          );
+        }, 300);
+      }
+
       setProgress(100);
       toast.success(`Downloaded "${songName}" (${quality.label})`);
     } catch (err) {
@@ -132,15 +151,47 @@ const Downloader = ({ activeSong, icon }) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
+          if (downloading) return;
+
+          if (
+            defaultDownloadQuality !== "ask" &&
+            defaultDownloadQuality !== null &&
+            defaultDownloadQuality !== undefined
+          ) {
+            const targetQuality = QUALITY_OPTIONS.find(
+              (q) => q.index === Number(defaultDownloadQuality)
+            );
+            if (targetQuality && activeSong?.downloadUrl?.[targetQuality.index]?.url) {
+              handleDownload(targetQuality);
+              return;
+            }
+            if (availableQualities.length > 0) {
+              handleDownload(availableQualities[availableQualities.length - 1]);
+              return;
+            }
+          }
+
+          setShowMenu((prev) => {
+            const next = !prev;
+            if (next) updateMenuPosition();
+            return next;
+          });
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
           if (!downloading) {
-            setShowMenu((prev) => {
-              const next = !prev;
-              if (next) updateMenuPosition();
-              return next;
-            });
+            setShowMenu(true);
+            updateMenuPosition();
           }
         }}
-        title={downloading ? "Downloading" : "Download"}
+        title={
+          downloading
+            ? "Downloading"
+            : defaultDownloadQuality !== "ask"
+            ? "Download (Right-click to select quality)"
+            : "Download"
+        }
         className={
           downloading ? "download-button flex justify-center items-center" : ""
         }
@@ -148,9 +199,9 @@ const Downloader = ({ activeSong, icon }) => {
         {downloading ? (
           <div className="text-white font-extrabold text-xs">{progress}%</div>
         ) : icon === 2 ? (
-          <MdDownloadForOffline size={25} color={"#fff"} />
+          <MdDownloadForOffline size={size} color={"#fff"} />
         ) : (
-          <MdOutlineFileDownload size={25} color={"#fff"} />
+          <MdOutlineFileDownload size={size} color={"#fff"} />
         )}
       </div>
 

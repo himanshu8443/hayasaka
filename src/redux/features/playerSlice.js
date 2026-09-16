@@ -8,6 +8,7 @@ const initialState = {
   activeSong: {},
   fullScreen: false,
   autoAdd: false,
+  openedByClick: false,
 };
 
 const playerSlice = createSlice({
@@ -23,10 +24,11 @@ const playerSlice = createSlice({
       state.currentSongs = action.payload.data;
       }
 
-      if(action.payload.i){
+      if(action.payload.i !== undefined){
       state.currentIndex = action.payload.i;
       }
       state.isActive = true;
+      state.openedByClick = true;
     },
 
     nextSong: (state, action) => {
@@ -36,6 +38,7 @@ const playerSlice = createSlice({
     
       state.currentIndex = action.payload;
       state.isActive = true;
+      state.openedByClick = false;
       }
     },
 
@@ -45,6 +48,7 @@ const playerSlice = createSlice({
       state.activeSong = state.currentSongs[action.payload];
       state.currentIndex = action.payload;
       state.isActive = true;
+      state.openedByClick = false;
       }
     },
 
@@ -58,11 +62,15 @@ const playerSlice = createSlice({
 
     setAutoAdd: (state, action) => {
       state.autoAdd = action.payload;
-    }
+    },
+
+    resetOpenedByClick: (state) => {
+      state.openedByClick = false;
+    },
    
   },
 });
 
-export const { setActiveSong, nextSong, prevSong, playPause, setFullScreen, setAutoAdd } = playerSlice.actions;
+export const { setActiveSong, nextSong, prevSong, playPause, setFullScreen, setAutoAdd, resetOpenedByClick } = playerSlice.actions;
 
 export default playerSlice.reducer;

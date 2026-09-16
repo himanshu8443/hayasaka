@@ -65,15 +65,121 @@ export async function getplaylistData(id) {
   }
 }
 
-// get Lyrics data
-export async function getlyricsData(lyricsId) {
+// get Lyrics data from lrclib.net
+export async function getlyricsData(songOrId) {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SAAVN_API}/api/songs/${encodeURIComponent(lyricsId)}/lyrics`,
-    );
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data?.data;
+    let trackName = "";
+    let artistName = "";
+    let albumName = "";
+    let duration = null;
+
+    if (typeof songOrId === "object" && songOrId !== null) {
+      trackName = songOrId.name || songOrId.title || "";
+      const primaryArtists = Array.isArray(songOrId?.artists?.primary)
+        ? songOrId.artists.primary
+        : Array.isArray(songOrId?.artists)
+        ? songOrId.artists
+        : [];
+      artistName =
+        primaryArtists?.[0]?.name ||
+        (typeof songOrId.artists === "string" ? songOrId.artists : "");
+      albumName = songOrId.album?.name || songOrId.album || "";
+      if (songOrId.duration) {
+        duration = Math.round(Number(songOrId.duration));
+      }
+    } else if (typeof songOrId === "string") {
+      trackName = songOrId;
+    }
+
+    // Clean track name: remove HTML entities and trailing version tags
+    const cleanTrack = trackName
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/\s*\([^)]*version[^)]*\)/gi, "")
+      .replace(/\s*\[[^\]]*version[^\]]*\]/gi, "")
+      .trim();
+
+    const cleanArtist = artistName
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, "&")
+      .trim();
+
+    if (!cleanTrack) return null;
+
+    // 1. Try exact match using /api/get
+    const params = new URLSearchParams({
+      track_name: cleanTrack,
+    });
+    if (cleanArtist) params.append("artist_name", cleanArtist);
+    if (albumName) params.append("album_name", albumName);
+    if (duration) params.append("duration", duration.toString());
+
+    let res = await fetch(`https://lrclib.net/api/get?${params.toString()}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && (data.syncedLyrics || data.plainLyrics || data.instrumental)) {
+        return data;
+      }
+    }
+
+    // 2. If exact get failed, try /api/get without album_name
+    if (albumName) {
+      const noAlbumParams = new URLSearchParams({
+        track_name: cleanTrack,
+      });
+      if (cleanArtist) noAlbumParams.append("artist_name", cleanArtist);
+      if (duration) noAlbumParams.append("duration", duration.toString());
+      res = await fetch(`https://lrclib.net/api/get?${noAlbumParams.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && (data.syncedLyrics || data.plainLyrics || data.instrumental)) {
+          return data;
+        }
+      }
+    }
+
+    // 3. Fallback to /api/search with track_name and artist_name
+    const searchParams = new URLSearchParams({
+      track_name: cleanTrack,
+    });
+    if (cleanArtist) searchParams.append("artist_name", cleanArtist);
+    res = await fetch(`https://lrclib.net/api/search?${searchParams.toString()}`);
+    if (res.ok) {
+      const items = await res.json();
+      if (Array.isArray(items) && items.length > 0) {
+        const withSynced = items.filter((item) => item.syncedLyrics);
+        if (withSynced.length > 0) {
+          if (duration) {
+            withSynced.sort(
+              (a, b) =>
+                Math.abs((a.duration || 0) - duration) -
+                Math.abs((b.duration || 0) - duration)
+            );
+          }
+          return withSynced[0];
+        }
+        return items[0];
+      }
+    }
+
+    // 4. Last resort: /api/search with query string
+    const q = `${cleanTrack} ${cleanArtist}`.trim();
+    res = await fetch(`https://lrclib.net/api/search?q=${encodeURIComponent(q)}`);
+    if (res.ok) {
+      const items = await res.json();
+      if (Array.isArray(items) && items.length > 0) {
+        const withSynced = items.filter((item) => item.syncedLyrics);
+        return withSynced.length > 0 ? withSynced[0] : items[0];
+      }
+    }
+
+    return null;
   } catch (error) {
     console.log("getlyricsData error:", error);
     return null;

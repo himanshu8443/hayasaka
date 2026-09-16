@@ -8,30 +8,33 @@ import {
 import { getAlbumData } from "@/services/dataAPI";
 import PlayButton from "@/components/PlayButton";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsPlayFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
 const page = ({ params }) => {
+  const routeParams = useParams();
+  const albumId = routeParams?.albumId || params?.albumId;
   const [albumData, setAlbumData] = useState(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!albumId) return;
     const fetchData = async () => {
       dispatch(setProgress(50));
-      const response = await getAlbumData(params.albumId);
+      const response = await getAlbumData(albumId);
       dispatch(setProgress(100));
       setAlbumData(response);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [albumId]);
 
   const handlePlayClick = (song, index) => {
     dispatch(setActiveSong({ song, data: albumData?.songs, i: index }));
-    dispatch(setFullScreen(true));
     dispatch(playPause(true));
   };
 

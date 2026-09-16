@@ -5,9 +5,11 @@ import React from 'react'
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { redirect } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 const page = ({params}) => {
+    const routeParams = useParams();
+    const token = routeParams?.token || params?.token;
     const Router = useRouter();
     const dispatch = useDispatch();
     const [formData, setFormData] = React.useState({
@@ -26,7 +28,7 @@ const page = ({params}) => {
         const { password, confirmPassword } = formData;
         try{
             dispatch(setProgress(70));
-        const res = await resetPassword(password, confirmPassword, params.token);
+        const res = await resetPassword(password, confirmPassword, token);
         if (res.success === true) {
             toast.success('Password reset successfully');
             Router.push('/login');

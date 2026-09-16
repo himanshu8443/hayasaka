@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 import playerReducer from "./features/playerSlice";
 import loadingBarReducer from "./features/loadingBarSlice";
 import languagesReducer from "./features/languagesSlice";
+import settingsReducer from "./features/settingsSlice";
 
 const createNoopStorage = () => {
   return {
@@ -36,11 +37,22 @@ const languagePersistedReducer = persistReducer(
   languagesReducer
 );
 
+const settingsPersistConfig = {
+  key: "settings",
+  storage,
+};
+
+const settingsPersistedReducer = persistReducer(
+  settingsPersistConfig,
+  settingsReducer
+);
+
 export const store = configureStore({
   reducer: {
     player: playerReducer,
     loadingBar: loadingBarReducer,
     languages: languagePersistedReducer,
+    settings: settingsPersistedReducer,
   },
   middleware: [thunk],
 });

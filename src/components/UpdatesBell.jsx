@@ -8,6 +8,11 @@ const CURRENT_UPDATE_KEY = "hayasaka_updates_seen_v1";
 
 const CHANGES = [
   {
+    title: "Lyrics can now be automatically embedded in songs",
+    description:
+      "Downloaded songs now auto-embed lyrics (synced LRC or plain text). You can also enable saving a matching .lrc file in Settings.",
+  },
+  {
     title: "Song downloads now include cover art and metadata",
     description:
       "Downloaded songs are tagged with artwork, title, artist, album, and other track metadata.",
@@ -26,13 +31,16 @@ const CHANGES = [
 
 const UpdatesBell = ({ mobileSearchOpen }) => {
   const [open, setOpen] = useState(false);
-  const [hasUnread, setHasUnread] = useState(true);
+  const [hasUnread, setHasUnread] = useState(false);
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setHasUnread(window.localStorage.getItem(CURRENT_UPDATE_KEY) !== "true");
+    const seen =
+      window.localStorage.getItem("hayasaka_updates_seen_v1") === "true" ||
+      window.localStorage.getItem("hayasaka_updates_seen_v2") === "true";
+    setHasUnread(!seen);
   }, []);
 
   useEffect(() => {

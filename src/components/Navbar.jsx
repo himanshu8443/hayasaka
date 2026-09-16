@@ -48,17 +48,13 @@ const Navbar = () => {
       </div>
 
       <Sidebar showNav={showNav} setShowNav={setShowNav} />
-      {/* overlay */}
+      {/* Overlay backdrop */}
       <div
         onClick={() => setShowNav(false)}
-        className={`${showNav ? "" : "hidden"} transition-all duration-200 fixed top-0 left-0 z-30 w-screen h-screen bg-black bg-opacity-50`}
-      ></div>
-      <div
-        onClick={() => setShowNav(false)}
-        className={`${showNav ? "" : "hidden"} md:hidden fixed top-7 right-10 z-50 text-3xl text-white`}
-      >
-        <IoClose />
-      </div>
+        className={`${
+          showNav ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        } transition-opacity duration-300 fixed inset-0 z-40 bg-black/60 backdrop-blur-sm`}
+      />
     </>
   );
 };

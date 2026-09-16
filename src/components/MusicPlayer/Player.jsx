@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 
 const Player = ({
   activeSong,
@@ -18,99 +18,99 @@ const Player = ({
   appTime,
 }) => {
   const ref = useRef(null);
-  // eslint-disable-next-line no-unused-expressions
-  if (ref.current) {
-    if (isPlaying) {
-      ref.current.play();
-    } else {
-      ref.current.pause();
-    }
-  }
 
-  const artistName = Array.isArray(activeSong?.artists?.primary)
-    ? activeSong.artists.primary.map((a) => a?.name).join(", ")
-    : typeof activeSong?.artists === "string"
-    ? activeSong.artists
-    : activeSong?.primaryArtists || "Artist";
+  const audioSource =
+    activeSong?.downloadUrl?.[4]?.url ||
+    activeSong?.downloadUrl?.[3]?.url ||
+    activeSong?.downloadUrl?.[2]?.url ||
+    "";
 
-  // media session metadata:
-  const mediaMetaData = activeSong?.name
-    ? {
-        title: activeSong?.name,
-        artist: artistName,
-        album: activeSong?.album?.name || "",
-        artwork: [
-          {
-            src:
-              activeSong?.image?.[2]?.url ||
-              activeSong?.image?.[1]?.url ||
-              activeSong?.image?.[0]?.url ||
-              "",
-            sizes: "500x500",
-            type: "image/jpg",
-          },
-        ],
-      }
-    : {};
   useEffect(() => {
-    // Check if the Media Session API is available in the browser environment
-    if ("mediaSession" in navigator && activeSong?.name) {
-      // Set media metadata
+    const audio = ref.current;
+    if (!audio || !audioSource) return;
+
+    if (isPlaying) {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          if (error.name !== "AbortError") {
+            console.error("Audio playback error:", error);
+          }
+        });
+      }
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying, audioSource]);
+
+  const artistName = useMemo(() => {
+    if (Array.isArray(activeSong?.artists?.primary)) {
+      return activeSong.artists.primary.map((a) => a?.name).join(", ");
+    }
+    if (typeof activeSong?.artists === "string") {
+      return activeSong.artists;
+    }
+    return activeSong?.primaryArtists || "Artist";
+  }, [activeSong?.artists, activeSong?.primaryArtists]);
+
+  const mediaMetaData = useMemo(() => {
+    if (!activeSong?.name) return null;
+    return {
+      title: activeSong?.name,
+      artist: artistName,
+      album: activeSong?.album?.name || "",
+      artwork: [
+        {
+          src:
+            activeSong?.image?.[2]?.url ||
+            activeSong?.image?.[1]?.url ||
+            activeSong?.image?.[0]?.url ||
+            "",
+          sizes: "500x500",
+          type: "image/jpg",
+        },
+      ],
+    };
+  }, [activeSong?.name, artistName, activeSong?.album?.name, activeSong?.image]);
+
+  useEffect(() => {
+    if ("mediaSession" in navigator && mediaMetaData) {
       navigator.mediaSession.metadata = new window.MediaMetadata(mediaMetaData);
 
-      // Define media session event handlers
-      navigator.mediaSession.setActionHandler("play", onPlay);
-      navigator.mediaSession.setActionHandler("pause", onPause);
-      navigator.mediaSession.setActionHandler("previoustrack", onPreviousTrack);
-      navigator.mediaSession.setActionHandler("nexttrack", onNextTrack);
+      navigator.mediaSession.setActionHandler("play", () => handlePlayPause());
+      navigator.mediaSession.setActionHandler("pause", () => handlePlayPause());
+      navigator.mediaSession.setActionHandler("previoustrack", () => handlePrevSong());
+      navigator.mediaSession.setActionHandler("nexttrack", () => handleNextSong());
       navigator.mediaSession.setActionHandler("seekbackward", () => {
-        setSeekTime(appTime - 5);
+        setSeekTime((ref.current?.currentTime || 0) - 5);
       });
       navigator.mediaSession.setActionHandler("seekforward", () => {
-        setSeekTime(appTime + 5);
+        setSeekTime((ref.current?.currentTime || 0) + 5);
       });
     }
-  }, [mediaMetaData]);
-  // media session handlers:
-  const onPlay = () => {
-    handlePlayPause();
-  };
-
-  const onPause = () => {
-    handlePlayPause();
-  };
-
-  const onPreviousTrack = () => {
-    handlePrevSong();
-  };
-
-  const onNextTrack = () => {
-    handleNextSong();
-  };
+  }, [mediaMetaData, handlePlayPause, handlePrevSong, handleNextSong, setSeekTime]);
 
   useEffect(() => {
     if (ref.current) {
       ref.current.volume = volume;
     }
   }, [volume]);
-  // updates audio element only on seekTime change (and not on each rerender):
+
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && typeof seekTime === "number") {
       ref.current.currentTime = seekTime;
     }
   }, [seekTime]);
 
   return (
-    <>
-      <audio
-        src={activeSong?.downloadUrl?.[4]?.url || activeSong?.downloadUrl?.[3]?.url || activeSong?.downloadUrl?.[2]?.url || ""}
-        ref={ref}
-        loop={repeat}
-        onEnded={onEnded}
-        onTimeUpdate={onTimeUpdate}
-        onLoadedData={onLoadedData}
-      />
-    </>
+    <audio
+      src={audioSource}
+      ref={ref}
+      loop={repeat}
+      onEnded={onEnded}
+      onTimeUpdate={onTimeUpdate}
+      onLoadedData={onLoadedData}
+    />
   );
 };
 

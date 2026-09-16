@@ -14,7 +14,6 @@ const ListenAgainCard = ({ song, index, SongData }) => {
   const dispatch = useDispatch();
   const handlePlayClick = (song, index) => {
     dispatch(setActiveSong({ song, data: SongData, i: index }));
-    dispatch(setFullScreen(true));
     dispatch(playPause(true));
   };
 

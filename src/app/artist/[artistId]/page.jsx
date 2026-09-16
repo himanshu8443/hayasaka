@@ -15,8 +15,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { SwiperSlide } from "swiper/react";
+import { useParams } from "next/navigation";
 
 const page = ({ params }) => {
+  const routeParams = useParams();
+  const artistId = routeParams?.artistId || params?.artistId;
   const dispatch = useDispatch();
   const [artistDetails, setArtistDetails] = useState({});
   const [artistSongs, setArtistSongs] = useState([]);
@@ -25,14 +28,15 @@ const page = ({ params }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!artistId) return;
       dispatch(setProgress(30));
-      const details = await getArtistData(params.artistId);
+      const details = await getArtistData(artistId);
       dispatch(setProgress(60));
       setArtistDetails(details || {});
-      const songs = await getArtistSongs(params.artistId, 1);
+      const songs = await getArtistSongs(artistId, 1);
       dispatch(setProgress(90));
       setArtistSongs(songs);
-      const albums = await getArtistAlbums(params.artistId, 1);
+      const albums = await getArtistAlbums(artistId, 1);
       setArtistAlbums(albums?.albums || (Array.isArray(albums) ? albums : []));
       dispatch(setProgress(100));
       setLoading(false);

@@ -37,7 +37,6 @@ const SongsList = ({
 
   const handlePlayClick = (song, index) => {
     dispatch(setActiveSong({ song, data: SongData, i: index }));
-    dispatch(setFullScreen(true));
     dispatch(playPause(true));
   };
 
@@ -101,8 +100,8 @@ const SongsList = ({
                 activeSong?.id === song?.id && " text-[#00e6e6]"
               }`}
             >
-              <div className="flex items-center gap-5">
-                <div className=" relative mb-3">
+              <div className="flex items-center gap-4 flex-1 min-w-0 pr-3">
+                <div className=" relative mb-3 flex-shrink-0">
                   <img
                     src={song?.image?.[2]?.url || song?.image?.[1]?.url || song?.image?.[0]?.url || ""}
                     alt={song?.name}
@@ -122,8 +121,8 @@ const SongsList = ({
                     />
                   )}
                 </div>
-                <div className=" w-24 md:w-64">
-                  <p className="text-sm lg:text-lg font-semibold truncate">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm lg:text-base font-semibold truncate">
                     {song?.name
                       ?.replace("&#039;", "'")
                       ?.replaceAll("&amp;", "&")}

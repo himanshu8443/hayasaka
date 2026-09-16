@@ -1,3 +1,5 @@
+import { getlyricsData } from "@/services/dataAPI";
+
 export const QUALITY_OPTIONS = [
   { label: "12 kbps", index: 0, tag: "12kbps" },
   { label: "48 kbps", index: 1, tag: "48kbps" },
@@ -30,7 +32,52 @@ export const downloadBlob = (blob, filename) => {
   URL.revokeObjectURL(url);
 };
 
-export const buildTagInput = (activeSong) => {
+export const fetchLyricsForDownload = async (
+  song,
+  lyricsMode = "synced",
+  separateLrc = false,
+) => {
+  if (!song || (lyricsMode === "none" && !separateLrc)) {
+    return { embedLyrics: null, lrcContent: null };
+  }
+
+  try {
+    const data = await getlyricsData(song);
+    if (!data) return { embedLyrics: null, lrcContent: null };
+
+    const lrcContent =
+      data.syncedLyrics?.trim() || data.plainLyrics?.trim() || null;
+
+    let embedLyrics = null;
+    if (lyricsMode === "synced") {
+      embedLyrics =
+        data.syncedLyrics?.trim() || data.plainLyrics?.trim() || null;
+    } else if (lyricsMode === "plain") {
+      if (data.plainLyrics?.trim()) {
+        embedLyrics = data.plainLyrics.trim();
+      } else if (data.syncedLyrics?.trim()) {
+        embedLyrics = data.syncedLyrics
+          .replace(/\[\d{1,2}:\d{2}(?:\.\d{1,3})?\]/g, "")
+          .trim();
+      }
+    }
+
+    return {
+      embedLyrics,
+      lrcContent: separateLrc ? lrcContent : null,
+    };
+  } catch (error) {
+    console.error("Error fetching lyrics for download:", error);
+    return { embedLyrics: null, lrcContent: null };
+  }
+};
+
+export const fetchEmbeddableLyrics = async (song, lyricsMode = "synced") => {
+  const { embedLyrics } = await fetchLyricsForDownload(song, lyricsMode, false);
+  return embedLyrics;
+};
+
+export const buildTagInput = (activeSong, lyrics = null) => {
   const primaryArtists = Array.isArray(activeSong?.artists?.primary)
     ? activeSong.artists.primary
     : Array.isArray(activeSong?.artists)
@@ -42,7 +89,7 @@ export const buildTagInput = (activeSong) => {
       ?.map((artist) => sanitize(artist?.name))
       ?.filter(Boolean) || [];
 
-  return {
+  const tags = {
     title: sanitize(activeSong?.name),
     artist: artists.join(", "),
     album: sanitize(activeSong?.album?.name),
@@ -50,4 +97,11 @@ export const buildTagInput = (activeSong) => {
     genre: activeSong?.language ? sanitize(activeSong.language) : undefined,
     comment: activeSong?.copyright ? sanitize(activeSong.copyright) : undefined,
   };
+
+  if (lyrics && typeof lyrics === "string" && lyrics.trim()) {
+    tags.lyrics = lyrics.trim();
+    tags.LYRICS = lyrics.trim();
+  }
+
+  return tags;
 };

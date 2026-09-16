@@ -17,13 +17,22 @@ import Image from "next/image";
 import Link from "next/link";
 import SongListSkeleton from "@/components/SongListSkeleton";
 import { setProgress } from "@/redux/features/loadingBarSlice";
+import { useParams } from "next/navigation";
 
 const page = ({ params }) => {
+  const routeParams = useParams();
+  const rawQuery = routeParams?.query || params?.query || "";
   const dispatch = useDispatch();
-  const [query, setQuery] = useState(params.query);
+  const [query, setQuery] = useState(rawQuery);
   const [searchedData, setSearchedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { currentSongs } = useSelector((state) => state.player);
+
+  useEffect(() => {
+    if (rawQuery && rawQuery !== query) {
+      setQuery(rawQuery);
+    }
+  }, [rawQuery]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +60,6 @@ const page = ({ params }) => {
             : currentSongs?.length,
         })
       );
-      dispatch(setFullScreen(true));
       dispatch(playPause(true));
     }
   };

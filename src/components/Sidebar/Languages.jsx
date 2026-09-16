@@ -1,76 +1,74 @@
 "use client";
-import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLanguages } from "@/redux/features/languagesSlice";
+import { HiChevronDown } from "react-icons/hi2";
 
 const Languages = () => {
   const dispatch = useDispatch();
   const { languages } = useSelector((state) => state.languages);
   const [selectedLanguages, setSelectedLanguages] = useState([...languages]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const languageList = [
     { id: "english", label: "English" },
-    { id: "haryanvi", label: "Haryanvi" },
-    { id: "punjabi", label: "Punjabi" },
     { id: "hindi", label: "Hindi" },
+    { id: "punjabi", label: "Punjabi" },
+    { id: "haryanvi", label: "Haryanvi" },
     { id: "rajasthani", label: "Rajasthani" },
     { id: "tamil", label: "Tamil" },
     { id: "telugu", label: "Telugu" },
     { id: "odia", label: "Odia" },
-    // Add more languages as needed
   ];
 
-  const handleLanguageChange = (event) => {
-    const { value, checked } = event.target;
+  const handleLanguageToggle = (id) => {
     let updatedLanguages;
-
-    if (checked) {
-      updatedLanguages = [...selectedLanguages, value];
+    if (selectedLanguages.includes(id)) {
+      updatedLanguages = selectedLanguages.filter((lang) => lang !== id);
     } else {
-      updatedLanguages = selectedLanguages.filter((lang) => lang !== value);
+      updatedLanguages = [...selectedLanguages, id];
     }
-
     setSelectedLanguages(updatedLanguages);
     dispatch(setLanguages(updatedLanguages));
   };
 
   return (
-    <div className=" text-white pt-5 m-2 rounded-md w-[95%] hover:bg-white/5">
-      <details className="text-white detailanimatation">
-        <summary className=" flex cursor-pointer gap-3 items-baseline mx-2">
-          <FaChevronDown className="arrow " />
-          <div>
-            <p className=" font-semibold text-lg">Languages</p>
-            <p className=" text-[9px] mb-7">Pick which you like to listen</p>
-          </div>
-        </summary>
-        <form className=" grid grid-cols-2 mb-1 h-28 overflow-y-scroll overflow-x-hidden hideScrollBar">
-          {languageList.map((language) => (
-            <div key={language.id} className="flex items-center mb-3 mx-2 ml-5">
-              <input
-                type="checkbox"
-                id={language.id}
-                name="language"
-                value={language.id}
-                checked={selectedLanguages.includes(language.id)}
-                onChange={handleLanguageChange}
-                className="hidden"
-              />
-              <label
-                htmlFor={language.id}
-                className={`${
-                  selectedLanguages.includes(language.id)
-                    ? "border-[#00e6e6] text-[#00e6e6]"
-                    : "border-white text-white"
-                } cursor-pointer transition-colors text-sm min-w-[86px] text-center  border rounded-md p-2 font-semibold`}
+    <div className="py-3 border-t border-white/10">
+      <div
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="flex items-center justify-between px-5 py-2 cursor-pointer text-gray-300 hover:text-white transition-colors select-none"
+      >
+        <span className="text-xs font-bold uppercase tracking-wider">
+          Languages ({selectedLanguages.length})
+        </span>
+        <HiChevronDown
+          className={`text-sm transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </div>
+
+      {isOpen && (
+        <div className="px-5 py-2 flex flex-wrap gap-2 animate-in fade-in duration-150">
+          {languageList.map((lang) => {
+            const isSelected = selectedLanguages.includes(lang.id);
+            return (
+              <button
+                type="button"
+                key={lang.id}
+                onClick={() => handleLanguageToggle(lang.id)}
+                className={`text-sm px-3.5 py-1.5 rounded-full border transition-colors cursor-pointer ${
+                  isSelected
+                    ? "bg-[#00e6e6]/15 border-[#00e6e6] text-[#00e6e6] font-semibold"
+                    : "border-white/10 text-gray-300 hover:text-white hover:border-white/25 hover:bg-white/5"
+                }`}
               >
-                {language.label}
-              </label>
-            </div>
-          ))}
-        </form>
-      </details>
+                {lang.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
