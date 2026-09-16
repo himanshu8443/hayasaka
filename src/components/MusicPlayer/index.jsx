@@ -338,7 +338,7 @@ const MusicPlayer = () => {
           </div>
 
           {/* Left: Track (album art + title + artist) */}
-          <div className="flex-1 min-w-0 sm:w-60 md:w-68 lg:w-80 sm:flex-shrink-0 flex items-center justify-start">
+          <div className="flex-1 min-w-0 sm:basis-0 flex items-center justify-start">
             <Track
               isPlaying={isPlaying}
               isActive={isActive}
@@ -348,7 +348,7 @@ const MusicPlayer = () => {
           </div>
 
           {/* Center: Desktop/Tablet Controls & Seekbar */}
-          <div className="hidden sm:flex flex-1 flex-col items-center justify-center min-w-0 px-2 sm:px-4">
+          <div className="hidden sm:flex flex-initial w-full max-w-md md:max-w-xl lg:max-w-2xl xl:max-w-3xl flex-col items-center justify-center px-2 sm:px-4">
             <Controls
               isPlaying={isPlaying}
               isActive={isActive}
@@ -378,7 +378,7 @@ const MusicPlayer = () => {
           </div>
 
           {/* Right: Desktop/Tablet VolumeBar */}
-          <div className="hidden sm:flex sm:w-44 md:w-56 lg:w-80 flex-shrink-0 items-center justify-end">
+          <div className="hidden sm:flex flex-1 basis-0 min-w-0 items-center justify-end">
             <VolumeBar
               activeSong={activeSong}
               bgColor={bgColor}
